@@ -5,7 +5,7 @@
 
 /**
  * rAthena configuration file (http://rathena.org)
- * For detailed guidance on these check http://rathena.org/wiki/SRC/map/config/
+ * For detailed guidance on these check http://rathena.org/wiki/SRC/config/
  **/
 
 /**
@@ -20,7 +20,7 @@
 
 //Comment to disable the official walk path
 // -- The official walkpath disables users from taking non-clear walk paths,
-// -- e.g. if they want to get around a obstacle they have to walk around it,
+// -- e.g. if they want to get around an obstacle they have to walk around it,
 // -- while with OFFICIAL_WALKPATH disabled if they click to walk around a obstacle the server will do it automatically
 #define OFFICIAL_WALKPATH
 
@@ -30,6 +30,11 @@
 /// this CAN affect performance, so if you find scripts running slower or find
 /// your map-server using more resources while this is active, comment the line
 #define SCRIPT_CALLFUNC_CHECK
+
+/// uncomment to enable query_sql script command and mysql logs to function on it's own thread
+/// be aware this feature is under tests and you should use at your own risk, we however
+/// welcome any feedback you may have regarding this feature, please send us all bug reports.
+//#define BETA_THREAD_TEST
 
 //Uncomment to enable the Cell Stack Limit mod.
 //It's only config is the battle_config cell_stack_limit.

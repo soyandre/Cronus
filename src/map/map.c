@@ -3485,52 +3485,49 @@ int map_sql_init(void)
 	// main db connection
 	mmysql_handle = Sql_Malloc();
 
-	ShowInfo("Connecting to the Map DB Server....\n");
+	ShowInfo("Conectando com o banco de dados do Servidor de Mapas....\n");
 	if( SQL_ERROR == Sql_Connect(mmysql_handle, map_server_id, map_server_pw, map_server_ip, map_server_port, map_server_db) )
 		exit(EXIT_FAILURE);
+	ShowStatus("Conectado com sucesso! (Conexão com o Servidor de Mapas)\n");
 
 	if( strlen(default_codepage) > 0 )
 		if ( SQL_ERROR == Sql_SetEncoding(mmysql_handle, default_codepage) )
 			Sql_ShowDebug(mmysql_handle);
-			
-	ShowStatus("Conectado ao banco de dados principal '%s'.\n", map_server_db);
-	Sql_PrintExtendedInfo(mmysql_handle);
 
 	return 0;
 }
 
 int map_sql_close(void)
 {
-	ShowStatus("Close Map DB Connection....\n");
+	ShowStatus("Fechada conexão com banco de dados de Mapas....\n");
 	Sql_Free(mmysql_handle);
 	mmysql_handle = NULL;
-
+#ifndef BETA_THREAD_TEST
 	if (log_config.sql_logs)
 	{
-		ShowStatus("Close Log DB Connection....\n");
+		ShowStatus("Fechada conexão com banco de dados de Logs....\n");
 		Sql_Free(logmysql_handle);
 		logmysql_handle = NULL;
 	}
-
+#endif
 	return 0;
 }
 
 int log_sql_init(void)
 {
+#ifndef BETA_THREAD_TEST
 	// log db connection
 	logmysql_handle = Sql_Malloc();
 
-	ShowInfo("Connecting to the Log Database...\n");
+	ShowInfo(""CL_WHITE"[SQL]"CL_RESET": Conectando com o banco de dados de Logs "CL_WHITE"%s"CL_RESET" At "CL_WHITE"%s"CL_RESET"...\n",log_db_db,log_db_ip);
 	if ( SQL_ERROR == Sql_Connect(logmysql_handle, log_db_id, log_db_pw, log_db_ip, log_db_port, log_db_db) )
 		exit(EXIT_FAILURE);
+	ShowStatus(""CL_WHITE"[SQL]"CL_RESET": Successfully '"CL_GREEN"connected"CL_RESET"' to Database '"CL_WHITE"%s"CL_RESET"'.\n", log_db_db);
 
 	if( strlen(default_codepage) > 0 )
 		if ( SQL_ERROR == Sql_SetEncoding(logmysql_handle, default_codepage) )
 			Sql_ShowDebug(logmysql_handle);
-			
-	ShowStatus("Conectado ao banco de dados log '%s'.\n", log_db_db);
-	Sql_PrintExtendedInfo(logmysql_handle);
-
+#endif
 	return 0;
 }
 
