@@ -1,31 +1,41 @@
 //===== Cronus Script ========================================
-//= Quest do Clown
+//= Quest de Classe - Menestrel
 //===== Por: =================================================
-//= rAthena Dev Team
+//= Nana
+//= finished, optimized and tested by Lupus
 //===== Versão Atual: ========================================
-//= 1.0
-//===== Compatível com: ======================================
-//= eAthena; rAthena; Cronus; brAthena; Maya SVN.
+//= 1.3d
+//===== Compatível Com: ======================================
+//= Cronus SVN
 //===== Descrição: ===========================================
-//= Mudança de Classe para Clwon
+//= Advance Class jobchanger after kRO Normals.
 //===== Comentários Adicionais: ==============================
-//= 1.0 Traduzido. [LyDe]
-//=============================================================
+//= 1.1 Made all into functions, additional checks, etc. [Lupus]
+//= 1.2 Made numbers into constants. [Vicious]
+//= 1.3 Now saves/restores all the quest skills [Lupus]
+//= 1.3a Corrected a Little Typo error. [Samuray22]
+//	-Thanks to Myllena.
+//= 1.3b Traduzido. [Hargus]
+//= 1.3c Revisado. [.zuport]
+//= 1.3d Removido show	[Yum]
+//============================================================
 
 valkyrie,53,54,3	script	Menestrel#Valkyrie	741,{
 	if (ADVJOB == 0 || Upper != 1) {
-		mes "[Menestrel]";
 		set .@karma_d,rand(1,10);
 		if (.@karma_d > 4) {
+			mes "[Menestrel]";
 			mes "Parabéns.";
 			mes "Honra aos guerreiros!";
 			close;
 		}
+		mes "[Menestrel]";
 		mes "Você quer cantar";
 		mes "uma canção comigo?";
 		mes "Sha lá lá lá lá~";
 		close;
-	} else if (ADVJOB == Job_Clown && Class == Job_Archer_High && JobLevel > 39) {
+	}
+	else if (ADVJOB == Job_Clown && Class == Job_Archer_High && JobLevel > 39) {
 		mes "[Menestrel]";
 		mes "O mundo aborrecido dos";
 		mes "mortais está necessitando";
@@ -46,14 +56,15 @@ valkyrie,53,54,3	script	Menestrel#Valkyrie	741,{
 			mes "Honra aos guerreiros!";
 			close;
 		}
-		mes "[Menestrel]";
 		if (SkillPoint) {
-			mes "Você ainda tem pontos de habilidades. Por favor,";
-			mes "use todos os seus pontos de habilidade restantes, e depois volte aqui.";
+			mes "[Menestrel]";
+			mes "Ainda é possível você aprender mais habilidades. Use por favor";
+			mes "todos os pontos restantes de habilidade antes de retornar.";
 			close;
 		}
 		jobchange Job_Clown;
 		set ADVJOB,0;
+		mes "[Menestrel]";
 		mes "Parabéns!";
 		mes "Como um Menestrel, suas";
 		mes "canções trarão a";

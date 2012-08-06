@@ -1,571 +1,676 @@
 //===== Cronus Script ========================================
-//= Quest do Ninja
+//= Quest Ninja
 //===== Por: =================================================
-//= rAthena Dev Team
+//= Legionaire
 //===== Versão Atual: ========================================
-//= 1.0
+//= 1.4b
 //===== Compatível com: ======================================
-//= eAthena; rAthena; Cronus; brAthena; Maya SVN.
-//===== Descrição: ===========================================
-//= Mudança de Classe para Ninja
+//= Cronus SVN
+//===== Description: =========================================
+//= Quest para se tornar Ninja, adicionado npcs em Amatsu e em
+//= Einbroch.
 //===== Comentários Adicionais: ==============================
-//= 1.0 Traduzido. [LyDe]
+//= 1.2 Added Akagi [Playtester]
+//= 1.3 Updated dialogs to official ones and optimized [SinSloth]
+//= 1.4 Fixed a minor bug [SinSloth]
+//= 1.4a Traduzido. [Cardoso]
+//= 1.4b Revisado. [Mara]
 //============================================================
 
-alberta,30,65,3	script	Akagi	730,{
-	if (Class == Job_Novice) {
-		if (JobLevel == 10) {
+alberta,30,65,3	script	Akagi#nq	730,{
+	if(Class == Job_Novice)
+	{
+		if(JobLevel > 9)
+		{
 			mes "[Akagi]";
-			mes "Hmmm...";
-			mes "Você deve ter vindo,";
-			mes "achando que alguém";
-			mes "esteja esperando por você.";
-			mes "Diga-me, você procura";
-			mes "o caminho da paciência?";
+			mes "Hmm...";
+			mes "Você deve ter forças nos pés para poder chegar aqui, porque será necessário que a tenha.";
+			mes "Você gostaria de andar pelo caminho da paciência?";
 			next;
-			if(select("Não:Sim") == 1) {
+			if(select("Não, eu não quero ir.:Sim, eu irei andar por ele.") == 1)
+			{
 				mes "[Akagi]";
-				mes "Tudo bem.";
-				mes "Cada um tem seu modo de pensar,";
-				mes "creio eu.";
-				mes "Se cuide.";
+				mes "Ok.";
+				mes ".....";
+				mes "Então, adeus.";
 				close;
 			}
-			mes "[Akagi]";
-			mes "Muito bom.";
-			mes "Então, deixe-me";
-			mes "definir o caminho";
-			mes "que você seguirá...";
-			close2;
-			switch(rand(3)) {
-				case 1:
-					warp "amatsu",170,229;
-					end;
-				case 2:
-					warp "amatsu",216,188;
-					end;
-				default:
-					warp "amatsu",178,176;
-					end;
+			else
+			{
+				mes "[Akagi]";
+				mes "Muito bem, eu irei lhe enviar agora.";
+				close2;
+				switch (rand(3)) {
+					case 1:  warp "amatsu", 170, 229; break;
+					case 2:  warp "amatsu", 216, 188; break;
+					default: warp "amatsu", 178, 176; break;
+				}
+				end;
 			}
-		}else{
+		}
+		else
+		{
 			mes "[Akagi]";
-			mes "Hm? Eu não posso";
-			mes "dar qualquer serviço";
-			mes "para você...";
-			mes "Cresça e fique um pouco mais forte...";
+			mes "Você não deveria estar aqui.";
+			mes "Volte quando você estiver mais forte.";
 			close;
 		}
-	}else{
+	}
+	else
+	{
 		mes "[Akagi]";
-		mes "Hmm...";
-		mes "Você e eu...";
-		mes "Estamos razoavelmente iguais em";
-		mes "termos de capacidade de combate.";
-		mes "Talvez possamos praticar";
-		mes "juntos um dia.";
+		mes "Não tenho nada para dizer a você.";
+		mes "Volte para o lugar de onde você veio.";
 		close;
 	}
 }
 
-que_ng,30,65,3	script	Cougar#nq	730,{
-	if (Upper == 2) {
-		mes "[Cougar]";
-		mes "Eu... Eu nunca vi";
-		mes "um bebê tão poderoso";
-		mes "como você!";
-		mes "S-saia daqui, você é";
-		mes "uma aberração da natureza!";
+que_ng,30,65,3	script	Cougar Gai	730,{
+	if(Class == Job_Novice && JobLevel > 9)
+	{
+		switch(NINJ_Q)
+		{
+			case 0:
+				mes "["+strcharinfo(0)+"]";
+				mes "Desculpe-me.";
+				next;
+				mes "[Cougar Gai]";
+				mes "Hmm...?";
+				mes "Mas que~!!";
+				mes "Você pode me ver!";
+				next;
+				mes "[Cougar Gai]";
+				mes "Toriyaaa~!";
+				next;
+				mes "["+strcharinfo(0)+"]";
+				mes "-Ele atira um feixe de madeira em você-";
+				next;
+				mes "["+strcharinfo(0)+"]";
+				mes "-Dardos dardos dardos!-";
+				mes "Au~!";
+				mes "Puts~! O que você acha que está fazendo!";
+				next;
+				mes "[Cougar Gai]";
+				mes "Hmm...?";
+				mes "Vejo que você não é um assassino profissional que foi enviado para me matar.";
+				next;
+				mes "["+strcharinfo(0)+"]";
+				mes "Ó Deus... O que eu fiz para merecer isso.";
+				mes "Este cara é louco.";
+				mes "E ainda vem jogando essas coisas em...";
+				next;
+				mes "[Cougar Gai]";
+				mes "Urrgh~! Raiva,raiva~~";
+				mes "Meu eterno adversário e inimigo...";
+				mes "Gato Joe!";
+				next;
+				mes "["+strcharinfo(0)+"]";
+				mes "........";
+				next;
+				mes "[Cougar Gai]";
+				mes "Gahhhhh~~~!!!";
+				mes "Urrgh~Urrgh~";
+				mes "Pft! Pft! Pft~";
+				next;
+				mes "["+strcharinfo(0)+"]";
+				mes "-Mas que.. Ele não está nem me ouvindo-";
+				next;
+				mes "[Cougar Gai]";
+				mes "Hmm...";
+				mes "Mas o que! Quem é você?!";
+				mes "E como você conseguiu chegar até mim?";
+				mes "Tome isto!";
+				next;
+				mes "["+strcharinfo(0)+"]";
+				mes "Agh~";
+				mes "Ugh, por favor, você pode parar?";
+				mes "Você não está fazendo grandes coisas, de qualquer modo...";
+				next;
+				mes "[Cougar Gai]";
+				mes "Oho";
+				mes "Que habilidade inacreditável~";
+				mes "Você escapou de todos meus ataques.";
+				next;
+				mes "["+strcharinfo(0)+"]";
+				mes "- De que ataques ele está falando? -";
+				mes "- E ele continua não me ouvindo... -";
+				next;
+				mes "[Cougar Gai]";
+				mes "Hmm~ Sim~";
+				mes "Você tem algo a tratar comigo?";
+				next;
+				mes "["+strcharinfo(0)+"]";
+				mes ".........";
+				next;
+				mes "["+strcharinfo(0)+"]";
+				mes "Ah...umm...";
+				mes "Sim.";
+				mes "Eu vim ver você porquê eu quero me tornar um ninja.";
+				next;
+				mes "[Cougar Gai]";
+				mes "Oho~ Você veio à pessoa certa.";
+				mes "Mas!";
+				next;
+				mes "["+strcharinfo(0)+"]";
+				mes ".....";
+				next;
+				mes "[Cougar Gai]";
+				mes "Isto pode ser um pouco difícil.";
+				next;
+				mes "["+strcharinfo(0)+"]";
+				mes "Huh~ Porquê~";
+				next;
+				mes "[Cougar Gai]";
+				mes "Primeiramente, Eu não sei se eu posso realmente acreditar em você, e na minha opinião..";
+				mes "Parece que você não tem experiência suficiente.";
+				next;
+				mes "[Cougar Gai]";
+				mes "Então é por isso que eu irei dizer..";
+				mes "Vá!!! Suma da minha frente~!";
+				next;
+				mes "["+strcharinfo(0)+"]";
+				mes "...........";
+				next;
+				mes "[Cougar Gai]";
+				mes "Hmm Sim...";
+				mes "Estas são minhas últimas palavras.";
+				next;
+				mes "["+strcharinfo(0)+"]";
+				mes "...........";
+				next;
+				mes "[Cougar Gai]";
+				mes "Bem, pode ir indo se você tiver entendido.";
+				mes "Como pode ver, sou uma pessoa muito ocupada...";
+				next;
+				mes "[Cougar Gai]";
+				mes "Tenho muitos inimigos atrás de mim, então eu não posso baixar a guarda momento algum.";
+				next;
+				mes "[Cougar Gai]";
+				mes "É melhor eu ir treinar para meu próximo duelo.";
+				mes "Yioooop~!";
+				next;
+				mes "[Cougar Gai]";
+				mes "Na próxima vez eu ganharei com certeza!";
+				mes "Apenas espere!";
+				mes "Gato Joe!";
+				next;
+				mes "["+strcharinfo(0)+"]";
+				mes "Gato Joe?";
+				mes "Você está lutando com um Gato?";
+				next;
+				mes "[Cougar Gai]";
+				mes "Ham? Oh oops! Hahaha~ Hehe~";
+				mes "Gato Joe é o apelido de um lutador.";
+				next;
+				mes "[Cougar Gai]";
+				mes "Ele é um lutador muito habilidoso.";
+				mes "Ther é um modo que ele usa para lutar.";
+				next;
+				mes "[Cougar Gai]";
+				mes "E não apenas isso -- As habilidades que ele usa são muito fortes e brilhantes.";
+				next;	
+				mes "[Cougar Gai]";
+				mes "Eu só tenho que me esquivar das Shurikens e Adagas dele, então nós estaremos quites. Haha.";
+				next;
+				mes "[Cougar Gai]";
+				mes "Bem, se você quer realmente se tornar um Ninja, que tal você me fazer um favor?";
+				mes "Se você fazer esse favor, então talvez eu te torne um Ninja, eu posso te ensinar alguma técnicas. Você nunca sabe!";
+				next;
+				switch( select( "Aceite fazer o favor","Recusar o favor" ) )
+				{
+					case 1:
+						mes "["+strcharinfo(0)+"]";
+						mes "Hmm... Ok.";
+						next;
+						mes "[Cougar Gai]";
+						mes "Ok.. Muito bem.";
+						mes "Então entregue essa carta ao Gato Joe.";
+						next;
+						mes "[Cougar Gai]";
+						mes "Aqui só diz que nós já estamos preparados, nós devemos considerar uma trégua.";
+						mes "Provavelmente você deve trazer de volta a resposta dele.";
+						next;
+						mes "[Cougar Gai]";
+						mes "Falando nisso, minhas fontes me disseram que o Gato Joe foi para Einbroch.";
+						mes "Não sei porquê ele foi para aquele lugar...";
+						next;
+						mes "[Cougar Gai]";
+						mes "Ele é muito bom em alterar sua aparência,";
+						mes "então.";
+						next;
+						mes "[Cougar Gai]";
+						mes "Você deve ficar com seus olhos bem abertos e procurar por ele. Ele gosta de lugares altos.";
+						mes "Procure-o bem.";
+						next;
+						mes "["+strcharinfo(0)+"]";
+						mes "Tudo bem~";
+						mes "Eu irei fazer isso.";
+						set NINJ_Q,1;
+						close;
+					case 2:
+						mes "["+strcharinfo(0)+"]";
+						mes "Eu não quero apenas aprender 'algumas' técnicas.";
+						mes "Me desculpe.";
+						mes "Eu irei encontrar.";
+						mes "outra pessoa..";
+						next;
+						mes "[Cougar Gai]";
+						mes "Hmm...";
+						mes "Eu entendo...";
+						mes "Eu acho que perdi o fôlego.";
+						mes "Bem, não me perturbe mais.";
+						close;
+				}
+			case 1:
+				mes "[Cougar Gai]";
+				mes "Hmm... não é algo que eu precise imediatamente, mas ande rápido.";
+				mes "Gato Joe está em Einbroch.";
+				close;
+			case 2:
+				mes "[Cougar Gai]";
+				mes "Não se esqueça de me trazer a resposta dele.";
+				mes "Eu tenho de ter certeza que ele não irá mudar de idéia depois.";
+				close;
+			case 3:
+				mes "[Cougar Gai]";
+				mes "Você me trouxe a resposta dele de volta?";
+				next;
+				mes "["+strcharinfo(0)+"]";
+				mes "Sim, aqui está.";
+				next;
+				mes "[Cougar Gai]";
+				mes "Ohh. Vejo que você conheceu ele e me trouxe a resposta que queria.";
+				mes "Bem... Deixe-me ver.";
+				mes "- Rip rip... -";
+				next;
+				mes "["+strcharinfo(0)+"]";
+				mes "- Ele lê com cuidado a carta que eu lhe entreguei -";
+				next;
+				mes "[Cougar Gai]";
+				mes "Ugh~!!! Como isso é possível!";
+				mes "Ele recusou meu pedido de trégua!!!";
+				mes "Será que ele refez sua Kunai?";
+				mes "E agora...";
+				next;
+				mes "[Cougar Gai]";
+				mes "Me desculpe, mas eu preciso te pedir outro favor.";
+				mes "Eu preciso criar armas para lutar novamente com esse bastardo do Joe mas eu não tenho ingredientes suficientes.";
+				next;
+				mes "[Cougar Gai]";
+				mes "Se você conseguisse estes ingredientes, então eu te ensinaria as habilidades ninja.";
+				mes "O que eu preciso...";
+				mes "1 Fracon e 5 Cyfar.";
+				mes "Tempo é essencial, então se apresse.";
+				next;
+				mes "["+strcharinfo(0)+"]";
+				mes "Espere!!";
+				mes "Estes são...";
+				next;
+				mes "[Cougar Gai]";
+				mes "O que foi? Tem algum problema?";
+				next;
+				mes "["+strcharinfo(0)+"]";
+				mes "Eu também entreguei esses ingredientes a Joe...";
+				mes "Uggghhhh...";
+				next;
+				mes "[Cougar Gai]";
+				mes "O que você disse?!!!";
+				mes "Então enviando você a ele, eu ajudei ele...!";
+				mes "Ugh...";
+				mes "Aaahhh...";
+				mes "Porque, porque~ Que idiota que eu sou!!";
+				next;
+				mes "[Cougar Gai]";
+				mes "Ah.. Ah.. Eu vou me acalmar.";
+				mes "Hugh.. Hugh..";
+				next;
+				mes "[Cougar Gai]";
+				mes "Você tem de me ajudar agora.";
+				mes "Já que as coisas ficaram assim, eu não tenho mais tempo a perder.";
+				mes "Corra e consiga o que eu preciso.";
+				next;
+				mes "["+strcharinfo(0)+"]";
+				mes "Uhh...Claro..";
+				next;
+				mes "[Cougar Gai]";
+				mes "Corraaaa~~!!";
+				mes "Sob~";
+				next;
+				mes "["+strcharinfo(0)+"]";
+				mes "- Preciso pegar ao Sr.Gai 1 Fracon -";
+				mes "- e 5 Cyfars -";
+				set NINJ_Q,4;
+				close;
+
+			case 4:
+				mes "[Cougar Gai]";
+				if(countitem(7053) < 5 || countitem(1010) < 1)
+				{
+					mes "Consiga para mim 1 Fracon e 5 Cyfars.";
+					mes "Você por acaso não entendeu o que eu disse?";
+					mes "Preciso disso urgente! Então por favor, corra!";
+					close;
+				}
+				if(skillpoint >0)
+				{
+					mes "Volte quando você tiver aprendido todas as habilidades básicas.";
+					close;
+				}
+				mes "Oh, Você me trouxe as coisas que preciso?";
+				mes "Deixe me ver...";
+				mes "Hmm~ Vejo que você me trouxe o que eu precisava";
+				next;
+				mes "[Cougar Gai]";
+				mes "Bom~ Você fez isso a tempo.";
+				mes "Seu trabalho foi melhor do que eu esperava.";
+				next;
+				mes "[Cougar Gai]";
+				mes "Muito bem.";
+				mes "Como prometido, eu irei torná-lo oficialmente um Ninja.";
+				next;
+				mes "[Cougar Gai]";
+				mes "Deixe-me primeiro explicar quem sou eu.";
+				mes "Eu sou um dos melhores no Rank Ninja do Clã Ninja do oriente.";
+				mes "Eu estou numa missão de procura para encontrar o Capitão Kazuma-san, o líder da vila de onde eu nasci.";
+				next;
+				mes "[Cougar Gai]";
+				mes "Para te falar a verdade, existem muitos problemas para entrar no Clã dos Ninjas, que foi porque eu hesitei em me tornar um Ninja.";
+				next;
+				mes "[Cougar Gai]";
+				mes "Mas vendo como Joe elogiou suas habilidade e como você fez o que eu pedi, eu mudei de idéia.";
+				next;
+				mes "[Cougar Gai]";
+				mes "Ser um Ninja é um trabalho solitário.";
+				mes "Você deve valorizar seu trabalho mas nunca esqueça sua humanidade.";
+				next;
+				mes "[Cougar Gai]";
+				mes "Você ganhará muitas habilidades de batalha.";
+				mes "Mas sempre mantenha sua identidade secreta, nós estamos em todas as cidades.";
+				next;
+				mes "[Cougar Gai]";
+				mes "A criação e a utilização de armas Ninja são sempre mantidas em segredo.";
+				mes "A venda e compra de armas ninjas é comum, mas tenha cuidado com armas falsas.";
+				next;
+				mes "[Cougar Gai]";
+				mes "Bem, eu irei torná-lo um membro do Clã Ninja.";
+				next;
+				mes "[Cougar Gai]";
+				mes "Seja rápido como um falcão que voa nos ventos do oriente.";
+				mes "E faça o seu melhor!!";
+				next;
+				mes "[Cougar Gai]";
+				mes "Haaa!!!!";
+				next;
+				nude;
+				callfunc "Job_Change",Job_Ninja;
+				callfunc "F_ClearJobVar";				
+				getitem 13010,1;
+				close;
+
+		}
+	}
+	else if(Class == Job_Novice && JobLevel < 10)
+	{
+		mes "[Cougar Gai]";
+		mes "Parece que você precisa treinar mais.";
+		mes "Volte quando você tiver ganhado mais músculos.";
 		close;
 	}
-	if (Class == Job_Novice) {
-		if (JobLevel < 10) {
-			mes "[Cougar]";
-			mes "Opa? Você veio aqui";
-			mes "para se tornar um Ninja?";
-			mes "Você não é experiente o";
-			mes "suficiente, só volte aqui";
-			mes "quando estiver mais familiarizado";
-			mes "em lutar com monstros.";
-			close;
-		}
-		if (NINJ_Q == 0) {
-			mes "["+strcharinfo(0)+"]";
-			mes "Desculpe-me.";
-			mes "O-Olá?";
-			next;
-			mes "[Cougar]";
-			mes "...............................";
-			mes "Como você fez isso?";
-			next;
-			mes "["+strcharinfo(0)+"]";
-			mes "Fiz o quê? Eu não fiz";
-			mes "nada, eu acho...";
-			next;
-			mes "[Cougar]";
-			mes "C-como você consegue";
-			mes "me ver? Eu deveria ser";
-			mes "invisível a olho nu.";
-			mes "Ah, agora eu entendi. Gato Joe";
-			mes "deve ter te enviado para me matar! Não vou cair nos seus truques! Morra!";
-			next;
-			mes "["+strcharinfo(0)+"]";
-			mes "E-espere! E-E eu não sei";
-			mes "quem é Gato Joe!";
-			mes "Calma, não tem necessidade";
-			mes "de violência!";
-			next;
-			mes "[Cougar]";
-			mes "O que...?";
-			mes "Como você se esquivou";
-			mes "de todos os meus ataques?";
-			mes "Você tem talento,";
-			mes "tome isso.";
-			next;
-			mes "["+strcharinfo(0)+"]";
-			mes "...............................";
-			mes "Eu vim aqui na esperança";
-			mes "de me tornar um";
-			mes "Ninja.";
-			next;
-			mes "[Cougar]";
-			mes "...Ah. Só isso?";
-			mes "Hmm, você tem um grande";
-			mes "potencial, mas eu não posso te";
-			mes "ajudar agora. Eu tenho muitos";
-			mes "inimigos, e não posso abaixar minha";
-			mes "guarda um minuto se quer.";
-			next;
-			mes "[Cougar]";
-			mes "O Gato Joe é";
-			mes "completamente cruel...!";
-			mes "Ele pode atacar a qualquer momento!";
-			mes "Ele faz qualquer coisa para sair";
-			mes "vitorioso contra seus inimigos!";
-			next;
-			mes "[Cougar]";
-			mes "Espere, espere,";
-			mes "pensando bem...";
-			mes "Talvez você possa me ajudar.";
-			mes "Faça o que eu pedir, e eu te";
-			mes "ensinarei alguma das minhas";
-			mes "habilidades se você realmente quer se tornar um ninja.";
-			next;
-			if(select("Tudo bem.:Não, obrigado.") == 2) {
-				mes "[Cougar]";
-				mes "Hm? Ok, tudo bem.";
-				mes "Mesmo assim, eu não";
-				mes "vejo porque nós não";
-				mes "podemos nos ajudar em uma";
-				mes "situação como essa...";
-				close;
-			}
-			mes "[Cougar]";
-			mes "Ótimo! Agora, pergunte para";
-			mes "o Gato Joe se ele concorda";
-			mes "em dar uma trégua temporária.";
-			mes "Estou ciente que ambos estão";
-			mes "bem equipados, então nós também";
-			mes "devemos estar bem equipados.";
-			next;
-			mes "[Cougar]";
-			mes "Por favor, pegue esta";
-			mes "carta e entregue ao Gato";
-			mes "Joe em Einbroch. Ele é um mestre";
-			mes "em disfarces, então olhe bem";
-			mes "atentamente para ele. Ah, procure";
-			mes "ele em lugares alto.";
-			next;
-			mes "[Cougar]";
-			mes "Sim, o Gato Joe";
-			mes "tem o costume de se esconder";
-			mes "em lugares altos.";
-			mes "Enfim, depois que entregar";
-			mes "a carta, volte aqui";
-			mes "para que eu veja a resposta.";
-			set NINJ_Q,1;
-			setquest 6015;
-			close;
-		} else if(NINJ_Q == 1) {
-			mes "[Cougar]";
-			mes "Mesmo que essa tarefa";
-			mes "não seja tão importante,";
-			mes "por favor, corra para";
-			mes "Einbroch e entregue";
-			mes "minha carta ao Gato Joe.";
-			close;
-		} else if(NINJ_Q == 2) {
-			mes "[Cougar]";
-			mes "Você entregou a";
-			mes "carta ao Gato Joe?";
-			mes "Eu estou precisando da";
-			mes "resposta sobre a trégua";
-			mes "que eu pedi. Enfim, tente";
-			mes "ver isso o mais rápido possível.";
-			close;
-		} else if(NINJ_Q == 3) {
-			mes "[Cougar]";
-			mes "Ah, você voltou.";
-			mes "O Gato Joe te";
-			mes "enviou de volta com";
-			mes "a resposta? Ótimo, ótimo,";
-			mes "deixe-me ver.";
-			next;
-			mes "[Cougar]";
-			mes "O que...?! Como ele pode";
-			mes "rejeitar minha proposta por";
-			mes "uma trégua?! Isso só pode";
-			mes "significa que ele fez outra";
-			mes "Kunai. Ferrou! Tenho que pegar";
-			mes "ele, ou eu sou um caso perdido!";
-			next;
-			mes "[Cougar]";
-			mes "Ouça, você terá que me ajudar";
-			mes "novamente! Eu preciso que";
-			mes "você recolha alguns itens";
-			mes "para que eu possa criar minha Kunai e combater o Joe. Então, vá";
-			mes "em frente e eu mudarei sua classe para Ninja.";
-			next;
-			mes "[Cougar]";
-			mes "Os itens que";
-			mes "eu preciso são";
-			mes "^3355FF5 Cyfar^000000 e";
-			mes "^3355FF1 Fracon^000000.";
-			mes "Por favor, pegue esses itens";
-			mes "o mais rápido possível!";
-			next;
-			mes "["+strcharinfo(0)+"]";
-			mes "Ué? Engraçado,";
-			mes "Eu dei esses";
-			mes "mesmos itens";
-			mes "ao Gato Joe.";
-			next;
-			mes "[Cougar]";
-			mes "Maldição! Então isso significa...";
-			mes "Que você ajudou o Joe na";
-			mes "elaboração de sua Kunai! Não!";
-			mes "Eu deveria ter pensado nisso";
-			mes "antes! Não tenho tempo a";
-			mes "perder. Se apresse e pegue os itens!";
-			set NINJ_Q,4;
-			changequest 6017,6018;
-			close;
-		} else if(NINJ_Q == 4) {
-			mes "[Cougar]";
-			if (countitem(7053) < 5 || countitem(1010) < 1) {
-				mes "Corra e pegue";
-				mes "^3355FF5 Cyfar^000000 e";
-				mes "^3355FF1 Fracon^000000 para mim,";
-				mes "par aque eu possa criar";
-				mes "minha Kunai e combater";
-				mes "o Gato Joe!";
-				close;
-			}
-			if (Skillpoint) {
-				mes "Ei, ei...";
-				mes "Você tem pontos de";
-				mes "habilidade sobrando.";
-				mes "Gaste todos os pontos";
-				mes "e depois volte aqui para";
-				mes "a mudança de classe, ok?";
-				close;
-			}
-			mes "[Cougar]";
-			mes "Ah, você está de volta";
-			mes "e com tudo que eu preciso.";
-			mes "Você chegou mais rápido do";
-			mes "que eu esperava, em? Ótimo,";
-			mes "como prometido, estarei te";
-			mes "transformando em um Ninja.";
-			next;
-			mes "[Cougar]";
-			mes "Primeiramente, deixe-me apresentar.";
-			mes "Eu sou o grande Ninja Cougar";
-			mes "da Corporação dos Ninjas, e";
-			mes "eu estou comandando a busca";
-			mes "para achar Sir Kazma.";
-			next;
-			mes "[Cougar]";
-			mes "Sir Kazma é o chefe da";
-			mes "minha aldeia, mas ele";
-			mes "sumiu. Isso causou um";
-			mes "grande conflito dentro da";
-			mes "Corporação dos Ninjas. As coisas";
-			mes "ficaram bem instáveis depois disso...";
-			next;
-			mes "[Cougar]";
-			mes "Era por causa dessa situação";
-			mes "lamentável que eu não queria";
-			mes "te aceitar como ninja.";
-			mes "No entanto, você provou que";
-			mes "é uma pessoa digna e seu";
-			mes "nome será listado na lista de Ninjas.";
-			next;
-			mes "[Cougar]";
-			mes "De acordo com a carta, o Joe";
-			mes "também te vê como uma boa pessoa. Só";
-			mes "não se esqueça de que, como um nina, suas";
-			mes "missões são suas maiores prioridades. Mas não deixe que";
-			mes "os objetivos da missão atrapalhem em sua consciência.";
-			next;
-			mes "[Cougar]";
-			mes "''Sigilo acima de tudo.''";
-			mes "Para manter nossos segredos";
-			mes "nas sombras, você só poderá";
-			mes "comprar ou vender armas de Ninjas";
-			mes "com nossos vendedores oficiais. Por favor,";
-			mes "tenha isso em mente.";
-			next;
-			mes "[Cougar]";
-			mes "A partir de hoje, você é";
-			mes "um novo e orgulhoso membro";
-			mes "Touga das Corporações Ninjas. Seja";
-			mes "ágil como o vento, e silencioso";
-			mes "como as sombras.";
-			callfunc "Job_Change",Job_Ninja;
-			set NINJ_Q,5;
-			delitem 7053,5; // Cyfar
-			delitem 1010,1; // Phracon
-			getitem 13010,1;	// Asura
-			completequest 6018;
-			close;
-		} else {
-			mes "[Cougar]";
-			mes "Como tem ido?";
-			mes "Treine duro: você será";
-			mes "capaz de desaparecer sem";
-			mes "deixar rastros. Se você";
-			mes "conseguir fazer isso, você terá";
-			mes "o respeito de qualquer Ninja~";
-			close;
-		}
-	} else{
-		if (Class == Job_Ninja) {
-			mes "[Cougar]";
-			mes "Como tem ido?";
-			mes "Treine duro: você será";
-			mes "capaz de desaparecer sem";
-			mes "deixar rastros. Se você";
-			mes "conseguir fazer isso, você terá";
-			mes "o respeito de qualquer Ninja~";
-			close;
-		} else{
-			mes "[Cougar]";
-			mes "O que...?";
-			mes "Como você foi capaz";
-			mes "de me encontrar escondido";
-			mes "nas sombras?!";
-			mes "Você deve ser um aventureiro";
-			mes "dopado, né?";
-			close;
-		}
+	else if(Class == Job_Ninja)
+	{
+		mes "[Cougar Gai]";
+		mes "Hmm, como você está indo?";
+		mes "Você não sabe onde nem quando você irá ser chamado à uma missão, então não pare de treinar um dia se quer.";
+		close;
+	}
+	else if(Class == Job_Baby)
+	{
+		mes "[Cougar Gai]";
+		mes "Mas o que...! Um super bebê!";
+		mes "Esta localização está tão esposta que até bebês sabem como chega aqui?";
+		mes "Oh no~ Ah no~";
+		close;
+	}
+	else
+	{
+		mes "[Cougar Gai]";
+		mes "Que... Que cheiro é este?!";
+		mes "Eu estava me perguntando de onde veio esse mal cheiro -- veio de você.";
+		mes "Porque, você é tão novo, ainda há um bigode de leite em seus lábios o qual você tomou da sua mãe.";
+		mes "Desapareça, criança.";
+		close;
 	}
 }
 
-einbroch,184,194,3	script	Suspicious Man#nq	 	881,{
-	if (NINJ_Q == 1) {
-		mes "[Homem Suspeito]";
-		mes "Eu viajei para muitos";
-		mes "paíseis, mas eu nunca estive";
-		mes "em um lugar tão alto como a";
-		mes "torre de Einbroch. Todos";
-		mes "os edifícios da minha cidade";
-		mes "são pequenos em comparação...";
-		next;
-		mes "["+strcharinfo(0)+"]";
-		mes "Opa, você é de";
-		mes "Amatsu? Estou procurando";
-		mes "por uma pessoa chamada";
-		mes "Gato Joe que é de lá.";
-		next;
-		mes "[Homem Suspeito]";
-		mes "...Não. Não, eu sou de";
-		mes "Izlude,só estou aqui em";
-		mes "Einbroch por causa de alguns";
-		mes "materiais. Fale para mim, por que";
-		mes "você está procurando pelo Gato Joe?";
-		next;
-		mes "["+strcharinfo(0)+"]";
-		mes "Bem, eu preciso entregar uma";
-		mes "carta à ele e pegar a resposta";
-		mes "para que eu possa me tornar";
-		mes "um Ninja.";
-		next;
-		mes "[Homem Suspeito]";
-		mes "Sério? Pensando bem, eu";
-		mes "acho que vi ele uma ou";
-		mes "duas vezes correndo pela";
-		mes "cidade. Ele prefere ser chamado de 'Vermelho Leopardo Joe,''";
-		mes "ao invés de ''Gato Joe.''";
-		next;
-		mes "["+strcharinfo(0)+"]";
-		mes "Eu quero te ajudar a";
-		mes "encontrar, mas primeiro";
-		mes "eu tenho que encontrar os";
-		mes "materiais que to procurando. Se";
-		mes "você não se importar, você pode me ajudar?";
-		mes "Se me ajudar eu te ajudo a achar o Joe.";
-		next;
-		if(select("Não se preocupe, eu vou encontrá-lo sozinho.:Claro, eu te ajudo.") == 1) {
-			mes "[Homem Suspeito]";
-			mes "Você tem certeza disso...?";
-			mes "O Vermelho Leopardo Joe é";
-			mes "mestre em disfarces. Você";
-			mes "vai precisar de todas as";
-			mes "ajudas possíveis para encontrá-lo...";
+einbroch,184,194,3	script	Cara Suspeito#nin	881,{
+	if(Class == Job_Ninja)
+	{
+		mes "[Pantera Joe]";
+		mes "Oh, vejo que você se tornou um Ninja.";
+		mes "Você pode passar por mais dificuldades no futuro, então nunca pare seu treinamento.";
+		close;
+	}
+	else if(!NINJ_Q)
+	{
+		mes "[Cara Suspeito]";
+		mes "Hyaa~ Isto é certamente um grande ponto.";
+		mes "Fui a várias terras, mas este é o lugar mais alto eu encontrei até agora.";
+		mes "Só posso lamentar pois eu não posso passar mais tempo olhando para esta espectacular vista ...";
+		close;
+	}
+	switch(NINJ_Q)
+	{
+		case 1:
+			mes "[Cara Suspeito]";
+			mes "Hiyaa~ Este lugar é bem alto, certo?";
+			mes "Eu já viajei por muitos países, mas essa é a primeira vez que eu subo em uma construção tão alta.";
+			next;
+			mes "[Cara Suspeito]";
+			mes "De onde eu venho, o ar é limpo, a cidade é quieta, e todas as casas são pequenas e acolhedoras.";
+			next;
+			mes "["+strcharinfo(0)+"]";
+			mes "Ah! Não brinca!";
+			mes "Amatsu?!!!";
+			next;
+			mes "[Cara Suspeito]";
+			mes "Não.";
+			mes "....";
+			next;
+			mes "["+strcharinfo(0)+"]";
+			mes "Hmm~";
+			mes "Não é Amatsu...";
+			mes "Então você é de Izlude?";
+			next;
+			mes "[Cara Suspeito]";
+			mes "Sim, está correto.";
+			mes "Eu vim de Izlude.";
+			next;
+			mes "[Cara Suspeito]";
+			mes "Devido a razões pessoas, eu estou visitando temporariamente este rico continente.";
+			next;
+			mes "["+strcharinfo(0)+"]";
+			mes "Entendo...";
+			mes "Oh, você sabe o que aconteceu com uma pessoa chamada Gato Joe?";
+			mes "Ele é um Ninja de Amatsu";
+			mes "Eu preciso achar ele.";
+			next;
+			mes "[Cara Suspeito]";
+			mes "Eu não sei. Eu nunca ouvi este nome.";
+			mes "Eu acho que deve haver uma razão importante pela qual você quer encontrar essa pessoa.";
+			next;
+			mes "["+strcharinfo(0)+"]";
+			mes "Sim. Eu preciso entregar essa carta a ele, depois disso eu talvez poderei me tornar um Ninja também.";
+			next;
+			mes "[Cara Suspeito]";
+			mes "Hmm... Jugando pelas roupas, Eu vejo que você é um viajante também.";
+			next;
+			mes "[Cara Suspeito]";
+			mes "Pense assim, talvez você possa achar a pessoa a qual você está procurando.";
+			next;
+			mes "[Cara Suspeito]";
+			mes "Eu acho que eu já posso ter conhecido ele nesta cidade.";
+			next;
+			mes "[Cara Suspeito]";
+			mes "Eu posso ajudar você a achá-lo juntos, mas eu tenho que fazer umas coisas antes...";
+			next;
+			mes "[Cara Suspeito]";
+			mes "Se você me ajudar com o que eu estou fazendo, então eu irei procurar o Gato Joe com você.";
+			next;
+			switch( select( "Eu vou procurá-lo sozinho.","Tudo bem, eu irei ajudá-lo." ) )
+			{
+				case 1:
+					mes "[Cara Suspeito]";
+					mes "Ah, entendo.";
+					mes "Boa sorte em sua procura. Se você precisar de ajuda depois, volte aqui e fale comigo antes que eu vá embora...";
+					close;
+
+				case 2:
+					mes "[Cara Suspeito]";
+					mes "Hmm.. Vamos ver.";
+					mes "Eu estou precisando de alguns materiais para que eu possa criar o que eu estou precisando.";
+					next;
+					mes "[Cara Suspeito]";
+					mes "Eu estarei juntando estes materiais também, mas eu preciso deles imediatamente.";
+					mes "Eu ficarei feliz se você me conseguir 1 Fracon e 5 Cyfar.";
+					next;
+					mes "["+strcharinfo(0)+"]";
+					mes "- Irei achar 1 Fracon e 5 Cyfar.-";
+					set NINJ_Q,2;
+					close;
+			}
+		case 2:
+			if(countitem(1010) < 1 || countitem(7053) < 5){
+				mes "[Cara Suspeito]";
+				mes "Eu lhe pedi 1 Fracon e 5 Cyfar.";
+				mes "Parece que você não pegou tudo o que eu pedi.";
+				mes "Eu não preciso imediatamente, mas eu iria agradece-lo se você conseguisse estes itens para mim.";
+				close;
+			}
+			mes "[Cara Suspeito]";
+			mes "Vejo que você trouxe tudo o que eu pedi.";
+			mes "Hmm... Muito bem.";
+			mes "Você trouxe as coisas que eu precisava, então eu irei lhe ajudar. Hmm...";
+			next;
+			mes "[Cara Suspeito]";
+			mes "Me deixe ver essa carta.";
+			next;
+			mes "["+strcharinfo(0)+"]";
+			mes "?????!!";
+			next;
+			mes "[Cara Suspeito]";
+			mes "Hmm? Por acaso você está aqui porquê Gai lhe pediu?";
+			next;
+			mes "["+strcharinfo(0)+"]";
+			mes "Hummm... Então você é o Gato Joe...";
+			next;
+			mes "[Cara Suspeito]";
+			mes "Não.";
+			mes "Eu não sou Gato Joe, mas sim mas sim o Pantera Joe.";
+			mes "A unica pessoa que me chama de 'Gato Joe' é Gai. Haha.";
+			next;
+			mes "["+strcharinfo(0)+"]";
+			mes "Certo... E onde está ele?";
+			next;
+			mes "[Pantera Joe]";
+			mes "Se você quer se tornar um Ninja, você não pode acreditar apenas no que seus olhos vêem.";
+			next;
+			mes "[Pantera Joe]";
+			mes "Muitos poucos Ninjas, talvez nenhum, estão em fotos guardadas em albúns. E se tiverem, você terá sorte de reconhecer um.";
+			next;
+			mes "[Pantera Joe]";
+			mes "Não se esqueça que quanto mais você revelar sua identidade como Ninja, você só terá mais problemas.";
+			next;
+			mes "[Pantera Joe]";
+			mes "Tudo o que eu disse até agora pode talvez não ser verdade.";
+			next;
+			mes "["+strcharinfo(0)+"]";
+			mes "Tudo bem...";
+			mes "...........";
+			next;
+			mes "[Pantera Joe]";
+			mes "Bem, Deixe me ver isto -- esta carta.";
+			next;
+			mes "["+strcharinfo(0)+"]";
+			mes "Ah, Sim.";
+			mes "Aqui.";
+			mes "- Pega a carta -";
+			next;
+			mes "[Pantera Joe]";
+			mes "Hmm~~ Vamos ver...";
+			mes "Eu estava pensando que esta era mais uma das infantis cartas de luta vindas de Gai, mas vejo que está atrás de trégua.";
+			next;
+			mes "[Pantera Joe]";
+			mes "Mas eu não estou atrás de trégua alguma...";
+			mes "Obrigado, eu já consegui todos os materiais necessários para criar uma Kunai. Haha~";
+			next;
+			mes "[Pantera Joe]";
+			mes "Eu irei escrever a ele uma resposta. Dizendo como você conseguiu esses materiais tão fáceis, com um olhar esperto, eu acredito que você irá se tornar um bom Ninja.";
+			next;
+			mes "["+strcharinfo(0)+"]";
+			mes ".....";
+			next;
+			mes "[Pantera Joe]";
+			mes "Espere um poco.";
+			mes "Eu irei escrever uma resposta a carta de Gai agora.";
+			mes "Hmm Hmm...";
+			mes "...Escreve... Escreve...";
+			next;
+			mes "[Pantera Joe]";
+			mes "Pronto. Aqui está.";
+			mes "Você irá saber o que está escrito na carta no momento que você entregá-la a ele.";
+			next;
+			mes "["+strcharinfo(0)+"]";
+			mes "- Você recebeu a carta de Joe-";
+			mes "- e a guardou em seu bolso -";
+			next;
+			mes "[Pantera Joe]";
+			mes "Bem, é melhor você ir indo.";
+			mes "Caso você queira se tornar um Ninja.";
+			next;
+			mes "[Pantera Joe]";
+			mes "E se você se tornar um Ninja, talvez nós nos encontremos mais tarde.";
+			mes "Eu estarei bem atento aos seus movimentos.";
+			next;
+			mes "["+strcharinfo(0)+"]";
+			mes "Sim... Bem, é melhor eu ir indo...";
+			next;
+			mes "[Pantera Joe]";
+			mes "Ah, irá demorar um tempo considerável até você chegar à Amatsu.";
+			mes "Deixe-me levá-lo, "+strcharinfo(0)+" até Amatsu.";
+			mes "Então... Até a próxima!";
+			delitem 1010,1;
+			delitem 7053,5;
+			set NINJ_Q,3;
+			close2;
+			warp "amatsu",113,127;
+			end;
+		case 3:
+			mes "[Pantera Joe]";
+			mes "Hmm, eu não entendo o que pode ter acontecido, mas parece que você retornou sem falar com Gai primeiro.";
+			next;
+			mes "[Pantera Joe]";
+			mes "Se você quiser, eu posso enviá-lo à amatsu novamente.";
+			next;
+			switch( select( "Não, obrigado.","Sim, me envie para Amatsu." ) )
+			{
+				case 1 :
+					mes "[Pantera Joe]";
+					mes "Muito bem.";
+					mes "Decisões são melhores quando feitas por si mesmo.";
+					close;
+
+				case 2:
+					mes "[Pantera Joe]";
+					mes "Muito bem.";
+					mes "Eu irei enviá-lo à Amatsu.";
+					close2;
+					warp "amatsu",113,127;
+					end;
+			}
+		case 4:
+			mes "[Pantera Joe]";
+			mes "Gai está te incomodando com um tanto de tarefas incômodas?";
+			mes "Não desista -- isto tudo irá te fortalecer ainda mais.";
 			close;
-		}
-		mes "[Homem Suspeito]";
-		mes "Ótimo, estou contente";
-		mes "de ouvir isso. Por favor,";
-		mes "me ajude a encontrar";
-		mes "^3355FF5 Cyfars^000000 e";
-		mes "^3355FF1 Fracon^000000.";
-		set NINJ_Q,2;
-		changequest 6015,6016;
-		close;
-	} else if(NINJ_Q == 2) {
-		mes "[Homem Suspeito]";
-		if (countitem(7053) < 5 || countitem(1010) < 1) {
-			mes "Por favor, traga";
-			mes "^3355FF5 Cyfars^000000 e";
-			mes "^3355FF1 Fracon^000000 para mim";
-			mes "o mais rápido possível. E então,";
-			mes "eu irei te ajudar na procura do";
-			mes "Vermelho Leopardo Joe.";
-			close;
-		}
-		mes "Bom, muito bom. Você";
-		mes "trouxe os materiais...";
-		mes "Agora é minha vez";
-		mes "de te ajudar. Aqui,";
-		mes "deixe-me ver essa carta.";
-		next;
-		mes "["+strcharinfo(0)+"]";
-		mes "?????!!";
-		next;
-		mes "[Homem Suspeito]";
-		mes "O quê? Você não trouxe a carta do Cougar para mim?";
-		next;
-		mes "["+strcharinfo(0)+"]";
-		mes "Você é...";
-		mes "Você é o Gato Joe?";
-		next;
-		mes "[Homem Suspeito]";
-		mes "...Sim, mas eu prefiro que";
-		mes "me chame de Vermelho Leopardo Joe.";
-		mes "Cougar te enviou a mim, certo?";
-		mes "Ele é o único que me chama";
-		mes "assim. Então você quer ser";
-		mes "um Ninja, em? Hmm, tudo bem.";
-		next;
-		mes "[Vermelho Leopardo Joe]";
-		mes "Se você quiser ser um Ninja,";
-		mes "você sempre deverá ter cuidado";
-		mes "em quem você confia e nas pessoas ao redor. Não se esqueça que";
-		mes "seus segredos nunca poderam ser revelados, como um Ninja.";
-		next;
-		mes "[Vermelho Leopardo Joe]";
-		mes "Não se esqueça de se mover";
-		mes "rapidamente, e sempre desaparecer";
-		mes "sem deixar algum tipo de rastro.";
-		mes "Se esconder nas sombras";
-		mes "é realmente um de nossos";
-		mes "poderes supremos.";
-		next;
-		mes "["+strcharinfo(0)+"]";
-		mes "Estou vendo...";
-		mes "...........";
-		next;
-		mes "[Vermelho Leopardo Joe]";
-		mes "Agora, deixe-me ler";
-		mes "a carta. Veremos...";
-		mes "Hum. Pensei que Cougar iria";
-		mes "querer me desafiar novamente,";
-		mes "e ele quer uma trégua temporária?";
-		mes "Hah!";
-		next;
-		mes "[Vermelho Leopardo Joe]";
-		mes "Graças à sua ajuda,";
-		mes "agora tenho todos os";
-		mes "materiais para construir uma Kunai!";
-		mes "Hahaha! Por que concordaria com uma trégua agora que estou em vantagem!";
-		next;
-		mes "[Vermelho Leopardo Joe]";
-		mes "Enfim, deixe-me escrever a";
-		mes "minha resposta para ele. E";
-		mes "também uma recomendação...";
-		mes "Eu acho que você daria um Ninja";
-		mes "muito bom, mesmo caindo no";
-		mes "meu truque. Heh heh heh!";
-		next;
-		mes "["+strcharinfo(0)+"]";
-		mes "......";
-		mes ".........";
-		mes "............";
-		next;
-		mes "[Vermelho Leopardo Joe]";
-		mes "Até mais.";
-		mes "Entregue a carta";
-		mes "para Cougar.";
-		mes "Iria demorar para você";
-		mes "retonar à Amatsu, então";
-		mes "irei te enviar logo...";
-		delitem 1010,1;	// Phracon
-		delitem 7053,5;	// Cyfar
-		set NINJ_Q,3;
-		changequest 6016,6017;
-		close2;
-		warp "amatsu",113,127;
-		end;
-	} else if(NINJ_Q == 3) {
-		mes "[Vermelho Leopardo Joe]";
-		mes "Hm? Não tenho certeza,";
-		mes "mas para que você";
-		mes "não entregou minha resposta";
-		mes "à Cougar ainda.";
-		mes "Quer que eu te envie";
-		mes "para Amatsu agora?";
-		next;
-		if(select("Não, obrigado.:Sim, por favor.") == 1) {
-			mes "[Vermelho Leopardo Joe]";
-			mes "Tudo bem, estava";
-			mes "tentando poupar";
-			mes "seu tempo.";
-			close;
-		}
-		mes "[Vermelho Leopardo Joe]";
-		mes "Tudo bem, então.";
-		mes "Até mais.";
-		close2;
-		warp "amatsu",113,127;
-		end;
-	} else if(NINJ_Q == 4) {
-		mes "[Vermelho Leopardo Joe]";
-		mes "Cougar pediu para você";
-		mes "recolher algums materiais";
-		mes "também? Bem, não posso";
-		mes "culpá-lo por isso.";
-		mes "Além disso, eu devo ser capaz";
-		mes "de vencê-lo em uma luta justa~";
-		close;
-	} else if(NINJ_Q == 5 && Class == Job_Ninja) {
-		mes "[Vermelho Leopardo Joe]";
-		mes "Olha, você é um Ninja ~";
-		mes "Espero que você não";
-		mes "pare de treinar e aprenda";
-		mes "todas as habilidades de Ninja";
-		mes "possíveis. Lembre-se sempre";
-		mes "de se misturar, esconder nas sombras.";
-		close;
-	} else {
-		mes "[Turista]";
-		mes "Eu viajei para muitos";
-		mes "paíseis, mas eu nunca estive";
-		mes "em um lugar tão alto como a";
-		mes "torre de Einbroch. Todos";
-		mes "os edifícios da minha cidade";
-		mes "são pequenos em comparação...";
-		close;
 	}
 }

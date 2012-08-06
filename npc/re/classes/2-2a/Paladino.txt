@@ -1,27 +1,33 @@
 //===== Cronus Script ========================================
-//= Quest do Paladin
+//= Quest de Classe - Paladino
 //===== Por: =================================================
-//= rAthena Dev Team
+//= Nana
+//= finished, optimized and tested by Lupus
 //===== Versão Atual: ========================================
-//= 1.0
-//===== Compatível com: ======================================
-//= eAthena; rAthena; Cronus; brAthena; Maya SVN.
+//= 1.3c
+//===== Compatibilidade: =====================================
+//= Cronus SVN
 //===== Descrição: ===========================================
-//= Mudança de Classe para Paladin
+//= Fazer um Espadachim T. se tornar um Paladino
 //===== Comentários Adicionais: ==============================
-//= 1.0 Traduzido. [LyDe]
+//= 1.1 Made all into functions, additional checks, etc. [Lupus]
+//= 1.2 Made numbers into constants. [Vicious]
+//= 1.3 Now saves/restores all the quest skills [Lupus] 
+//= 1.3a Traduzido. [BisoN]
+//= 1.3b Revisado. [Heaven]
+//= 1.3c Removido show, setjob	[Yum]
 //============================================================
-
 
 valkyrie,53,39,3	script	Paladino#Valkyrie	752,{
 	if (ADVJOB == 0 || Upper != 1) {
-		mes "[Paladino]";
 		set .@karma_d,rand(1,10);
 		if (.@karma_d > 4) {
+			mes "[Paladino]";
 			mes "Parabéns.";
 			mes "Honra aos guerreiros!";
 			close;
 		}
+		mes "[Paladino]";
 		mes "Nunca esqueça";
 		mes "que a Guerra Santa";
 		mes "está próxima!";
@@ -29,7 +35,8 @@ valkyrie,53,39,3	script	Paladino#Valkyrie	752,{
 		mes "Que a luz da justiça";
 		mes "sempre ilumine nossos caminhos!";
 		close;
-	} else if (ADVJOB == Job_Paladin && Class == Job_Swordman_High && JobLevel > 39) {
+	}
+	else if (ADVJOB == Job_Paladin && Class == Job_Swordman_High && JobLevel > 39) {
 		mes "[Paladino]";
 		mes "A Guerra Santa";
 		mes "será antes do que";
@@ -50,14 +57,15 @@ valkyrie,53,39,3	script	Paladino#Valkyrie	752,{
 			mes "Honra aos guerreiros!";
 			close;
 		}
-		mes "[Paladino]";
 		if (SkillPoint) {
-			mes "Você ainda tem pontos de habilidade. Por favor,";
+			mes "[Paladino]";
+			mes "Você ainda tem pontos de habilidade. Por favor";
 			mes "use todos os pontos de habilidade restantes.";
 			close;
 		}
 		jobchange Job_Paladin;
 		set ADVJOB,0;
+		mes "[Paladino]";
 		mes "Parabéns.";
 		mes "Como um Paladino, espero";
 		mes "que você proteja os";

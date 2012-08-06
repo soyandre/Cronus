@@ -1,26 +1,33 @@
 //===== Cronus Script ========================================
-//= Quest do Professor
+//= Quest de Classe - Professor
 //===== Por: =================================================
-//= rAthena Dev Team
+//= Nana
+//= finished, optimized and tested by Lupus
 //===== Versão Atual: ========================================
-//= 1.0
-//===== Compatível com: ======================================
-//= eAthena; rAthena; Cronus; brAthena; Maya SVN.
+//= 1.3c
+//===== Compatibilidade: =====================================
+//= Cronus SVN
 //===== Descrição: ===========================================
-//= Mudança de Classe para Professor
-//===== Comentários Adicionais: ==============================
-//= 1.0 Traduzido. [LyDe]
+//= Fazer um Mago T. se tornar um Professor
+//===== Comentários Adicional: ===============================
+//= 1.1 Made all into functions, additional checks, etc. [Lupus]
+//= 1.2 Made numbers into constants. [Vicious]
+//= 1.3 Now saves/restores all the quest skills [Lupus]
+//= 1.3a Traduzido. [.zuport]
+//= 1.3b Revisado. [Heaven]
+//= 1.3c Removido show, setjob	[Yum]
 //============================================================
 
 valkyrie,53,47,3	script	Professor#Valkyrie	743,{
 	if (ADVJOB == 0 || Upper != 1) {
-		mes "[Professor]";
 		set .@karma_d,rand(1,10);
 		if (.@karma_d > 4) {
+			mes "[Professor]";
 			mes "Parabéns.";
 			mes "Honra aos guerreiros!";
 			close;
 		}
+		mes "[Professor]";
 		mes "Isso leva uma vida toda...";
 		mes "Literalmente uma vida toda";
 		mes "para acumular o conhecimento";
@@ -35,7 +42,8 @@ valkyrie,53,47,3	script	Professor#Valkyrie	743,{
 		mes "Não existe fim no";
 		mes "processo de aprendizagem...";
 		close;
-	} else if (ADVJOB == Job_Professor && Class == Job_Mage_High && JobLevel > 39) {
+	}
+	else if (ADVJOB == Job_Professor && Class == Job_Mage_High && JobLevel > 39) {
 		mes "[Professor]";
 		mes "Rune-Midgard não";
 		mes "tem Professores suficientes";
@@ -56,14 +64,15 @@ valkyrie,53,47,3	script	Professor#Valkyrie	743,{
 			mes "Honra aos guerreiros!";
 			close;
 		}
-		mes "[Professor]";
 		if (SkillPoint) {
-			mes "Você ainda tem pontos de habilidade. Por favor,";
-			mes "use todos os pontos de habilidade restantes.";
+			mes "[Professor]";
+			mes "Ainda é possível para você aprender mais algumas habilidades. Por favor";
+			mes "use todos seus pontos de habilidade restantes antes de voltar aqui.";
 			close;
 		}
 		jobchange Job_Professor;
 		set ADVJOB,0;
+		mes "[Professor]";
 		mes "Parabéns!";
 		mes "Como Professor, eu espero";
 		mes "que você fará sua parte";
@@ -84,4 +93,3 @@ valkyrie,53,47,3	script	Professor#Valkyrie	743,{
 	mes "Honra aos guerreiros!";
 	close;
 }
-

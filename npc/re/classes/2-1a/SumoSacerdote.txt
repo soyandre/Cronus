@@ -1,75 +1,85 @@
 //===== Cronus Script ========================================
-//= Quest do Sumo Sacerdote 
+//= Quest de Classe - Sumo-Sacerdote
 //===== Por: =================================================
-//= rAthena Dev Team
+//= Nana
+//= finished, optimized and tested by Lupus
 //===== Versão Atual: ========================================
-//= 1.0
-//===== Compatível com: ======================================
-//= eAthena; rAthena; Cronus; brAthena; Maya SVN.
+//= 1.3c
+//===== Compatibilidade: =====================================
+//= Cronus SVN
 //===== Descrição: ===========================================
-//= Mudança de Classe para Sumo Sacerdote
+//= Fazer um Noviço T. se tornar um Sumo-Sacerdote
 //===== Comentários Adicionais: ==============================
-//= 1.0 Traduzido. [LyDe]
+//= v1.1 Made all into functions, additional checks, etc. [Lupus]
+//= v1.2 Made numbers into constants. [Vicious]
+//= 1.3 Now saves/restores all the quest skills [Lupus]
+//= 1.3a Traduzido. [.zuport]
+//= 1.3b Revisado. [Heaven]
+//= 1.3c Removido show, setjob	[Yum]
 //============================================================
 
-valkyrie,44,42,5	script	Sumo Sacerdote#Valkyrie	60,{
+valkyrie,44,42,5	script	Sumo-Sacerdote#Valkyrie	60,{
 	if (ADVJOB == 0 || Upper != 1) {
-		mes "[Sumo Sacerdote]";
 		set .@karma_d,rand(1,10);
 		if (.@karma_d > 4) {
+			mes "[Sumo-Sacerdote]";
 			mes "Parabéns.";
-			mes "Honre os guerreiros!";
+			mes "Honra aos guerreiros!";
 			close;
 		}
-		mes "Através do poder da";
-		mes "santidade, podemos";
-		mes "encontrar força, paz";
-		mes "e proteção. Livrai-nos";
+		mes "[Sumo-Sacerdote]";
+		mes "Através do poder";
+		mes "da santidade, nós podemos";
+		mes "encontrar paz, força";
+		mes "e proteção. Salvando-nos";
 		mes "das forças do mal...";
 		close;
-	} else if (ADVJOB == Job_High_Priest && Class == Job_Acolyte_High && JobLevel > 39) {
-		mes "[Sumo Sacerdote]";
+	}
+	else if (ADVJOB == Job_High_Priest && Class == Job_Acolyte_High && JobLevel > 39) {
+		mes "[Sumo-Sacerdote]";
 		mes "Nosso mundo está";
-		mes "carente de pessoas";
-		mes "com talento e convicção.";
-		mes "Por favor continue nossas";
-		mes "obras como um herói e";
-		mes "ainda com maior santidade...";
+		mes "necessitando de pessoas";
+		mes "com dom e convicção.";
+		mes "Por favor continue seus";
+		mes "bons trabalhos como um ainda";
+		mes "maior herói da santidade...";
 		next;
-		mes "[Sumo Sacerdote]";
-		mes "Você gostaria de se tornar";
-		mes "um Sumo Sacerdote?";
+		mes "[Sumo-Sacerdote]";
+		mes "Você quer se tornar";
+		mes "um Sumo-Sacerdote?";
 		next;
 		if (select("Não.:Sim.") == 1) {
+			mes "[Sumo-Sacerdote]";
 			mes "Quando você estiver pronto,";
-			mes "fique à vontade para voltar.";
-			mes "Honre os guerreiros!";
+			mes "sinta-se livre para voltar.";
+			mes "Honra aos guerreiros!";
 			close;
 		}
-		mes "[Sumo Sacerdote]";
 		if (SkillPoint) {
-			mes "Você ainda tem Pontos de Habilidade. Por favor,";
-			mes "use todos os seus Pontos de Habilidade e depois volte.";
+			mes "[Sumo-Sacerdote]";
+			mes "Ainda é possível para você aprender mais algumas habilidades. Por favor";
+			mes "use todos seus pontos de habilidade restantes antes de voltar aqui.";
 			close;
 		}
 		jobchange Job_High_Priest;
 		set ADVJOB,0;
+		mes "[Sumo-Sacerdote]";
 		mes "Parabéns.";
-		mes "Como um Sumo Sacerdote,";
+		mes "Como Sumo-Sacerdote,";
 		mes "Eu espero que você guie";
-		mes "outros no caminho da";
-		mes "santidade...";
+		mes "os outros pelo caminho";
+		mes "da santidade...";
 		close;
 	}
-	mes "[Sumo Sacerdote]";
-	mes "Bem-vindo à";
-	mes "Valhalla,";
-	mes "o Salão de Honra.";
+	mes "[Sumo-Sacerdote]";
+	mes "Bem-vindo";
+	mes "a Valhalla,";
+	mes "o Salão da Honra.";
 	next;
-	mes "[Sumo Sacerdote]";
-	mes "Por favor";
-	mes "sinta-se à vontade";
-	mes "enquanto estiver aqui.";
-	mes "Honre os guerreiros.";
+	mes "[Sumo-Sacerdote]";
+	mes "Por favor sinta-se";
+	mes "confortável enquanto";
+	mes "estiver aqui.";
+	mes "Honra aos guerreiros!";
 	close;
 }
