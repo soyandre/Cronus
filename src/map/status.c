@@ -8029,7 +8029,7 @@ int status_change_start(struct block_list* bl,enum sc_type type,int rate,int val
 			val2 = 10 * val1;
 			break;
 		case SC_HARMONIZE:
-			val2 = 3 + 2 * val1;
+			val2 = 5 + 5 * val1;
 			break;
 		case SC_VOICEOFSIREN:
 			val4 = tick / 2000;
