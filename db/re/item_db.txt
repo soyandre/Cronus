@@ -1,11 +1,21 @@
-// Items Database
-//
-// Structure of Database:
-// ID,AegisName,Name,Type,Buy,Sell,Weight,ATK,DEF,Range,Slots,Job,Upper,Gender,Loc,wLV,eLV,Refineable,View,{ Script },{ OnEquip_Script },{ OnUnequip_Script }
-//
-// Note (ATK field)
-// - in RE this field is able to store a optional value, for the weapons' matk
-// - You may use, for example: 10:25 for a item to give 10 atk and 25 weapon matk.
+//--------------------------------------------------------------
+// _________                                    
+// \_   ___ \_______  ____   ____  __ __  ______
+// /    \  \/\_  __ \/    \ /    \|  |  \/  ___/
+// \     \____|  | \(  ( ) )   |  \  |  /\___ \ 
+//  \______  /|__|   \____/|___|  /____//____  >
+//         \/                   \/           \/  
+//--------------------------------------------------------------
+// Banco de Dados de Itens
+//--------------------------------------------------------------
+// Estrutura do banco de dados:
+// ID,AegisName,Nome,Tipo,Compra,Venda,Peso,ATQ,DEF,Alcance,Slots,Job,Upper,Sexo,Loc,wLV,eLV,Refinavel,View,{ Script },{ OnEquip_Script },{ OnUnequip_Script }
+//--------------------------------------------------------------
+// Nota (campo ATQ)
+// - no RE pode-se armazenar neste campo um valor opcional, para matq da arma
+// - Para tal uso, veja o exemplo: 10:25 para um item que concede 10 de atq e 25 matq de arma.
+//--------------------------------------------------------------
+
 // Healing Items
 //=============================================================
 501,Poção_Vermelha,Poção Vermelha,0,50,,70,,,,,0xFFFFFFFF,7,2,,,,,,{ itemheal rand(45,65),0; },{},{}
