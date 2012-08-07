@@ -16822,54 +16822,70 @@ BUILDIN_FUNC(useatcmd)
 
 BUILDIN_FUNC(checkre)
 {
-	int num,flag=0;
+	int num;
+
 	num=script_getnum(st,2);
 	switch(num){
 		case 0:
 			#ifdef RENEWAL
-				flag = 1;
+				script_pushint(st, 1);
+			#else
+				script_pushint(st, 0);
 			#endif
 			break;
 		case 1:
 			#ifdef RENEWAL_CAST
-				flag = 1;
+				script_pushint(st, 1);
+			#else
+				script_pushint(st, 0);
 			#endif
 			break;
 		case 2:
 			#ifdef RENEWAL_DROP
-				flag = 1;
+				script_pushint(st, 1);
+			#else
+				script_pushint(st, 0);
 			#endif
 			break;
 		case 3:
 			#ifdef RENEWAL_EXP
-				flag = 1;
+				script_pushint(st, 1);
+			#else
+				script_pushint(st, 0);
 			#endif
 			break;
 		case 4:
 			#ifdef RENEWAL_LVDMG
-				flag = 1;
+				script_pushint(st, 1);
+			#else
+				script_pushint(st, 0);
 			#endif
 			break;
 		case 5:
 			#ifdef RENEWAL_CAST_VMIN
-				flag = 1;
+				script_pushint(st, 1);
+			#else
+				script_pushint(st, 0);
 			#endif
 			break;
 		case 6:
 			#ifdef RENEWAL_EDP
-				flag = 1;
+				script_pushint(st, 1);
+			#else
+				script_pushint(st, 0);
 			#endif
 			break;
 		case 7:
 			#ifdef RENEWAL_ASPD
-				flag = 1;
+				script_pushint(st, 1);
+			#else
+				script_pushint(st, 0);
 			#endif
 			break;
 		default:
-			ShowWarning("buildin_checkre: unknown parameter.\n");
+			ShowWarning("buildin_checkre: parâmetro desconhecido.\n");
 			break;
 	}
-	script_pushint(st, flag);
 	return 0;
 }
 
