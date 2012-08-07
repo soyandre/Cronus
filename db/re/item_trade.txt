@@ -372,7 +372,7 @@
 5394,507,100	// Bubblegum
 5812,507,100	// Hat Of Expert
 6000,475,100	// Ashes of Darkness
-6005,467,100	// New Year Rice Cake
+//6005,467,100	// New Year Rice Cake
 6006,499,100	// Rice Cake Delivery Box
 6007,499,100	// New Year Rice Cake Soup
 6009,499,100	// Big Fan Of Magic
@@ -1810,7 +1810,7 @@
 2568,475,100	// Loki's Muffler
 2858,475,100	// Guardian_Pendant
 6380,463,100	// Mora_Village_Coin
-6383,475,100	// Ropewa_Clues
+//6383,475,100	// Ropewa_Clues
 6384,475,100	// Ropewa_Ring
 6385,475,100	// Research_Tool_Bag
 6386,475,100	// Bathroom_Sample

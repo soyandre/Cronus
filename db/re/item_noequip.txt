@@ -48,10 +48,6 @@
 601,64 //Fly Wing - not really needed here but ...
 602,64 //Butterfly Wing - also not needed
 12212,64 //Giant Fly Wing
-14582,64
-14583,64
-14584,64
-14585,64
 
 //Zone 3 - Izlude Battle Arena
 601,128 //Fly Wing
