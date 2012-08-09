@@ -16,12 +16,13 @@
 *.ilk
 *.pdb
 *.suo
+/ipch
 /vcproj-10/map-server_sql
 /vcproj-10/char-server_sql
 /vcproj-10/login-server_sql
+/vcproj-10/mapcache
 *.opensdf
 *.sdf
-/vcproj-10/mapcache
 
 # Linux
 char-server_sql
@@ -30,4 +31,5 @@ map-server_sql
 config.log
 config.status
 Makefile
+
 
