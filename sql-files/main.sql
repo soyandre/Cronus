@@ -258,6 +258,8 @@ CREATE TABLE IF NOT EXISTS `guild_castle` (
   `visibleG5` int(11) unsigned NOT NULL default '0',
   `visibleG6` int(11) unsigned NOT NULL default '0',
   `visibleG7` int(11) unsigned NOT NULL default '0',
+  `visibleG8` int(11) unsigned NOT NULL default '0',
+  `visibleG9` int(11) unsigned NOT NULL default '0',
   PRIMARY KEY  (`castle_id`),
   KEY `guild_id` (`guild_id`)
 ) ENGINE=MyISAM;
