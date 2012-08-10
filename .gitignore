@@ -32,4 +32,5 @@ config.log
 config.status
 Makefile
 
-
+#Mac OS X
+*.DS_Store
