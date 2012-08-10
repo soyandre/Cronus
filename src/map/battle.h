@@ -433,6 +433,8 @@ extern struct Battle_Config
 	int quest_exp_rate;
 	int autotrade_mapflag;
 	int at_timeout;
+	int at_only_timeout;
+	int at_max_timeout;
 	int homunculus_autoloot;
 	int idle_no_autoloot;
 	int max_guild_alliance;
