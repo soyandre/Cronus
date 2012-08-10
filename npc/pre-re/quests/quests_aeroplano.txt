@@ -1155,7 +1155,7 @@ OnTimer36000:
 	end;
 OnTimer36500:
 	mapannounce "airplane_01", "*Kzzz...Drrrr...Boom! CRASH!*",bc_map,0x00FF00;
-	donpcevent "boom#air-6::OnAttack"; //6
+	specialeffect EF_SUI_EXPLOSION,AREA,"boom6#airplane";
 	end;
 OnTimer37000:
 	specialeffect EF_SUI_EXPLOSION,"boom7#airplane";
@@ -1229,7 +1229,7 @@ OnTimer61500:
 	end;
 OnTimer66500:
 	mapannounce "airplane_01", "*Bang! Bang Bang! Bang Bang! Bang Bang Bang!*",bc_map,0x00FF00;
-	donpcevent "Capitão do Aeroplano#02::OnAttack";
+	specialeffect EF_HIT5,AREA,"Airship Captain#02";
 	end;
 OnTimer67000:
 	specialeffect EF_SUI_EXPLOSION,"boom1#airplane";
