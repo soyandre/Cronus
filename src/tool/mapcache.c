@@ -6,6 +6,7 @@
 #include "../common/malloc.h"
 #include "../common/mmo.h"
 #include "../common/showmsg.h"
+#include "../config/renewal.h"
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -269,7 +270,7 @@ int do_init(int argc, char** argv)
 	if(!rebuild) {
 		map_cache_fp = fopen(map_cache_file, "rb");
 		if(map_cache_fp == NULL) {
-			ShowNotice("Cache de mapas existente não funciona, forçando o modo de recompilação\n");
+			ShowNotice("Cache de mapas existente nï¿½o funciona, forï¿½ando o modo de recompilaï¿½ï¿½o\n");
 			rebuild = 1;
 		} else
 			fclose(map_cache_fp);
@@ -317,12 +318,12 @@ int do_init(int argc, char** argv)
 		name[MAP_NAME_LENGTH_EXT-1] = '\0';
 		remove_extension(name);
 		if(find_map(name))
-			ShowInfo("Mapa '"CL_WHITE"%s"CL_RESET"' já está no cache.\n", name);
+			ShowInfo("Mapa '"CL_WHITE"%s"CL_RESET"' jï¿½ estï¿½ no cache.\n", name);
 		else if(read_map(name, &map)) {
 			cache_map(name, &map);
 			ShowInfo("Mapa '"CL_WHITE"%s"CL_RESET"' adicionado ao cache com sucesso.\n", name);
 		} else
-			ShowError("Mapa '"CL_WHITE"%s"CL_RESET"' não funciona.!\n", name);
+			ShowError("Mapa '"CL_WHITE"%s"CL_RESET"' nï¿½o funciona.!\n", name);
 
 	}
 
