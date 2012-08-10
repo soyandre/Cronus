@@ -1,14 +1,17 @@
-//===== Cronus Script =======================================
+//===== rAthena Script =======================================
+//= War of Emperium Second Edition
 //===== By: ==================================================
 //= L0ne_W0lf
 //===== Current Version: =====================================
-//= 1.1
+//= 1.0
 //===== Compatible With: =====================================
 //= rAthena SVN
+//===== Description: =========================================
+//= WoE SE Guild Flags in Juno and Rachel
 //===== Additional Comments: =================================
 //= 1.0 First Version [L0ne_W0lf]
-//= 1.1 Traduzido para pt_BR [LyDe]
 //============================================================
+
 // Juno
 yuno,109,167,5	script	Himinn	722,{
 	end;
