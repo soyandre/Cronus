@@ -225,9 +225,9 @@ void chrif_setpasswd(char *pwd)
 void chrif_checkdefaultlogin(void)
 {
 	if (strcmp(userid, "s1")==0 && strcmp(passwd, "p1")==0) {
-		ShowWarning("SECURITY WARNING - Using the default user/password s1/p1 is not recommended.\n");
-		ShowNotice("Please edit your 'login' table to create a proper inter-server user/password (gender 'S')\n");
-		ShowNotice("and then edit your user/password in conf/map_athena.conf (or conf/import/map_conf.txt)\n");
+		ShowWarning("AVISO DE SEGURANÇA - O uso do login/senha padrões s1/p1 não é recomendado.\n");
+		ShowNotice("Edite a tabela 'login' para criar uma certa configuração inter-server login/senha.\n");
+		ShowNotice("e depois edite o login/senha do map-athena.conf (ou conf/import/map_conf.txt)\n");
 	}
 }
 
@@ -237,11 +237,11 @@ int chrif_setip(const char* ip)
 	char ip_str[16];
 	char_ip = host2ip(ip);
 	if (!char_ip) {
-		ShowWarning("Failed to Resolve Char Server Address! (%s)\n", ip);
+		ShowWarning("Falha em desenvolver o IP do char-server! (%s)\n", ip);
 		return 0;
 	}
 	strncpy(char_ip_str, ip, sizeof(char_ip_str));
-	ShowInfo("Char Server IP Address : '"CL_WHITE"%s"CL_RESET"' -> '"CL_WHITE"%s"CL_RESET"'.\n", ip, ip2str(char_ip, ip_str));
+	ShowInfo("IP do char-server : '"CL_WHITE"%s"CL_RESET"' -> '"CL_WHITE"%s"CL_RESET"'.\n", ip, ip2str(char_ip, ip_str));
 	return 1;
 }
 
@@ -319,7 +319,7 @@ int chrif_save(struct map_session_data *sd, int flag)
 // connects to char-server (plaintext)
 int chrif_connect(int fd)
 {
-	ShowStatus("Logging in to char server...\n", char_fd);
+	ShowStatus("Fazendo login no char-server...\n", char_fd);
 	WFIFOHEAD(fd,60);
 	WFIFOW(fd,0) = 0x2af8;
 	memcpy(WFIFOP(fd,2), userid, NAME_LENGTH);
@@ -336,7 +336,7 @@ int chrif_connect(int fd)
 int chrif_sendmap(int fd)
 {
 	int i;
-	ShowStatus("Sending maps to char server...\n");
+	ShowStatus("Enviando mapas ao char-servr...\n");
 	// Sending normal maps, not instances
 	WFIFOHEAD(fd, 4 + instance_start * 4);
 	WFIFOW(fd,0) = 0x2afa;
@@ -359,7 +359,7 @@ int chrif_recvmap(int fd)
 		map_setipport(RFIFOW(fd,i), ip, port);
 	}
 	if (battle_config.etc_log)
-		ShowStatus("Received maps from %d.%d.%d.%d:%d (%d maps)\n", CONVIP(ip), port, j);
+		ShowStatus("Mapas recebidos de %d.%d.%d.%d:%d (%d mapas)\n", CONVIP(ip), port, j);
 
 	other_mapserver_count++;
 	return 0;
@@ -377,7 +377,7 @@ int chrif_removemap(int fd)
 
 	other_mapserver_count--;
 	if(battle_config.etc_log)
-		ShowStatus("remove map of server %d.%d.%d.%d:%d (%d maps)\n", CONVIP(ip), port, j);
+		ShowStatus("Removendo mapa do server %d.%d.%d.%d:%d (%d mapas)\n", CONVIP(ip), port, j);
 	return 0;
 }
 
@@ -428,7 +428,7 @@ int chrif_changemapserverack(int account_id, int login_id1, int login_id2, int c
 		return -1;
 
 	if (!login_id1) {
-		ShowError("map server change failed.\n");
+		ShowError("Mudança do map-server falhou.\n");
 		clif_authfail_fd(node->fd, 0);
 	} else
 		clif_changemapserver(node->sd, map_index, x, y, ntohl(ip), ntohs(port));
@@ -447,20 +447,20 @@ int chrif_connectack(int fd)
 	static bool char_init_done = false;
 
 	if (RFIFOB(fd,2)) {
-		ShowFatalError("Connection to char-server failed %d.\n", RFIFOB(fd,2));
+		ShowFatalError("Conexão ao char-server falhou %d.\n", RFIFOB(fd,2));
 		exit(EXIT_FAILURE);
 	}
 
-	ShowStatus("Successfully logged on to Char Server (Connection: '"CL_WHITE"%d"CL_RESET"').\n",fd);
+	ShowStatus("Êxito na conexão ao char-server (Conexão: '"CL_WHITE"%d"CL_RESET"').\n",fd);
 	chrif_state = 1;
 	chrif_connected = 1;
 
 	chrif_sendmap(fd);
 
-	ShowStatus("Event '"CL_WHITE"OnInterIfInit"CL_RESET"' executed with '"CL_WHITE"%d"CL_RESET"' NPCs.\n", npc_event_doall("OnInterIfInit"));
+	ShowStatus("Evento '"CL_WHITE"OnInterIfInit"CL_RESET"' executado com '"CL_WHITE"%d"CL_RESET"' NPCs.\n", npc_event_doall("OnInterIfInit"));
 	if( !char_init_done ) {
 		char_init_done = true;
-		ShowStatus("Event '"CL_WHITE"OnInterIfInitOnce"CL_RESET"' executed with '"CL_WHITE"%d"CL_RESET"' NPCs.\n", npc_event_doall("OnInterIfInitOnce"));
+		ShowStatus("Evento '"CL_WHITE"OnInterIfInitOnce"CL_RESET"' executado com '"CL_WHITE"%d"CL_RESET"' NPCs.\n", npc_event_doall("OnInterIfInitOnce"));
 		guild_castle_map_init();
 	}
 
@@ -505,7 +505,7 @@ static int chrif_reconnect(DBKey key, DBData *data, va_list ap)
 /// Called when all the connection steps are completed.
 void chrif_on_ready(void)
 {
-	ShowStatus("Map Server is now online.\n");
+	ShowStatus("Map-server está online!\n");
 	chrif_state = 2;
 	chrif_check_shutdown();
 
@@ -529,7 +529,7 @@ void chrif_on_ready(void)
 int chrif_sendmapack(int fd)
 {
 	if (RFIFOB(fd,2)) {
-		ShowFatalError("chrif : send map list to char server failed %d\n", RFIFOB(fd,2));
+		ShowFatalError("chrif : falha em enviar lista de mapas ao char-server %d\n", RFIFOB(fd,2));
 		exit(EXIT_FAILURE);
 	}
 
@@ -758,7 +758,7 @@ int chrif_searchcharid(int char_id)
 int chrif_changeemail(int id, const char *actual_email, const char *new_email)
 {
 	if (battle_config.etc_log)
-		ShowInfo("chrif_changeemail: account: %d, actual_email: '%s', new_email: '%s'.\n", id, actual_email, new_email);
+		ShowInfo("chrif_changeemail: conta: %d, email_atual: '%s', novo_email: '%s'.\n", id, actual_email, new_email);
 
 	chrif_check(-1);
 
@@ -1011,15 +1011,15 @@ int chrif_accountban(int fd)
 	{ 
 		switch (RFIFOL(fd,7)) { // status or final date of a banishment
 		case 1: clif_displaymessage(sd->fd, "Your account has 'Unregistered'."); break;
-		case 2: clif_displaymessage(sd->fd, "Your account has an 'Incorrect Password'..."); break;
-		case 3: clif_displaymessage(sd->fd, "Your account has expired."); break;
-		case 4: clif_displaymessage(sd->fd, "Your account has been rejected from server."); break;
-		case 5: clif_displaymessage(sd->fd, "Your account has been blocked by the GM Team."); break;
-		case 6: clif_displaymessage(sd->fd, "Your Game's EXE file is not the latest version."); break;
-		case 7: clif_displaymessage(sd->fd, "Your account has been prohibited to log in."); break;
-		case 8: clif_displaymessage(sd->fd, "Server is jammed due to over populated."); break;
+		case 2: clif_displaymessage(sd->fd, "Senha incorreta..."); break;
+		case 3: clif_displaymessage(sd->fd, "Sua conta expirou."); break;
+		case 4: clif_displaymessage(sd->fd, "Sua conta foi rejeitada pelo map-server."); break;
+		case 5: clif_displaymessage(sd->fd, "Sua conta foi bloqueada pela staff do server."); break;
+		case 6: clif_displaymessage(sd->fd, "Seu EXE do jogo não está na última versão."); break;
+		case 7: clif_displaymessage(sd->fd, "Sua conta foi proibida de fazer login."); break;
+		case 8: clif_displaymessage(sd->fd, "Servidor está lotado."); break;
 		case 9: clif_displaymessage(sd->fd, "Your account has not more authorised."); break;
-		case 100: clif_displaymessage(sd->fd, "Your account has been totally erased."); break;
+		case 100: clif_displaymessage(sd->fd, "Sua conta foi totalmente apagada."); break;
 		default:  clif_displaymessage(sd->fd, "Your account has not more authorised."); break;
 		}
 	}
@@ -1028,7 +1028,7 @@ int chrif_accountban(int fd)
 		time_t timestamp;
 		char tmpstr[2048];
 		timestamp = (time_t)RFIFOL(fd,7); // status or final date of a banishment
-		strcpy(tmpstr, "Your account has been banished until ");
+		strcpy(tmpstr, "Sua conta foi banida até ");
 		strftime(tmpstr + strlen(tmpstr), 24, "%d-%m-%Y %H:%M:%S", localtime(&timestamp));
 		clif_displaymessage(sd->fd, tmpstr);
 	}
@@ -1227,7 +1227,7 @@ int chrif_load_scdata(int fd)
 	
 	sd = map_id2sd(aid);
 	if (!sd) {
-		ShowError("chrif_load_scdata: Player of AID %d not found!\n", aid);
+		ShowError("chrif_load_scdata: Jogador de AID %d não encontrado!\n", aid);
 		return -1;
 	}
 	if (sd->status.char_id != cid) {
@@ -1339,7 +1339,7 @@ int chrif_char_online(struct map_session_data *sd)
 void chrif_on_disconnect(void)
 {
 	if( chrif_connected != 1 )
-		ShowWarning("Connection to Char Server lost.\n\n");
+		ShowWarning("Conexão ao char-server perdida.\n\n");
 	chrif_connected = 0;
 	
  	other_mapserver_count = 0; //Reset counter. We receive ALL maps from all map-servers on reconnect.
@@ -1524,7 +1524,7 @@ static int check_connect_char_server(int tid, unsigned int tick, int id, intptr_
 	{
 		if (!displayed)
 		{
-			ShowStatus("Attempting to connect to Char Server. Please wait.\n");
+			ShowStatus("Tentando conectar ao char-server. Aguarde.\n");
 			displayed = 1;
 		}
 
