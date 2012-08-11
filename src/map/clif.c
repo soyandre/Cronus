@@ -16988,7 +16988,7 @@ static int packetdb_readdb(void)
 		
 		clif_config.packet_db_ver = j?j:MAX_PACKET_VER;
 	}
-	ShowStatus("Done reading packet database from '"CL_WHITE"%s"CL_RESET"'. Using default packet version: "CL_WHITE"%d"CL_RESET".\n", "packet_db.txt", clif_config.packet_db_ver);
+	ShowStatus("Finalizada leitura do banco de pacotes em '"CL_WHITE"%s"CL_RESET"'. Usando versão de pacotes: "CL_WHITE"%d"CL_RESET".\n", "packet_db.txt", clif_config.packet_db_ver);
 	return 0;
 }
 

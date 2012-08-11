@@ -336,7 +336,7 @@ int do_init(int argc, char** argv)
 	fwrite(&header, sizeof(struct main_header), 1, map_cache_fp);
 	fclose(map_cache_fp);
 
-	ShowStatus("Fianlizando I/O da GRF\n");
+	ShowStatus("Finalizando I/O da GRF\n");
 	grfio_final();
 
 	ShowInfo("%d mapas em cache agora\n", header.map_count);

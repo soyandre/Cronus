@@ -1181,7 +1181,7 @@ void read_homunculus_expdb(void)
 			hexptbl[MAX_LEVEL - 1] = 0;
 		}
 		fclose(fp);
-		ShowStatus("Done reading '"CL_WHITE"%d"CL_RESET"' levels in '"CL_WHITE"%s"CL_RESET"'.\n", j, filename[i]);
+		ShowStatus("Finalizada leitura de '"CL_WHITE"%d"CL_RESET"' níveis em '"CL_WHITE"%s"CL_RESET"'.\n", j, filename[i]);
 	}
 }
 

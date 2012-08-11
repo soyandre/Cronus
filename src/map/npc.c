@@ -3558,14 +3558,14 @@ int npc_reload(void) {
 	//TODO: the following code is copy-pasted from do_init_npc(); clean it up
 	// Reloading npcs now
 	for (nsl = npc_src_files; nsl; nsl = nsl->next) {
-		ShowStatus("Loading NPC file: %s"CL_CLL"\r", nsl->name);
+		ShowStatus("Carregando NPC: %s"CL_CLL"\r", nsl->name);
 		npc_parsesrcfile(nsl->name,false);
 	}
-	ShowInfo ("Done loading '"CL_WHITE"%d"CL_RESET"' NPCs:"CL_CLL"\n"
-		"\t-'"CL_WHITE"%d"CL_RESET"' Warps\n"
-		"\t-'"CL_WHITE"%d"CL_RESET"' Shops\n"
+	ShowInfo ("Finalizado carregamento de '"CL_WHITE"%d"CL_RESET"' NPCs:"CL_CLL"\n"
+		"\t-'"CL_WHITE"%d"CL_RESET"' Portais\n"
+		"\t-'"CL_WHITE"%d"CL_RESET"' Lojas\n"
 		"\t-'"CL_WHITE"%d"CL_RESET"' Scripts\n"
-		"\t-'"CL_WHITE"%d"CL_RESET"' Spawn sets\n"
+		"\t-'"CL_WHITE"%d"CL_RESET"' Spawns\n"
 		"\t-'"CL_WHITE"%d"CL_RESET"' Mobs Cached\n"
 		"\t-'"CL_WHITE"%d"CL_RESET"' Mobs Not Cached\n",
 		npc_id - npc_new_min, npc_warp, npc_shop, npc_script, npc_mob, npc_cache_mob, npc_delay_mob);
@@ -3658,16 +3658,16 @@ int do_init_npc(void)
 
 	timer_event_ers = ers_new(sizeof(struct timer_event_data));
 	// process all npc files
-	ShowStatus("Loading NPCs...\r");
+	ShowStatus("Carregandos NPCs...\r");
 	for( file = npc_src_files; file != NULL; file = file->next ) {
-		ShowStatus("Loading NPC file: %s"CL_CLL"\r", file->name);
+		ShowStatus("Carregando NPC: %s"CL_CLL"\r", file->name);
 		npc_parsesrcfile(file->name,false);
 	}
-	ShowInfo ("Done loading '"CL_WHITE"%d"CL_RESET"' NPCs:"CL_CLL"\n"
-		"\t-'"CL_WHITE"%d"CL_RESET"' Warps\n"
-		"\t-'"CL_WHITE"%d"CL_RESET"' Shops\n"
+	ShowInfo ("Finalizada leitura de '"CL_WHITE"%d"CL_RESET"' NPCs:"CL_CLL"\n"
+		"\t-'"CL_WHITE"%d"CL_RESET"' Portais\n"
+		"\t-'"CL_WHITE"%d"CL_RESET"' Lojas\n"
 		"\t-'"CL_WHITE"%d"CL_RESET"' Scripts\n"
-		"\t-'"CL_WHITE"%d"CL_RESET"' Spawn sets\n"
+		"\t-'"CL_WHITE"%d"CL_RESET"' Spawns\n"
 		"\t-'"CL_WHITE"%d"CL_RESET"' Mobs Cached\n"
 		"\t-'"CL_WHITE"%d"CL_RESET"' Mobs Not Cached\n",
 		npc_id - START_NPC_NUM, npc_warp, npc_shop, npc_script, npc_mob, npc_cache_mob, npc_delay_mob);

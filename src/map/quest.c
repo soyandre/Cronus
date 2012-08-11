@@ -356,7 +356,7 @@ int quest_read_db(void)
 		k++;
 	}
 	fclose(fp);
-	ShowStatus("Done reading '"CL_WHITE"%d"CL_RESET"' entries in '"CL_WHITE"%s"CL_RESET"'.\n", k, "quest_db.txt");
+	ShowStatus("Finalizada leitura de '"CL_WHITE"%d"CL_RESET"' entradas em '"CL_WHITE"%s"CL_RESET"'.\n", k, "quest_db.txt");
 	return 0;
 }
 

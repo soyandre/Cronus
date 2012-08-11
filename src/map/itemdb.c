@@ -580,7 +580,7 @@ static void itemdb_read_itemgroup(void)
 	snprintf(path, 255, "%s/"DBPATH"item_group_db.txt", db_path);
 	memset(&itemgroup_db, 0, sizeof(itemgroup_db));
 	itemdb_read_itemgroup_sub(path);
-	ShowStatus("Done reading '"CL_WHITE"%s"CL_RESET"'.\n", "item_group_db.txt");
+	ShowStatus("Finalizada leitura de '"CL_WHITE"%s"CL_RESET"'.\n", "item_group_db.txt");
 	return;
 }
 
@@ -895,7 +895,7 @@ void itemdb_read_combos() {
 	
 	fclose(fp);
 	
-	ShowStatus("Done reading '"CL_WHITE"%lu"CL_RESET"' entries in '"CL_WHITE"item_combo_db"CL_RESET"'.\n", count);
+	ShowStatus("Finalizada leitura de '"CL_WHITE"%lu"CL_RESET"' entradas em '"CL_WHITE"item_combo_db"CL_RESET"'.\n", count);
 		
 	return;
 }
@@ -1181,7 +1181,7 @@ static int itemdb_readdb(void)
 
 		fclose(fp);
 
-		ShowStatus("Done reading '"CL_WHITE"%lu"CL_RESET"' entries in '"CL_WHITE"%s"CL_RESET"'.\n", count, filename[fi]);
+		ShowStatus("Finalizada leitura de '"CL_WHITE"%lu"CL_RESET"' entradas em '"CL_WHITE"%s"CL_RESET"'.\n", count, filename[fi]);
 	}
 
 	return 0;
@@ -1231,7 +1231,7 @@ static int itemdb_read_sqldb(void)
 		// free the query result
 		Sql_FreeResult(mmysql_handle);
 
-		ShowStatus("Done reading '"CL_WHITE"%lu"CL_RESET"' entries in '"CL_WHITE"%s"CL_RESET"'.\n", count, item_db_name[fi]);
+		ShowStatus("Finalizada leitura de '"CL_WHITE"%lu"CL_RESET"' entradas em '"CL_WHITE"%s"CL_RESET"'.\n", count, item_db_name[fi]);
 	}
 
 	return 0;

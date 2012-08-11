@@ -3061,10 +3061,10 @@ int map_readallmaps (void)
 	char map_cache_decode_buffer[MAX_MAP_SIZE];
 
 	if( enable_grf )
-		ShowStatus("Loading maps (using GRF files)...\n");
+		ShowStatus("Carregando mapas (usando arquivos GRF)...\n");
 	else
 	{
-		ShowStatus("Loading maps (using %s as map cache)...\n", map_cache_file);
+		ShowStatus("Carregando mapas (usando %s como map cache)...\n", map_cache_file);
 		if( (fp = fopen(map_cache_file, "rb")) == NULL )
 		{
 			ShowFatalError("Unable to open map cache file "CL_WHITE"%s"CL_RESET"\n", map_cache_file);
@@ -3081,7 +3081,7 @@ int map_readallmaps (void)
 
 	// Mapcache reading is now fast enough, the progress info will just slow it down so don't use it anymore [Shinryo]
 	if(!enable_grf)
-		ShowStatus("Loading maps (%d)..\n", map_num);
+		ShowStatus("Carregando mapas (%d)..\n", map_num);
 
 	for(i = 0; i < map_num; i++)
 	{
@@ -3089,7 +3089,7 @@ int map_readallmaps (void)
 
 		// show progress
 		if(enable_grf)
-			ShowStatus("Loading maps [%i/%i]: %s"CL_CLL"\r", i, map_num, map[i].name);
+			ShowStatus("Carregando mapas [%i/%i]: %s"CL_CLL"\r", i, map_num, map[i].name);
 
 		// try to load the map
 		if( !
@@ -3448,7 +3448,7 @@ int inter_config_read(char *cfgName)
 		else
 		if(strcmpi(w1,"use_sql_db")==0) {
 			db_use_sqldbs = config_switch(w2);
-			ShowStatus ("Using SQL dbs: %s\n",w2);
+			ShowStatus ("Usando banco de dados SQL: %s\n",w2);
 		} else
 		if(strcmpi(w1,"log_db_ip")==0)
 			strcpy(log_db_ip, w2);
@@ -3519,10 +3519,10 @@ int log_sql_init(void)
 	// log db connection
 	logmysql_handle = Sql_Malloc();
 
-	ShowInfo(""CL_WHITE"[SQL]"CL_RESET": Conectando com o banco de dados de Logs "CL_WHITE"%s"CL_RESET" At "CL_WHITE"%s"CL_RESET"...\n",log_db_db,log_db_ip);
+	ShowInfo(""CL_WHITE"[SQL]"CL_RESET": Conectando com o banco de dados de Logs "CL_WHITE"%s"CL_RESET" em "CL_WHITE"%s"CL_RESET"...\n",log_db_db,log_db_ip);
 	if ( SQL_ERROR == Sql_Connect(logmysql_handle, log_db_id, log_db_pw, log_db_ip, log_db_port, log_db_db) )
 		exit(EXIT_FAILURE);
-	ShowStatus(""CL_WHITE"[SQL]"CL_RESET": Successfully '"CL_GREEN"connected"CL_RESET"' to Database '"CL_WHITE"%s"CL_RESET"'.\n", log_db_db);
+	ShowStatus(""CL_WHITE"[SQL]"CL_RESET": '"CL_GREEN"Conectado"CL_RESET"' com sucesso ao Banco de Dados '"CL_WHITE"%s"CL_RESET"'.\n", log_db_db);
 
 	if( strlen(default_codepage) > 0 )
 		if ( SQL_ERROR == Sql_SetEncoding(logmysql_handle, default_codepage) )
