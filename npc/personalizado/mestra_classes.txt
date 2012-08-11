@@ -78,10 +78,10 @@ prontera,153,193,6	script	Job Master	123,{
 	if ((.@eac&EAJ_BASEMASK) == EAJ_NOVICE) {
 		if (JobLevel < .JobReq[0])
 			mes "Você precisa ter nível de classe "+.JobReq[0]+" para mudar para 1ª Classe.";
-		else if (Class == 4001 && .LastJob && lastJob) {
+		else if (Class == 4001 && .LastJob && lastjob) {
 			mes "Mudar de profissão?";
 			next;
-			Job_Menu(roclass((eaclass(lastJob)&EAJ_BASEMASK)|EAJL_UPPER)); }
+			Job_Menu(roclass((eaclass(lastjob)&EAJ_BASEMASK)|EAJL_UPPER)); }
 		else switch(Class) {
 			case 0: Job_Menu(1,2,3,4,5,6,23,4046,24,25,4023);
 			case 4001: Job_Menu(4002,4003,4004,4005,4006,4007);
@@ -94,10 +94,10 @@ prontera,153,193,6	script	Job Master	123,{
 		mes "Não há mais profissões disponíveis para você.";
 	else if (!(.@eac&EAJL_2) && JobLevel < .JobReq[1])
 		mes "Você precisa ter nível de classe "+.JobReq[1]+" para mudar para 2ª Classe.";
-	else if (.LastJob && lastJob && (.@eac&EAJL_UPPER)) {
+	else if (.LastJob && lastjob && (.@eac&EAJL_UPPER)) {
 		mes "Mudar de profissão?";
 		next;
-		Job_Menu(lastJob+4001);
+		Job_Menu(lastjob+4001);
 	}
 	else Job_Menu(.@j1,.@j2);
 	close;
@@ -126,7 +126,7 @@ function Job_Menu {
 		if (select(" ~ Mudar para classe ^0055FF"+jobname(.@i)+"^000000: ~ ^777777"+((getargcount() > 1)?"Voltar":"Cancelar")+"^000000")==1) {
 			mes "[Mestra das Classes]";
 			mes "Você agora é "+((Sex)?"um":"uma")+" "+jobname(.@i)+"!";
-			if (.@i==4001 && .LastJob) set lastJob, Class;
+			if (.@i==4001 && .LastJob) set lastjob, Class;
 			jobchange .@i;
 			if (.@i==4001 || .@i==4023) resetlvl(1);
 			specialeffect2 338; specialeffect2 432;
