@@ -11022,14 +11022,14 @@ BUILDIN_FUNC(successremovecards) {
 			item_tmp.nameid   = sd->status.inventory[i].card[c];
 			item_tmp.identify = 1;
 
-			if((flag=pc_additem(sd,&item_tmp,1,LOG_TYPE_SCRIPT))){	// 持てないならドロップ
+			if((flag=pc_additem(sd,&item_tmp,1,LOG_TYPE_SCRIPT))){
 				clif_additem(sd,0,0,flag);
 				map_addflooritem(&item_tmp,1,sd->bl.m,sd->bl.x,sd->bl.y,0,0,0,0);
 			}
 		}
 	}
 
-	if(cardflag == 1) {// カードを取り除いたアイテム所得
+	if(cardflag == 1) {
 		int flag;
 		struct item item_tmp;
 		memset(&item_tmp,0,sizeof(item_tmp));
@@ -11044,7 +11044,7 @@ BUILDIN_FUNC(successremovecards) {
 			item_tmp.card[j]=sd->status.inventory[i].card[j];
 
 		pc_delitem(sd,i,1,0,3,LOG_TYPE_SCRIPT);
-		if((flag=pc_additem(sd,&item_tmp,1,LOG_TYPE_SCRIPT))){	// もてないならドロップ
+		if((flag=pc_additem(sd,&item_tmp,1,LOG_TYPE_SCRIPT))){
 			clif_additem(sd,0,0,flag);
 			map_addflooritem(&item_tmp,1,sd->bl.m,sd->bl.x,sd->bl.y,0,0,0,0);
 		}
@@ -11098,10 +11098,10 @@ BUILDIN_FUNC(failedremovecards) {
 	}
 
 	if(cardflag == 1) {
-		if(typefail == 0 || typefail == 2){	// 武具損失
+		if(typefail == 0 || typefail == 2){
 			pc_delitem(sd,i,1,0,2,LOG_TYPE_SCRIPT);
 		}
-		if(typefail == 1){	// カードのみ損失（武具を返す）
+		if(typefail == 1){
 			int flag;
 			struct item item_tmp;
 			

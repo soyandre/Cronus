@@ -96,11 +96,9 @@ set .@falhar, 0;	// A remoção pode falhar? [1=Sim/0=Não]
 			successremovecards .@menu;
 			callsub F_MesThenClose, "O processo foi um grande sucesso, tudo ocorreu nos conformes.";	
 	
-		case 2:
-			callsub F_MesThenClose, "Eu vou precisar de 200.000z, mais 25.000z para cada carta em seu equipamento. Além disso, precisarei de 1 un. Fragmento Estelar e 1 un. Gema Amarela para realizar minha mágica.";
+		case 2: callsub F_MesThenClose, "Eu vou precisar de 200.000z, mais 25.000z para cada carta em seu equipamento. Além disso, precisarei de 1 un. Fragmento Estelar e 1 un. Gema Amarela para realizar minha mágica.";
 		
-		case 3:
-			callsub F_MesThenClose, "Que pena... T_T";
+		case 3: callsub F_MesThenClose, "Que pena... T_T";
 	}
 	
 	F_MesThenClose:

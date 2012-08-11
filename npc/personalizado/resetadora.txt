@@ -11,7 +11,7 @@
 //= 2.0 Otimizado e trocado variáveis pelas do npc_athena.conf [RoM]
 //= 2.1 Removidas as variáveis do npc_athena.conf (ele não existe mais). [RoM]
 //= 2.1a Removido show [Keoy]
-//= 2.2 Otimizado script [Mara]
+//= 2.2 Otimizado script [mkbu95]
 //============================================================
 
 prontera,158,193,6	script	Resetadora	77,{

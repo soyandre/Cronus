@@ -16,38 +16,57 @@
 
 prontera,128,200,6	script	Habilidades de Platina	94,{
 
-//========== Configuração: ==========
-// Custo para receber as habilidades:
-set .@custo,0;
-//===================================
+	// Custo para receber as habilidades:
+	set .@custo,0;
 
 	mes "[Habilidades de Platina]";
 	mes "Olá, você deseja receber suas habilidades extras?";
-	if(.@custo) mes "Irá custar "+.@custo+" Zeny.";
+	if (.@custo)
+		mes "Irá custar "+.@custo+" Zeny.";
 	next;
-	if(select("Sim","Não") == 2) close;
+	if (select("Sim, por favor:Não") == 2) {
+		mes "[Habilidades de Platina]";
+		mes "Tenha um bom dia...";
+		close;
+	}
+	
+	if (.@custo > Zeny) {
+		mes "[Habilidades de Platina]";
+		mes "Você não possui toda quantia de Zeny.";
+		close;
+	}
+	
+	set Zeny, Zeny - .@custo;
+
+	skill 142,1,0;
+	switch(BaseClass) {
+		case 0: if (Class !=23) skill 143,1,0; break;
+		case 1: skill 144,1,0; skill 145,1,0; skill 146,1,0; break;
+		case 2: skill 157,1,0; break;
+		case 3: skill 147,1,0; skill 148,1,0; break;
+		case 4: skill 156,1,0; break;
+		case 5: skill 153,1,0; skill 154,1,0; skill 155,1,0; break;
+		case 6: skill 149,1,0; skill 150,1,0; skill 151,1,0; skill 152,1,0; break;
+		default: break;
+	}
+	switch(roclass(eaclass()&EAJ_UPPERMASK)) {
+		case 7: skill 1001,1,0; break;
+		case 8: skill 1014,1,0; break;
+		case 9: skill 1006,1,0; break;
+		case 10: skill 1012,1,0; skill 1013,1,0; break;
+		case 11: skill 1009,1,0; break;
+		case 12: skill 1003,1,0; skill 1004,1,0; break;
+		case 14: skill 1002,1,0; break;
+		case 15: skill 1015,1,0; skill 1016,1,0; break;
+		case 16: skill 1007,1,0; skill 1008,1,0; skill 1017,1,0; skill 1018,1,0; skill 1019,1,0; break;
+		case 17: skill 1005,1,0; break;
+		case 18: skill 238,1,0; break;
+		case 19: skill 1010,1,0; break;
+		case 20: skill 1011,1,0; break;
+		default: break;
+	}
+
 	mes "[Habilidades de Platina]";
-	switch(BaseJob){		
-		case Job_Novice: callfunc("skill:add",.@custo,2,142,143);			
-		case Job_Swordman: callfunc("skill:add",.@custo,3,144,145,146);
-		case Job_Mage: callfunc("skill:add",.@custo,1,157);
-		case Job_Archer: callfunc("skill:add",.@custo,2,147,148);
-		case Job_Acolyte: callfunc("skill:add",.@custo,1,156);
-		case Job_Merchant: callfunc("skill:add",.@custo,3,153,154,155);
-		case Job_Thief: callfunc("skill:add",.@custo,4,149,150,151,152);
-		case Job_Knight: callfunc("skill:add",.@custo,4,144,145,146,1001);
-		case Job_Priest: callfunc("skill:add",.@custo,2,156,1014);
-		case Job_Wizard: callfunc("skill:add",.@custo,2,157,1006);
-		case Job_Blacksmith: callfunc("skill:add",.@custo,5,153,154,155,1012,1013);
-		case Job_Hunter: callfunc("skill:add",.@custo,3,147,148,1009);
-		case Job_Assassin: callfunc("skill:add",.@custo,6,149,150,151,152,1003,1004);
-		case Job_Crusader: callfunc("skill:add",.@custo,4,144,145,146,1002);
-		case Job_Monk: callfunc("skill:add",.@custo,3,156,1015,1016);
-		case Job_Sage: callfunc("skill:add",.@custo,2,157,1007);
-		case Job_Rogue: callfunc("skill:add",.@custo,5,149,150,151,152,1005);
-		case Job_Alchem: callfunc("skill:add",.@custo,4,153,154,155,238);
-		case Job_Bard: callfunc("skill:add",.@custo,3,147,148,1010);
-		case Job_Dancer: callfunc("skill:add",.@custo,3,147,148,1011);
-		default: callfunc("skill:add",.@custo,1,142);
-		}
+	mes "Prontinho!";
+	close;
 }

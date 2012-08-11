@@ -100,7 +100,7 @@ OnReset:
 	for(set .@i,1; .@i<4; set .@i,.@i+1)
 		donpcevent "Control Device0"+.@i+"#"+.@str$+"::OnDisable";
 	for(set .@i,0; .@i<4; set .@i,.@i+1)
-		donpcevent "RL"+.@i+"#"+strnpcinfo(2)+"::OnDisable";
+		donpcevent "RL"+.@i+"#"+strnpcinfo(2)+"::OnEnable";
 	if (agitcheck2())
 		setarray getd("$agit_"+substr(strnpcinfo(2),0,1)+substr(strnpcinfo(2),8,9)+"[0]"),0,0,1,1,1,0;
 	end;
