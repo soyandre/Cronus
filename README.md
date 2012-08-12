@@ -27,13 +27,11 @@ Equipe
 
 ### Desenvolvedores Core
 - Sicks 		- Bruno Sgambato
-- Wolf			- João Victor
 - Axl			- José Góis
 - Otonii		- Leandro Otoni
+- MaminhA		- Marcelo Liberato
 - mkbu95		- Matheus Macabu
 
 ### Desenvolvedores Script/DB
 - Spike			- Igor
-- J4ND3RS0N		- Janderson
-- Rhulio Victor		- Rhúlio Victor
-- Schrwaizer 		- Thiago Schrwaizer
+- Schrwaizer 	- Thiago Schrwaizer
