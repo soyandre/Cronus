@@ -23,6 +23,7 @@
 /vcproj-10/mapcache
 *.opensdf
 *.sdf
+/_ReSharper.Cronus-10
 
 # Linux
 char-server_sql

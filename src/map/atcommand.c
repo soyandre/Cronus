@@ -7352,13 +7352,13 @@ ACMD_FUNC(adopt)
 
 ACMD_FUNC(version)
 {
-	const char * revision;
+	const char* revision;
 
-	if ((revision = get_svn_revision()) != 0) {
-		sprintf(atcmd_output,"rAthena Version SVN r%s",revision);
+	if ( (revision = get_git_revision()) != 0 ) {
+		sprintf(atcmd_output,"Cronus %s Revisão %s",((atoi(get_git_revision()) != -1) ? "GIT" : "SVN"),revision);
 		clif_displaymessage(fd,atcmd_output);
 	} else 
-		clif_displaymessage(fd,"Cannot determine SVN revision");
+		clif_displaymessage(fd,"Não foi possível determinar a revisão.");
 
 	return 0;
 }

@@ -37,6 +37,8 @@ char **arg_v = NULL;
 
 char *SERVER_NAME = NULL;
 char SERVER_TYPE = ATHENA_SERVER_NONE;
+
+static char rA_git_version[50] = "";
 static char rA_svn_version[10] = "";
 
 #ifndef MINICORE	// minimalist Core
@@ -155,6 +157,28 @@ void signals_init (void)
 }
 #endif
 
+const char* get_git_revision(void)
+{
+	FILE *fp;
+
+	if (*rA_git_version)
+		return rA_git_version;
+
+	if ((fp = fopen(".git/refs/heads/master", "r")) != NULL) {
+		char line[64], rev[50];
+		if (fgets(line, sizeof(line), fp) && sscanf(line, "%s", &rev))
+			snprintf(rA_git_version, sizeof(rA_git_version), "%s", rev);
+		fclose(fp);
+	}
+	
+	if (!(*rA_git_version)) {
+		snprintf(rA_git_version, sizeof(rA_git_version), get_svn_revision());
+		return "-1";
+	}
+
+	return rA_git_version;
+}
+
 const char* get_svn_revision(void)
 {
 	FILE *fp;
@@ -173,7 +197,7 @@ const char* get_svn_revision(void)
 			{
 				// XML File format
 				while (fgets(line,sizeof(line),fp))
-					if (strstr(line,"revisão=")) break;
+					if (strstr(line,"revision=")) break;
 				if (sscanf(line," %*[^\"]\"%d%*[^\n]", &rev) == 1) {
 					snprintf(rA_svn_version, sizeof(rA_svn_version), "%d", rev);
 				}
@@ -221,7 +245,6 @@ const char* get_svn_revision(void)
 
 /*======================================
  *	CORE : Display title
- *  ASCII By CalciumKid 1/12/2011
  *--------------------------------------*/
 static void display_title(void)
 {
@@ -241,7 +264,7 @@ static void display_title(void)
 	ShowMessage(""CL_XXBL"          ("CL_BOLD"                                                         "CL_XXBL")"CL_CLL""CL_NORMAL"\n");
 	ShowMessage(""CL_WTBL"          (=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=)"CL_CLL""CL_NORMAL"\n\n");
 
-	ShowInfo("Revisão SVN: '"CL_WHITE"%s"CL_RESET"'.\n", get_svn_revision());
+	ShowInfo("Revisão %s: '"CL_WHITE"%s"CL_RESET"'.\n", ((atoi(get_git_revision()) != -1) ? "GIT" : "SVN"), get_git_revision());
 }
 
 // Warning if executed as superuser (root)

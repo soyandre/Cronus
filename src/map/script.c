@@ -16750,13 +16750,13 @@ BUILDIN_FUNC(is_function) {
 	return 0;
 }
 /**
- * get_revision() -> retrieves the current svn revision (if available)
+ * get_revision() -> retrieves the current git/svn revision (if available)
  **/
 BUILDIN_FUNC(get_revision) {
-	const char * revision;
+	const char* revision;
 
-	if ( (revision = get_svn_revision()) != 0 )
-		script_pushint(st,atoi(revision));
+	if ( (revision = get_git_revision()) != 0 )
+		script_pushstrcopy(st,revision);
 	else
 		script_pushint(st,-1);//unknown
 
