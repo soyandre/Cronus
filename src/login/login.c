@@ -241,7 +241,7 @@ void chrif_server_reset(int id)
 /// Called when the connection to Char Server is disconnected.
 void chrif_on_disconnect(int id)
 {
-	ShowStatus("Char-server '%s' disconectou-se.\n", server[id].name);
+	ShowStatus("Char-server '%s' desconectou-se.\n", server[id].name);
 	chrif_server_reset(id);
 }
 
@@ -320,7 +320,7 @@ int login_lan_config_read(const char *lancfgName)
 	char line[1024], w1[64], w2[64], w3[64], w4[64];
 
 	if((fp = fopen(lancfgName, "r")) == NULL) {
-		ShowWarning("Arquivo de configuração de suporte de LAN não foi encontrado: %s\n", lancfgName);
+		ShowWarning("Arquivo de configuração de suporte à LAN não foi encontrado: %s\n", lancfgName);
 		return 1;
 	}
 
@@ -346,7 +346,7 @@ int login_lan_config_read(const char *lancfgName)
 
 			if( (subnet[subnet_count].char_ip & subnet[subnet_count].mask) != (subnet[subnet_count].map_ip & subnet[subnet_count].mask) )
 			{
-				ShowError("%s: Erro na configuração: O char-server (%s) e map-server (%s) pertencem a diferentes subnetworks!\n", lancfgName, w3, w4);
+				ShowError("%s: Erro na configuração: O char-server (%s) e map-server (%s) pertencem a diferentes sub-redes!\n", lancfgName, w3, w4);
 				continue;
 			}
 
@@ -354,7 +354,7 @@ int login_lan_config_read(const char *lancfgName)
 		}
 	}
 
-	ShowStatus("Lida informação sobre %d subnetworks.\n", subnet_count);
+	ShowStatus("Lida informação sobre %d sub-redes.\n", subnet_count);
 
 	fclose(fp);
 	return 0;
@@ -365,16 +365,16 @@ int login_lan_config_read(const char *lancfgName)
 //-----------------------
 int parse_console(const char* command)
 {
-	ShowNotice("Comando de console: %s\n", command);
+	ShowNotice("Console de comando: %s\n", command);
 
-	if( strcmpi("desligar", command) == 0 || strcmpi("sair", command) == 0 || strcmpi("quit", command) == 0 || strcmpi("end", command) == 0 )
+	if( strcmpi("desligar", command) == 0 || strcmpi("sair", command) == 0 || strcmpi("desistir", command) == 0 || strcmpi("finalizar", command) == 0 )
 		runflag = 0;
 	else if( strcmpi("estado", command) == 0 || strcmpi("status", command) == 0 )
 		ShowInfo(CL_CYAN"Console: "CL_BOLD"Estou vivo."CL_RESET"\n");
 	else if( strcmpi("ajuda", command) == 0 )
 	{
-		ShowInfo("Para desligar o server:\n");
-		ShowInfo("  'desligar|sair|quit|end'\n");
+		ShowInfo("Para desligar o servidor:\n");
+		ShowInfo("  'desligar|sair|desistir|finalizar'\n");
 		ShowInfo("Para saber se o server está vivo:\n");
 		ShowInfo("  'estado|status'\n");
 		ShowInfo("Para criar nova conta:\n");
@@ -424,7 +424,7 @@ int parse_fromchar(int fd)
 	ARR_FIND( 0, ARRAYLENGTH(server), id, server[id].fd == fd );
 	if( id == ARRAYLENGTH(server) )
 	{// not a char server
-		ShowDebug("parse_fromchar: Desconectando sessão inválida #%d (não é char-server)\n", fd);
+		ShowDebug("parse_fromchar: Sessão inválida desconectada #%d (não é char-server)\n", fd);
 		set_eof(fd);
 		do_close(fd);
 		return 0;
@@ -517,7 +517,7 @@ int parse_fromchar(int fd)
 			// how many users on world? (update)
 			if( server[id].users != users )
 			{
-				ShowStatus("set users %s : %d\n", server[id].name, users);
+				ShowStatus("setar usuário %s : %d\n", server[id].name, users);
 
 				server[id].users = users;
 			}
@@ -536,13 +536,13 @@ int parse_fromchar(int fd)
 			RFIFOSKIP(fd,46);
 
 			if( e_mail_check(email) == 0 )
-				ShowNotice("Char-server '%s': Tentativa de criar email numa conta com email padrão RECUSADA - email inválido (conta: %d, ip: %s)\n", server[id].name, account_id, ip);
+				ShowNotice("Char-server '%s': Tentativa de criar email em uma conta com email padrão RECUSADA - email inválido (conta: %d, ip: %s)\n", server[id].name, account_id, ip);
 			else
 			if( !accounts->load_num(accounts, &acc, account_id) || strcmp(acc.email, "a@a.com") == 0 || acc.email[0] == '\0' )
-				ShowNotice("Char-server '%s': Tentativa de criar email numa conta com email padrão RECUSADA - conta não existe ou email da conta não é o padrão (conta: %d, ip: %s).\n", server[id].name, account_id, ip);
+				ShowNotice("Char-server '%s': Tentativa de criar email em uma conta com email padrão RECUSADA - conta não existe ou email da conta não é o padrão (conta: %d, ip: %s).\n", server[id].name, account_id, ip);
 			else {
 				memcpy(acc.email, email, 40);
-				ShowNotice("Char-server '%s': Criação de email numa conta conta com email padrão (conta: %d, novo email: %s, ip: %s).\n", server[id].name, account_id, email, ip);
+				ShowNotice("Char-server '%s': Criação de email em uma conta conta com email padrão (conta: %d, novo email: %s, ip: %s).\n", server[id].name, account_id, email, ip);
 				// Save
 				accounts->save(accounts, &acc);
 			}
@@ -606,7 +606,7 @@ int parse_fromchar(int fd)
 			RFIFOSKIP(fd, 86);
 
 			if( e_mail_check(actual_email) == 0 )
-				ShowNotice("Char-server '%s': Tentaiva de modificação de email numa conta (comando @email de GM), mas email atual é inválido (conta: %d, ip: %s)\n", server[id].name, account_id, ip);
+				ShowNotice("Char-server '%s': Tentaiva de modificação de email numa conta (comando @email de GM), mas o email atual é inválido (conta: %d, ip: %s)\n", server[id].name, account_id, ip);
 			else
 			if( e_mail_check(new_email) == 0 )
 				ShowNotice("Char-server '%s': Tentaiva de modificação de email numa conta (comando @email de GM) com um novo email inválido (conta: %d, ip: %s)\n", server[id].name, account_id, ip);
@@ -615,13 +615,13 @@ int parse_fromchar(int fd)
 				ShowNotice("Char-server '%s': Tentaiva de modificação de email numa conta (comando @email de GM) com email padrão (conta: %d, ip: %s)\n", server[id].name, account_id, ip);
 			else
 			if( !accounts->load_num(accounts, &acc, account_id) )
-				ShowNotice("Char-server '%s': Tentaiva de modificação de email numa conta (comando @email de GM), mas conta não existe (conta: %d, ip: %s).\n", server[id].name, account_id, ip);
+				ShowNotice("Char-server '%s': Tentaiva de modificação de email numa conta (comando @email de GM), mas a conta não existe (conta: %d, ip: %s).\n", server[id].name, account_id, ip);
 			else
 			if( strcmpi(acc.email, actual_email) != 0 )
-				ShowNotice("Char-server '%s': Tentaiva de modificação de email numa conta (comando @email de GM), mas email atual está incorreto (conta: %d (%s), email atual: %s, email proposto: %s, ip: %s).\n", server[id].name, account_id, acc.userid, acc.email, actual_email, ip);
+				ShowNotice("Char-server '%s': Tentaiva de modificação de email numa conta (comando @email de GM), mas o email atual está incorreto (conta: %d (%s), email atual: %s, email proposto: %s, ip: %s).\n", server[id].name, account_id, acc.userid, acc.email, actual_email, ip);
 			else {
 				safestrncpy(acc.email, new_email, 40);
-				ShowNotice("Char-server '%s': Modify an e-mail on an account (comando @email de GM) (conta: %d (%s), novo email: %s, ip: %s).\n", server[id].name, account_id, acc.userid, new_email, ip);
+				ShowNotice("Char-server '%s': Modificando um email em uma conta (comando @email de GM) (conta: %d (%s), novo email: %s, ip: %s).\n", server[id].name, account_id, acc.userid, new_email, ip);
 				// Save
 				accounts->save(accounts, &acc);
 			}
@@ -639,7 +639,7 @@ int parse_fromchar(int fd)
 			RFIFOSKIP(fd,10);
 
 			if( !accounts->load_num(accounts, &acc, account_id) )
-				ShowNotice("Char-server '%s': Erro na mudaça de status (conta: %d não encontrada, status sugerido %d, ip: %s).\n", server[id].name, account_id, state, ip);
+				ShowNotice("Char-server '%s': Erro na mudaça de status (conta: %d não encontrada, estado sugerido %d, ip: %s).\n", server[id].name, account_id, state, ip);
 			else
 			if( acc.state == state )
 				ShowNotice("Char-server '%s': Erro na mudaça de status - status atual é o status bom (conta: %d, status %d, ip: %s).\n", server[id].name, account_id, state, ip);
@@ -700,13 +700,13 @@ int parse_fromchar(int fd)
 					ShowNotice("Char-server '%s': Erro na requisição de Ban (conta: %d, data inválida, ip: %s).\n", server[id].name, account_id, ip);
 				else
 				if( timestamp <= time(NULL) || timestamp == 0 )
-					ShowNotice("Char-server '%s': Erro na requisição de Ban (conta: %d, nova data desbane a conta, ip: %s).\n", server[id].name, account_id, ip); //Alguém tem ideia melhor para "desbane"?
+					ShowNotice("Char-server '%s': Erro na requisição de Ban (conta: %d, nova data para desbanir a conta, ip: %s).\n", server[id].name, account_id, ip); //Alguém tem ideia melhor para "desbane"?
 				else
 				{
 					uint8 buf[11];
 					char tmpstr[24];
 					timestamp2string(tmpstr, sizeof(tmpstr), timestamp, login_config.date_format);
-					ShowNotice("Char-server '%s': Requisição de Ban (conta: %d, nova data final de banimento: %d (%s), ip: %s).\n", server[id].name, account_id, timestamp, tmpstr, ip);
+					ShowNotice("Char-server '%s': Requisição de Ban (conta: %d, nova data final do banimento: %d (%s), ip: %s).\n", server[id].name, account_id, timestamp, tmpstr, ip);
 
 					acc.unban_time = timestamp;
 
@@ -736,7 +736,7 @@ int parse_fromchar(int fd)
 				ShowNotice("Char-server '%s': Erro na mudança de sexo (conta: %d não-encontrada, ip: %s).\n", server[id].name, account_id, ip);
 			else
 			if( acc.sex == 'S' )
-				ShowNotice("Char-server '%s': Erro na mudança de sexo - conta para mudaça é conta de Servidor (conta: %d, ip: %s).\n", server[id].name, account_id, ip);
+				ShowNotice("Char-server '%s': Erro na mudança de sexo - conta para mudança é conta do Servidor (conta: %d, ip: %s).\n", server[id].name, account_id, ip);
 			else
 			{
 				unsigned char buf[7];
@@ -766,7 +766,7 @@ int parse_fromchar(int fd)
 			int account_id = RFIFOL(fd,4);
 
 			if( !accounts->load_num(accounts, &acc, account_id) )
-				ShowStatus("Char-server '%s': recebendo (do char-server) do account_reg2 (conta: %d não-encontrada, ip: %s).\n", server[id].name, account_id, ip);
+				ShowStatus("Char-server '%s': recebendo (do char-server) do account_reg2 (conta: %d não encontrada, ip: %s).\n", server[id].name, account_id, ip);
 			else
 			{
 				int len;
@@ -806,13 +806,13 @@ int parse_fromchar(int fd)
 			RFIFOSKIP(fd,6);
 
 			if( !accounts->load_num(accounts, &acc, account_id) )
-				ShowNotice("Char-server '%s': Erro na requisição de UnBan (conta: %d não-encontrada, ip: %s).\n", server[id].name, account_id, ip);
+				ShowNotice("Char-server '%s': Erro na requisição de remoção do banimento (conta: %d não encontrada, ip: %s).\n", server[id].name, account_id, ip);
 			else
 			if( acc.unban_time == 0 )
-				ShowNotice("Char-server '%s': Erro na requisição de UnBan (conta: %d, sem mudança de data do UnBan, ip: %s).\n", server[id].name, account_id, ip);
+				ShowNotice("Char-server '%s': Erro na requisição de remoção do banimento (conta: %d, sem mudança de data de remoção de banimento, ip: %s).\n", server[id].name, account_id, ip);
 			else
 			{
-				ShowNotice("Char-server '%s': requisição de UnBan (conta: %d, ip: %s).\n", server[id].name, account_id, ip);
+				ShowNotice("Char-server '%s': Requisição de remoção do banimento (conta: %d, ip: %s).\n", server[id].name, account_id, ip);
 				acc.unban_time = 0;
 				accounts->save(accounts, &acc);
 			}
@@ -900,7 +900,7 @@ int parse_fromchar(int fd)
 		break;
 
 		case 0x2737: //Request to set all offline.
-			ShowInfo("Pondo como offline as contas do char-sever %d.\n", id);
+			ShowInfo("Mudando como offline as contas do char-sever %d.\n", id);
 			online_db->foreach(online_db, online_db_setoffline, id);
 			RFIFOSKIP(fd,2);
 		break;
@@ -1006,7 +1006,7 @@ int mmo_auth(struct login_session_data* sd)
 
 		if( matched )
 		{
-			ShowInfo("DNSBL: (%s) Blacklisted. Usuário kickado.\n", r_ip);
+			ShowInfo("DNSBL: (%s) em lista negra. Usuário desconectado.\n", r_ip);
 			return 3;
 		}
 	}
@@ -1238,21 +1238,21 @@ void login_auth_failed(struct login_session_data* sd, int result)
 		case   0: error = "ID não-registrado."; break; // 0 = Unregistered ID
 		case   1: error = "Senha incorreta."; break; // 1 = Incorrect Password
 		case   2: error = "Conta expirou."; break; // 2 = This ID is expired
-		case   3: error = "Rejeitado do servidor."; break; // 3 = Rejected from Server
+		case   3: error = "Rejeitado pelo servidor."; break; // 3 = Rejected from Server
 		case   4: error = "Bloqueado pelo GM."; break; // 4 = You have been blocked by the GM Team
-		case   5: error = "Jogo não-atualizado."; break; // 5 = Your Game's EXE file is not the latest version
+		case   5: error = "Jogo não atualizado."; break; // 5 = Your Game's EXE file is not the latest version
 		case   6: error = "Banido."; break; // 6 = Your are Prohibited to log in until %s
 		case   7: error = "Servidor lotado."; break; // 7 = Server is jammed due to over populated
-		case   8: error = "Account limit from company"; break; // 8 = No more accounts may be connected from this company
-		case   9: error = "Ban by DBA"; break; // 9 = MSI_REFUSE_BAN_BY_DBA
+		case   8: error = "Limite de contas neste servidor."; break; // 8 = No more accounts may be connected from this company
+		case   9: error = "Banimento por DBA"; break; // 9 = MSI_REFUSE_BAN_BY_DBA
 		case  10: error = "Email não-confirmado"; break; // 10 = MSI_REFUSE_EMAIL_NOT_CONFIRMED
 		case  11: error = "Banido por GM"; break; // 11 = MSI_REFUSE_BAN_BY_GM
-		case  12: error = "Working in DB"; break; // 12 = MSI_REFUSE_TEMP_BAN_FOR_DBWORK
-		case  13: error = "Self Lock"; break; // 13 = MSI_REFUSE_SELF_LOCK
-		case  14: error = "Not Permitted Group"; break; // 14 = MSI_REFUSE_NOT_PERMITTED_GROUP
-		case  15: error = "Not Permitted Group"; break; // 15 = MSI_REFUSE_NOT_PERMITTED_GROUP
+		case  12: error = "Trabalhando no Banco de Dados"; break; // 12 = MSI_REFUSE_TEMP_BAN_FOR_DBWORK
+		case  13: error = "Bloqueio próprio"; break; // 13 = MSI_REFUSE_SELF_LOCK
+		case  14: error = "Grupo não permitido"; break; // 14 = MSI_REFUSE_NOT_PERMITTED_GROUP
+		case  15: error = "Grupo não permitido"; break; // 15 = MSI_REFUSE_NOT_PERMITTED_GROUP
 		case  99: error = "Conta apagada."; break; // 99 = This ID has been totally erased
-		case 100: error = "Login info remains."; break; // 100 = Login information remains at %s
+		case 100: error = "Informação de Login mantida."; break; // 100 = Login information remains at %s
 		case 101: error = "Conta sob investigação."; break; // 101 = Account has been locked for a hacking investigation. Please contact the GM Team for more information
 		case 102: error = "Investigação em relação a bug."; break; // 102 = This account has been temporarily prohibited from login due to a bug-related investigation
 		case 103: error = "Personagem sendo deletado."; break; // 103 = This character is being deleted. Login is temporarily unavailable for the time being
@@ -1305,8 +1305,8 @@ int parse_login(int fd)
 		// Perform ip-ban check
 		if( login_config.ipban && ipban_check(ipl) )
 		{
-			ShowStatus("Conexão recusada: IP não-autorizado (deny/allow, ip: %s).\n", ip);
-			login_log(ipl, "unknown", -3, "ip banned");
+			ShowStatus("Conexão recusada: IP não autorizado (negar/permitir, ip: %s).\n", ip);
+			login_log(ipl, "desconhecido", -3, "ip banido");
 			WFIFOHEAD(fd,23);
 			WFIFOW(fd,0) = 0x6a;
 			WFIFOB(fd,2) = 3; // 3 = Rejected from Server
@@ -1480,7 +1480,7 @@ int parse_login(int fd)
 			RFIFOSKIP(fd,86);
 
 			ShowInfo("Requisição de conexão do char-server '%s' @ %u.%u.%u.%u:%u (conta: '%s', senha: '%s', ip: '%s')\n", server_name, CONVIP(server_ip), server_port, sd->userid, sd->passwd, ip);
-			sprintf(message, "charserver - %s@%u.%u.%u.%u:%u", server_name, CONVIP(server_ip), server_port);
+			sprintf(message, "char-server - %s@%u.%u.%u.%u:%u", server_name, CONVIP(server_ip), server_port);
 			login_log(session[fd]->client_addr, sd->userid, 100, message);
 
 			result = mmo_auth(sd);
@@ -1583,14 +1583,14 @@ int login_config_read(const char* cfgName)
 		else if(!strcmpi(w1,"stdout_with_ansisequence"))
 			stdout_with_ansisequence = config_switch(w2);
 		else if(!strcmpi(w1,"console_silent")) {
-			ShowInfo("Console Silent Setting: %d\n", atoi(w2));
+			ShowInfo("Configuração silenciosa do Console: %d\n", atoi(w2));
 			msg_silent = atoi(w2);
 		}
 		else if( !strcmpi(w1, "bind_ip") ) {
 			char ip_str[16];
 			login_config.login_ip = host2ip(w2);
 			if( login_config.login_ip )
-				ShowStatus("Login server binding IP address : %s -> %s\n", w2, ip2str(login_config.login_ip, ip_str));
+				ShowStatus("Login-server que é ligado com o endereço de IP : %s -> %s\n", w2, ip2str(login_config.login_ip, ip_str));
 		}
 		else if( !strcmpi(w1, "login_port") ) {
 			login_config.login_port = (uint16)atoi(w2);
@@ -1684,7 +1684,7 @@ void do_final(void)
 {
 	int i;
 
-	login_log(0, "login server", 100, "desligamento do login server");
+	login_log(0, "login server", 100, "desligamento do login-server");
 	ShowStatus("Finalizando...\n");
 
 	if( login_config.log_login )
@@ -1800,7 +1800,7 @@ int do_init(int argc, char** argv)
 	accounts = get_account_engine();
 	if( accounts == NULL )
 	{
-		ShowFatalError("do_init: método de contas '%s' não-encontrado.\n", login_config.account_engine);
+		ShowFatalError("do_init: método de contas '%s' não encontrado.\n", login_config.account_engine);
 		exit(EXIT_FAILURE);
 	}
 	else
@@ -1828,8 +1828,8 @@ int do_init(int argc, char** argv)
 		runflag = LOGINSERVER_ST_RUNNING;
 	}
 
-	ShowStatus("O login-server está "CL_GREEN"pronto"CL_RESET" (Servidor está ouvindo pela porta %u).\n\n", login_config.login_port);
-	login_log(0, "login server", 100, "login server started");
+	ShowStatus("O login-server está "CL_GREEN"pronto"CL_RESET" (Servidor está funcionando pela porta %u).\n\n", login_config.login_port);
+	login_log(0, "login server", 100, "login server iniciado");
 
 	return 0;
 }

@@ -197,7 +197,7 @@ const char* get_svn_revision(void)
 			{
 				// XML File format
 				while (fgets(line,sizeof(line),fp))
-					if (strstr(line,"revision=")) break;
+					if (strstr(line,"revisão=")) break;
 				if (sscanf(line," %*[^\"]\"%d%*[^\n]", &rev) == 1) {
 					snprintf(rA_svn_version, sizeof(rA_svn_version), "%d", rev);
 				}
