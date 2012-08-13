@@ -1956,7 +1956,7 @@ ACMD_FUNC(go)
 	nullpo_retr(-1, sd);
  
 	if( map[sd->bl.m].flag.nogo && !pc_has_permission(sd, PC_PERM_WARP_ANYWHERE) ) {
-		clif_displaymessage(sd->fd,"You can not use @go on this map.");
+		clif_displaymessage(sd->fd,"Você não pode usar @go neste mapa.");
 		return 0;
 	}
  
@@ -2064,16 +2064,16 @@ ACMD_FUNC(go)
 		town = 29;
 	} else if (strncmp(map_name, "dicastes01", 3) == 0) {
 		town = 30;
-	} else if (strncmp(map_name, "mora", 3) == 0) {
-		town = 31;
-	} else if (strncmp(map_name, "dewata", 3) == 0) {
-		town = 32;
-	} else if (strncmp(map_name, "malangdo", 3) == 0) {
-		town = 33;
-	} else if (strncmp(map_name, "malaya", 3) == 0) {
-		town = 34;
-	} else if (strncmp(map_name, "eclage", 3) == 0) {
-		town = 35;
+	//} else if (strncmp(map_name, "mora", 3) == 0) {
+	//	town = 31;
+	//} else if (strncmp(map_name, "dewata", 3) == 0) {
+	//	town = 32;
+	//} else if (strncmp(map_name, "malangdo", 3) == 0) {
+	//	town = 33;
+	//} else if (strncmp(map_name, "malaya", 3) == 0) {
+	//	town = 34;
+	//} else if (strncmp(map_name, "eclage", 3) == 0) {
+	//	town = 35;
 	}
 
 	if (town >= 0 && town < ARRAYLENGTH(data))
