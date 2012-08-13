@@ -28,7 +28,6 @@ Equipe
 ### Desenvolvedores Core
 - Sicks 		- Bruno Sgambato
 - Axl			- José Góis
-- Otonii		- Leandro Otoni
 - MaminhA		- Marcelo Liberato
 - mkbu95		- Matheus Macabu
 
