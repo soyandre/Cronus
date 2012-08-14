@@ -454,10 +454,10 @@ void mapif_parse_accinfo(int fd) {
 		if ( SQL_ERROR == Sql_Query(sql_handle, "SELECT `account_id`,`name`,`class`,`base_level`,`job_level`,`online` FROM `char` WHERE `name` LIKE '%s' LIMIT 10", query_esq)
 				|| Sql_NumRows(sql_handle) == 0 ) {
 			if( Sql_NumRows(sql_handle) == 0 ) {
-				inter_to_fd(fd, u_fd, aid, "No matches were found for your criteria, '%s'",query);
+				inter_to_fd(fd, u_fd, aid, "Não foram encontrados resultados para seu critério, '%s'",query);
 			} else {
 				Sql_ShowDebug(sql_handle);
-				inter_to_fd(fd, u_fd, aid, "An error occured, bother your admin about it.");
+				inter_to_fd(fd, u_fd, aid, "Um erro ocorreu, incomode seu administrador sobre isso.");
 			}
 			Sql_FreeResult(sql_handle);
 			return;
@@ -467,7 +467,7 @@ void mapif_parse_accinfo(int fd) {
 				Sql_GetData(sql_handle, 0, &data, NULL); account_id = atoi(data);
 				Sql_FreeResult(sql_handle);
 			} else {// more than one, listing... [Dekamaster/Nightroad]
-				inter_to_fd(fd, u_fd, aid, "Your query returned the following %d results, please be more specific...",(int)Sql_NumRows(sql_handle));
+				inter_to_fd(fd, u_fd, aid, "Sua requisição retornou %d resultados, seja mais específico...",(int)Sql_NumRows(sql_handle));
 				while ( SQL_SUCCESS == Sql_NextRow(sql_handle) ) {
 					int class_;
 					short base_level, job_level, online;
@@ -480,7 +480,7 @@ void mapif_parse_accinfo(int fd) {
 					Sql_GetData(sql_handle, 4, &data, NULL); job_level = atoi(data);
 					Sql_GetData(sql_handle, 5, &data, NULL); online = atoi(data);
 					
-					inter_to_fd(fd, u_fd, aid, "[AID: %d] %s | %s | Level: %d/%d | %s", account_id, name, job_name(class_), base_level, job_level, online?"Online":"Offline");
+					inter_to_fd(fd, u_fd, aid, "[AID: %d] %s | %s | Nível: %d/%d | %s", account_id, name, job_name(class_), base_level, job_level, online?"Online":"Offline");
 				}
 				Sql_FreeResult(sql_handle);
 				return;
@@ -496,9 +496,9 @@ void mapif_parse_accinfo(int fd) {
 		if ( SQL_ERROR == Sql_Query(sql_handle, "SELECT `userid`, `user_pass`, `email`, `last_ip`, `group_id`, `lastlogin`, `logincount`, `state` FROM `login` WHERE `account_id` = '%d' LIMIT 1", account_id)
 			|| Sql_NumRows(sql_handle) == 0 ) {
 			if( Sql_NumRows(sql_handle) == 0 ) {
-				inter_to_fd(fd, u_fd, aid,  "No account with ID '%d' was found.", account_id );
+				inter_to_fd(fd, u_fd, aid,  "Nenhuma conta de ID '%d' foi encontrada.", account_id );
 			} else {
-				inter_to_fd(fd, u_fd, aid, "An error occured, bother your admin about it.");
+				inter_to_fd(fd, u_fd, aid, "Um erro ocorreu, incomode seu administrador sobre isso.");
 				Sql_ShowDebug(sql_handle);
 			}
 		} else {
@@ -518,25 +518,25 @@ void mapif_parse_accinfo(int fd) {
 		if (level == -1)
 			return;
 		
-		inter_to_fd(fd, u_fd, aid, "-- Account %d --", account_id );
-		inter_to_fd(fd, u_fd, aid, "User: %s | GM Group: %d | State: %d", userid, level, state );
+		inter_to_fd(fd, u_fd, aid, "-- Conta %d --", account_id );
+		inter_to_fd(fd, u_fd, aid, "Usuário: %s | Grupo de GM: %d | Estado: %d", userid, level, state );
 		
 		if (level < castergroup) /* only show pass if your gm level is greater than the one you're searching for */
-			inter_to_fd(fd, u_fd, aid, "Password: %s", user_pass );
+			inter_to_fd(fd, u_fd, aid, "Senha: %s", user_pass );
 		
-		inter_to_fd(fd, u_fd, aid, "Account e-mail: %s", email);
-		inter_to_fd(fd, u_fd, aid, "Last IP: %s (%s)", last_ip, geoip_getcountry(str2ip(last_ip)) );
-		inter_to_fd(fd, u_fd, aid, "This user has logged %d times, the last time were at %s", logincount, lastlogin );
-		inter_to_fd(fd, u_fd, aid, "-- Character Details --" );
+		inter_to_fd(fd, u_fd, aid, "Conta de email: %s", email);
+		inter_to_fd(fd, u_fd, aid, "Último IP: %s (%s)", last_ip, geoip_getcountry(str2ip(last_ip)) );
+		inter_to_fd(fd, u_fd, aid, "Este usuário logou %d vezes, a última vez foi em %s", logincount, lastlogin );
+		inter_to_fd(fd, u_fd, aid, "-- Detalhes do personagem --" );
 		
 		
 		if ( SQL_ERROR == Sql_Query(sql_handle, "SELECT `char_id`, `name`, `char_num`, `class`, `base_level`, `job_level`, `online` FROM `char` WHERE `account_id` = '%d' ORDER BY `char_num` LIMIT %d", account_id, MAX_CHARS)
 				|| Sql_NumRows(sql_handle) == 0 ) {
 		
 				if( Sql_NumRows(sql_handle) == 0 )
-					inter_to_fd(fd, u_fd, aid,"This account doesn't have characters.");
+					inter_to_fd(fd, u_fd, aid,"Esta conta não tem personagens.");
 				else {
-					inter_to_fd(fd, u_fd, aid,"An error occured, bother your admin about it.");
+					inter_to_fd(fd, u_fd, aid,"Um erro ocorreu, incomode seu administrador sobre isso.");
 					Sql_ShowDebug(sql_handle);
 				}
 			
@@ -554,7 +554,7 @@ void mapif_parse_accinfo(int fd) {
 				Sql_GetData(sql_handle, 5, &data, NULL); job_level = atoi(data);
 				Sql_GetData(sql_handle, 6, &data, NULL); online = atoi(data);
 				
-				inter_to_fd(fd, u_fd, aid, "[Slot/CID: %d/%d] %s | %s | Level: %d/%d | %s", char_num, char_id, name, job_name(class_), base_level, job_level, online?"On":"Off");
+				inter_to_fd(fd, u_fd, aid, "[Slot/CID: %d/%d] %s | %s | Nível: %d/%d | %s", char_num, char_id, name, job_name(class_), base_level, job_level, online?"On":"Off");
 			}
 		}
 		Sql_FreeResult(sql_handle);
@@ -741,7 +741,7 @@ static int inter_config_read(const char* cfgName)
 	}
 	fclose(fp);
 
-	ShowInfo ("finalizada leitura de %s.\n", cfgName);
+	ShowInfo ("Finalizada leitura de %s.\n", cfgName);
 
 	return 0;
 }
@@ -774,7 +774,7 @@ int inter_init_sql(const char *file)
 
 	//DB connection initialized
 	sql_handle = Sql_Malloc();
-	ShowInfo("Conectar Character DB server.... (Character Server)\n");
+	ShowInfo("Conectando à DB de chars.... (Character Server)\n");
 	if( SQL_ERROR == Sql_Connect(sql_handle, char_server_id, char_server_pw, char_server_ip, (uint16)char_server_port, char_server_db) )
 	{
 		Sql_ShowDebug(sql_handle);
