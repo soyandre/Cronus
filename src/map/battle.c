@@ -2021,11 +2021,19 @@ static struct Damage battle_calc_weapon_attack(struct block_list *src,struct blo
 				case WS_CARTTERMINATION:
 					i = 10 * (16 - skill_lv);
 					if (i < 1) i = 1;
-					//Preserve damage ratio when max cart weight is changed.
+#ifdef RENEWAL
+					if(sc && sc->data[SC_MAXOVERTHRUST])//Damage gets bigger when ussing MAXOVERTHRUST
+					skillratio += (sd->cart_weight/i * 100 )* sstatus->batk;
+					else if(sc && sc->data[SC_OVERTHRUST])//Damage gets bigger when ussing OVERTHRUST
+					skillratio += (sd->cart_weight/i * 25 )* sstatus->batk;
+					break;
+					skillratio +=  sd->cart_weight/i* sstatus->batk;				
+#else
 					if(sd && sd->cart_weight)
 						skillratio += sd->cart_weight/i * 80000/battle_config.max_cart_weight - 100;
 					else if (!sd)
 						skillratio += 80000 / i - 100;
+#endif
 					break;
 				case TK_DOWNKICK:
 					skillratio += 60 + 20*skill_lv;
