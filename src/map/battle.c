@@ -295,7 +295,7 @@ int battle_attr_fix(struct block_list *src, struct block_list *target, int damag
 
 	if (def_type < 0 || def_type > ELE_MAX ||
 		def_lv < 1 || def_lv > 4) {
-		ShowError("battle_attr_fix: unknown attr type: atk=%d def_type=%d def_lv=%d\n",atk_elem,def_type,def_lv);
+		ShowError("battle_attr_fix: attr desconhecida: atk=%d def_type=%d def_lv=%d\n",atk_elem,def_type,def_lv);
 		return damage;
 	}
 
@@ -1750,7 +1750,7 @@ static struct Damage battle_calc_weapon_attack(struct block_list *src,struct blo
 					if(wflag>0)
 						wd.damage/= wflag;
 					else
-						ShowError("0 enemies targeted by %d:%s, divide per 0 avoided!\n", skill_num, skill_get_name(skill_num));
+						ShowError("0 inimigos como alvo de: %d:%s, divisão por 0 evitada \n", skill_num, skill_get_name(skill_num));
 				}
 
 				//Add any bonuses that modify the base baseatk+watk (pre-skills)
@@ -2022,13 +2022,15 @@ static struct Damage battle_calc_weapon_attack(struct block_list *src,struct blo
 					i = 10 * (16 - skill_lv);
 					if (i < 1) i = 1;
 #ifdef RENEWAL
-					if(sc && sc->data[SC_MAXOVERTHRUST])//Damage gets bigger when ussing MAXOVERTHRUST
+					if(sc && sc->data[SC_MAXOVERTHRUST]){//Damage gets bigger when ussing MAXOVERTHRUST
 					skillratio += (sd->cart_weight/i * 100 )* sstatus->batk;
-					else if(sc && sc->data[SC_OVERTHRUST]){//Damage gets bigger when ussing OVERTHRUST
+					break;
+					}
+					if(sc && sc->data[SC_OVERTHRUST]){//Damage gets bigger when ussing OVERTHRUST
 					skillratio += (sd->cart_weight/i * 25 )* sstatus->batk;
 					break;
 					}
-					skillratio +=  sd->cart_weight/i* sstatus->batk;				
+					skillratio +=  sd->cart_weight/i* sstatus->batk;			
 #else
 					if(sd && sd->cart_weight)
 						skillratio += sd->cart_weight/i * 80000/battle_config.max_cart_weight - 100;
@@ -3475,7 +3477,7 @@ struct Damage battle_calc_magic_attack(struct block_list *src,struct block_list 
 					if(mflag>0)
 						ad.damage/= mflag;
 					else
-						ShowError("0 enemies targeted by %d:%s, divide per 0 avoided!\n", skill_num, skill_get_name(skill_num));
+						ShowError("0 inimigos como alvo de: %d:%s, divisão por 0 evitada\n", skill_num, skill_get_name(skill_num));
 				}
 
 				switch(skill_num){
@@ -3918,7 +3920,7 @@ struct Damage battle_calc_magic_attack(struct block_list *src,struct block_list 
 			if(mflag>0)
 				ad.damage+= (sstatus->rhw.atk2*skillratio/100)/mflag;
 			else
-				ShowError("Zero range by %d:%s, divide per 0 avoided!\n", skill_num, skill_get_name(skill_num));
+				ShowError("Alcançe de: %d:%s esta como 0, divisão por 0 evitada \n", skill_num, skill_get_name(skill_num));
 		}
 
 		if(ad.damage<1)
@@ -4235,7 +4237,7 @@ struct Damage battle_calc_misc_attack(struct block_list *src,struct block_list *
 		if(mflag>0)
 			md.damage/= mflag;
 		else
-			ShowError("0 enemies targeted by %d:%s, divide per 0 avoided!\n", skill_num, skill_get_name(skill_num));
+			ShowError("0 inimigos como alvo de: %d:%s, divisão por 0 evitada \n", skill_num, skill_get_name(skill_num));
 	}
 
 	damage_div_fix(md.damage, md.div_);
@@ -4381,7 +4383,7 @@ struct Damage battle_calc_attack(int attack_type,struct block_list *bl,struct bl
 	case BF_MAGIC:  d = battle_calc_magic_attack(bl,target,skill_num,skill_lv,count);  break;
 	case BF_MISC:   d = battle_calc_misc_attack(bl,target,skill_num,skill_lv,count);   break;
 	default:
-		ShowError("battle_calc_attack: unknown attack type! %d\n",attack_type);
+		ShowError("battle_calc_attack: Tipo de ataque desconhecido! %d\n",attack_type);
 		memset(&d,0,sizeof(d));
 		break;
 	}
@@ -5723,7 +5725,7 @@ int battle_set_value(const char* w1, const char* w2)
 
 	if (val < battle_data[i].min || val > battle_data[i].max)
 	{
-		ShowWarning("Value for setting '%s': %s is invalid (min:%i max:%i)! Defaulting to %i...\n", w1, w2, battle_data[i].min, battle_data[i].max, battle_data[i].defval);
+		ShowWarning("Valor a ser colocado '%s': %s é invalido (minimo:%i maximo:%i)! Colocando como %i...\n", w1, w2, battle_data[i].min, battle_data[i].max, battle_data[i].defval);
 		val = battle_data[i].defval;
 	}
 
@@ -5772,21 +5774,21 @@ void battle_adjust_conf()
 
 #if PACKETVER < 20100427
 	if( battle_config.feature_buying_store ) {
-		ShowWarning("conf/battle/feature.conf buying_store is enabled but it requires PACKETVER 2010-04-27 or newer, disabling...\n");
+		ShowWarning("conf/battle/feature.conf buying_store esta ativado mas requere um PACKETVER 2010-04-27 ou mais novo , desabilitando...\n");
 		battle_config.feature_buying_store = 0;
 	}
 #endif
 
 #if PACKETVER < 20100803
 	if( battle_config.feature_search_stores ) {
-		ShowWarning("conf/battle/feature.conf search_stores is enabled but it requires PACKETVER 2010-08-03 or newer, disabling...\n");
+		ShowWarning("conf/battle/feature.conf search_stores esta ativado mas requere um PACKETVER 2010-08-03 ou mais novo , desabilitando...\n");
 		battle_config.feature_search_stores = 0;
 	}
 #endif
 
 #ifndef CELL_NOSTACK
 	if (battle_config.cell_stack_limit != 1)
-		ShowWarning("Battle setting 'cell_stack_limit' takes no effect as this server was compiled without Cell Stack Limit support.\n");
+		ShowWarning("Battle setting 'cell_stack_limit' não tem efeito algum neste servidor pois ele foi compilado sem limite para Cell Stack. \n");
 #endif
 }
 
@@ -5816,7 +5818,7 @@ int battle_config_read(const char* cfgName)
 				battle_config_read(w2);
 			else
 			if (battle_set_value(w1, w2) == 0)
-				ShowWarning("Unknown setting '%s' in file %s\n", w1, cfgName);
+				ShowWarning("Configuração desconhecida '%s' in file %s\n", w1, cfgName);
 		}
 
 		fclose(fp);
