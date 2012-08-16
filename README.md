@@ -27,6 +27,7 @@ Equipe
 
 ### Desenvolvedores Core
 - Sicks 		- Bruno Sgambato
+- Joao Pedro	- João Pedro
 - Axl			- José Góis
 - MaminhA		- Marcelo Liberato
 - mkbu95		- Matheus Macabu
