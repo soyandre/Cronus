@@ -2024,9 +2024,10 @@ static struct Damage battle_calc_weapon_attack(struct block_list *src,struct blo
 #ifdef RENEWAL
 					if(sc && sc->data[SC_MAXOVERTHRUST])//Damage gets bigger when ussing MAXOVERTHRUST
 					skillratio += (sd->cart_weight/i * 100 )* sstatus->batk;
-					else if(sc && sc->data[SC_OVERTHRUST])//Damage gets bigger when ussing OVERTHRUST
+					else if(sc && sc->data[SC_OVERTHRUST]){//Damage gets bigger when ussing OVERTHRUST
 					skillratio += (sd->cart_weight/i * 25 )* sstatus->batk;
 					break;
+					}
 					skillratio +=  sd->cart_weight/i* sstatus->batk;				
 #else
 					if(sd && sd->cart_weight)
