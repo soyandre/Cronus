@@ -82,6 +82,17 @@ struct event_data {
 
 static struct eri *timer_event_ers; //For the npc timer data. [Skotlex]
 
+/* hello */
+static char *npc_last_path;
+static char *npc_last_ref;
+
+struct npc_path_data {
+	char* path;
+	unsigned short references;
+};
+struct npc_path_data *npc_last_npd;
+static DBMap *npc_path_db;
+
 //For holding the view data of npc classes. [Skotlex]
 static struct view_data npc_viewdb[MAX_NPC_CLASS];
 
@@ -1749,8 +1760,17 @@ int npc_unload(struct npc_data* nd, bool single) {
 	npc_chat_finalize(nd); // deallocate npc PCRE data structures
 #endif
 
-	if( nd->path )
-		aFree(nd->path);
+	if( single && nd->path ) {
+		struct npc_path_data* npd = NULL;
+		if( nd->path && nd->path != npc_last_ref ) {
+			npd = strdb_get(npc_path_db, nd->path);
+		}
+		
+		if( npd && --npd->references == 0 ) {
+			strdb_remove(npc_path_db, nd->path);/* remove from db */
+			aFree(nd->path);/* remove now that no other instances exist */
+		}
+	}
 	
 	if( (nd->subtype == SHOP || nd->subtype == CASHSHOP) && nd->src_id == 0) //src check for duplicate shops [Orcao]
 		aFree(nd->u.shop.shop_item);
@@ -1927,12 +1947,10 @@ static void npc_parsename(struct npc_data* nd, const char* name, const char* sta
 		char other_mapname[32];
 		int i = 0;
 
-		do
-		{
+		do {
 			++i;
 			snprintf(newname, ARRAYLENGTH(newname), "%d_%d_%d_%d", i, nd->bl.m, nd->bl.x, nd->bl.y);
-		}
-		while( npc_name2id(newname) != NULL );
+		} while( npc_name2id(newname) != NULL );
 
 		strcpy(this_mapname, (nd->bl.m==-1?"(not on a map)":mapindex_id2name(map[nd->bl.m].index)));
 		strcpy(other_mapname, (dnd->bl.m==-1?"(not on a map)":mapindex_id2name(map[dnd->bl.m].index)));
@@ -1943,8 +1961,30 @@ static void npc_parsename(struct npc_data* nd, const char* name, const char* sta
 		safestrncpy(nd->exname, newname, sizeof(nd->exname));
 	}
 	
-	CREATE(nd->path, char, strlen(filepath)+1);
-	safestrncpy(nd->path, filepath, strlen(filepath)+1);
+	if( npc_last_path != filepath ) {
+		struct npc_path_data * npd = NULL;
+		
+		if( !(npd = strdb_get(npc_path_db,filepath) ) ) {
+			CREATE(npd, struct npc_path_data, 1);
+			strdb_put(npc_path_db, filepath, npd);
+			
+			CREATE(npd->path, char, strlen(filepath)+1);
+			safestrncpy(npd->path, filepath, strlen(filepath)+1);
+			
+			npd->references = 1;
+		}
+		
+		nd->path = npd->path;
+		npd->references++;
+
+		npc_last_npd = npd;
+		npc_last_ref = npd->path;
+		npc_last_path = (char*) filepath;
+	} else {
+		nd->path = npc_last_ref;
+		if( npc_last_npd )
+			npc_last_npd->references++;
+	}
 }
 
 struct npc_data* npc_add_warp(short from_mapid, short from_x, short from_y, short xs, short ys, unsigned short to_mapindex, short to_x, short to_y)
@@ -3498,7 +3538,19 @@ void npc_read_event_script(void)
 			ShowInfo("%s: %d '%s' events.\n", config[i].name, script_event[i].event_count, config[i].event_name);
 	}
 }
-
+void npc_clear_pathlist(void) {
+	struct npc_path_data *npd = NULL;
+	DBIterator *path_list = db_iterator(npc_path_db);
+	
+	
+	/* free all npc_path_data filepaths */
+	for( npd = dbi_first(path_list); dbi_exists(path_list); npd = dbi_next(path_list) ) {
+		if( npd->path )
+			aFree(npd->path);
+	}
+	
+	dbi_destroy(path_list);
+}
 int npc_reload(void) {
 	struct npc_src_list *nsl;
 	int m, i;
@@ -3506,9 +3558,13 @@ int npc_reload(void) {
 	struct s_mapiterator* iter;
 	struct block_list* bl;
 
+	npc_clear_pathlist();
+	
+	db_clear(npc_path_db);
+
 	db_clear(npcname_db);
 	db_clear(ev_db);
-
+	
 	//Remove all npcs/mobs. [Skotlex]
 
 	iter = mapit_geteachiddb();
@@ -3556,16 +3612,16 @@ int npc_reload(void) {
 	//TODO: the following code is copy-pasted from do_init_npc(); clean it up
 	// Reloading npcs now
 	for (nsl = npc_src_files; nsl; nsl = nsl->next) {
-		ShowStatus("Carregando NPC: %s"CL_CLL"\r", nsl->name);
+		ShowStatus("Carregando NPCs: %s"CL_CLL"\r", nsl->name);
 		npc_parsesrcfile(nsl->name,false);
 	}
-	ShowInfo ("Finalizado carregamento de '"CL_WHITE"%d"CL_RESET"' NPCs:"CL_CLL"\n"
+	ShowInfo ("Carregamento concluÌdo '"CL_WHITE"%d"CL_RESET"' NPCs:"CL_CLL"\n"
 		"\t-'"CL_WHITE"%d"CL_RESET"' Portais\n"
 		"\t-'"CL_WHITE"%d"CL_RESET"' Lojas\n"
 		"\t-'"CL_WHITE"%d"CL_RESET"' Scripts\n"
 		"\t-'"CL_WHITE"%d"CL_RESET"' Mapas de Monstros\n"
-		"\t-'"CL_WHITE"%d"CL_RESET"' Monstros com cache\n"
-		"\t-'"CL_WHITE"%d"CL_RESET"' Monstros sem cache\n",
+		"\t-'"CL_WHITE"%d"CL_RESET"' Monstros em cache\n"
+		"\t-'"CL_WHITE"%d"CL_RESET"' Monstros fora do cache\n",
 		npc_id - npc_new_min, npc_warp, npc_shop, npc_script, npc_mob, npc_cache_mob, npc_delay_mob);
 
 	do_final_instance();
@@ -3605,6 +3661,7 @@ bool npc_unloadfile( const char* path ) {
 void do_clear_npc(void) {
 	db_clear(npcname_db);
 	db_clear(ev_db);
+}
 }
 /*==========================================
  * èIóπ
