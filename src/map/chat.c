@@ -332,12 +332,12 @@ int chat_createnpcchat(struct npc_data* nd, const char* title, int limit, bool p
 	nullpo_ret(nd);
 
 	if( nd->chat_id ) {
-		ShowError("chat_createnpcchat: npc '%s' already has a chatroom, cannot create new one!\n", nd->exname);
+		ShowError("chat_createnpcchat: npc '%s' já tem uma sala de bate-bapo, não pode criar uma nova!\n", nd->exname);
 		return 0;
 	}
 
 	if( zeny > MAX_ZENY || maxLvl > MAX_LEVEL ) {
-		ShowError("chat_createnpcchat: npc '%s' has a required lvl or amount of zeny over the max limit!\n", nd->exname);
+		ShowError("chat_createnpcchat: npc '%s' tem um level requerido e uma quantidade de zeny acima do limite máximo!\n", nd->exname);
 		return 0;
 	}
 

@@ -2019,8 +2019,8 @@
 4447,Carta_Centopéia,Carta Centopéia,6,20,,10,,,,,,,,32,,,,,{ bonus2 bSubEle,Ele_Poison,20; bonus2 bAddEle,Ele_Poison,5; },{},{}
 4448,Carta_Cornus,Carta Cornus,6,20,,10,,,,,,,,32,,,,,{ bonus2 bSubEle,Ele_Holy,20; bonus2 bAddEle,Ele_Holy,5; },{},{}
 4449,Carta_Sombra_Obscura,Carta Sombra Obscura,6,20,,10,,,,,,,,32,,,,,{ bonus2 bSubEle,Ele_Dark,20; bonus2 bAddEle,Ele_Dark,5; },{},{}
-4450,Carta_Banshee_Master,Carta Banshee Master,6,20,,10,,,,,,,,16,,,,,{ bonus bInt,1; bonus bMatk,10; },{},{}
-4451,Carta_Ant_Buyanne,Carta Ant Buyanne,6,20,,10,,,,,,,,16,,,,,{ bonus bMatk,100; },{},{}
+4450,Carta_Banshee_Master,Carta Banshee Master,6,20,,10,,,,,,,,16,,,,,{ bonus bInt,1; bonus bIntMatk,10; },{},{}
+4451,Carta_Ant_Buyanne,Carta Ant Buyanne,6,20,,10,,,,,,,,16,,,,,{ bonus bIntMatk,100; },{},{}
 4452,Carta_Larva_de_Centopéia,Carta Larva de Centopéia,6,20,,10,,,,,,,,2,,,,,{ bonus bInt,1; bonus bEquipmentMatk,3; },{},{}
 4453,Carta_Leão_da_Montanha,Carta Leão da Montanha,6,20,,10,,,,,,,,2,,,,,{ bonus bAtk,25; },{},{}
 4454,Carta_da_Falquíria,Carta da Falquíria,6,20,,10,,,,,,,,2,,,,,{},{},{}
@@ -2047,7 +2047,7 @@
 4475,Cobalt_Mineral_Card,Cobalt Mineral Card,6,20,,10,,,,,,,,2,,,,,{ bonus2 bMagicAddRace,RC_Formless,10; },{},{}
 4476,Pinguicula_Card,Pinguicula Card,6,20,,10,,,,,,,,2,,,,,{ bonus2 bMagicAddRace,RC_Insect,10; },{},{}
 4477,Hell_Apocalypse_Card,Hell_Apocalypse Card,6,20,,10,,,,,,,,2,,,,,{ bonus2 bMagicAddRace,RC_Demon,10; },{},{}
-4505,Scaraba_Card,Scaraba Card,6,20,,10,,,,,,,,136,,,,,{ bonus bMatk,20; bonus bMaxSPrate,-1; },{},{}
+4505,Scaraba_Card,Scaraba Card,6,20,,10,,,,,,,,136,,,,,{ bonus bIntMatk,20; bonus bMaxSPrate,-1; },{},{}
 4506,Dolomedes_Card,Dolomedes Card,6,20,,10,,,,,,,,769,,,,,{ bonus bDex,2; if(BaseClass==Job_Archer){ bonus bDex,getrefine()/3; } },{},{}
 4507,Queen_Scaraba_Card,Queen Scaraba Card,6,20,,10,,,,,,,,2,,,,,{},{},{}
 4508,Gold_Scaraba_Card,Gold Scaraba Card,6,20,,10,,,,,,,,136,,,,,{ bonus bBaseAtk,20; bonus bMaxHPrate,-1; },{},{}
@@ -2653,7 +2653,7 @@
 5567,Fúria_Brilhante,Fúria Brilhante,5,20,,300,,1,,1,0xFFFFFFFF,7,2,256,,1,1,548,{ bonus bStr,1; bonus2 bAddRace,RC_NonBoss,2; bonus2 bAddRace,RC_Boss,2; bonus bAspdRate,2; },{},{}
 5568,Boina_de_Coelho,Boina de Coelho,5,20,,1000,,1,,1,0xFFFFFFFF,7,2,768,,0,1,549,{ bonus bInt,2; },{},{}
 5569,Diadema_de_Gêmeos,Diadema de Gêmeos,5,20,,300,,4,,0,0xFFFFFFFF,7,2,256,,70,1,550,{ bonus bAgi,2; bonus bMatkRate,2; if(getrefine()>6) { bonus bMdef,7; bonus bMAtkRate,8; bonus2 bSubEle,Ele_Wind,5; } },{},{}
-5570,Coroa_de_Gêmeos,Coroa de Gêmeos,5,20,,300,,4,,0,0xFFFFFFFF,7,2,256,,70,1,551,{ bonus bAgi,2; bonus bAtk,2; bonus bMdef,5; if(getrefine()>6) { bonus bDef,1; bonus bMAtk,15; bonus bFlee,10; bonus2 bSubEle,Ele_Wind,5; } },{},{}
+5570,Coroa_de_Gêmeos,Coroa de Gêmeos,5,20,,300,,4,,0,0xFFFFFFFF,7,2,256,,70,1,551,{ bonus bAgi,2; bonus bAtk,2; bonus bMdef,5; if(getrefine()>6) { bonus bDef,1; bonus bIntMatk,15; bonus bFlee,10; bonus2 bSubEle,Ele_Wind,5; } },{},{}
 5572,Chapéu_de_Bebê_Selvagem,Chapéu de Bebê Selvagem,5,20,,100,,1,,1,0xFFFFFFFF,7,2,256,,1,1,553,{ bonus bVit,2; },{},{}
 5574,Lápis_Mordido,Lápis Mordido,5,20,,100,,0,,0,0xFFFFFFFF,7,2,1,,10,0,555,{ bonus bdex,2; bonus bHitRate,3; },{},{}
 5575,Chapéu_de_Onigiri,Chapéu de Onigiri,5,20,,100,,6,,1,0xFFFFFFFF,7,2,256,,30,0,556,{},{},{}
@@ -2709,8 +2709,8 @@
 5740,Diadema_de_Sagitário,Diadema de Sagitário,5,20,,300,,3,,0,0xFFFFFFFF,7,2,256,,1,1,618,{ bonus bDex,2; bonus bMdef,3; },{},{}
 5744,Coroa_de_Capricórnio,Coroa de Capricórnio,5,20,,300,,3,,1,0xFFFFFFFF,7,2,256,,1,1,621,{ bonus bVit,2; bonus bDex,2; },{},{}
 5745,Diadema_de_Capricórnio,Diadema de Capricórnio,5,20,,300,,3,,0,0xFFFFFFFF,7,2,256,,1,1,622,{ bonus bDex,2; bonus bMdef,5; },{},{}
-5746,Poder_das_Runas,Poder das Runas,5,20,,100,,12,,1,0x00000080,8,2,256,,100,1,623,{ bonus bStr,1; bonus bInt,1; bonus bMdef,5; if(readparam(bStr)>=120){ bonus bAtk,10; bonus bMatk,5; } },{},{}
-5747,Desejo_dos_Deuses,Desejo dos Deuses,5,20,,100,,12,,1,0x00000100,8,2,256,,100,1,624,{ bonus bVit,1; bonus bInt,1; bonus bMdef,5; bonus bHealPower,5; if(readparam(bInt)>=120){ bonus bMatk,10; } },{},{}
+5746,Poder_das_Runas,Poder das Runas,5,20,,100,,12,,1,0x00000080,8,2,256,,100,1,623,{ bonus bStr,1; bonus bInt,1; bonus bMdef,5; if(readparam(bStr)>=120){ bonus bAtk,10; bonus bIntMatk,5; } },{},{}
+5747,Desejo_dos_Deuses,Desejo dos Deuses,5,20,,100,,12,,1,0x00000100,8,2,256,,100,1,624,{ bonus bVit,1; bonus bInt,1; bonus bMdef,5; bonus bHealPower,5; if(readparam(bInt)>=120){ bonus bIntMatk,10; } },{},{}
 5748,Visão_do_Sentinela,Visão do Sentinela,5,20,,100,,12,,1,0x00000800,8,2,768,,100,1,625,{ bonus bAgi,1; bonus bDex,1; bonus bMdef,5; if(readparam(bAgi)>=120){ bonus bLongAtkRate,4; bonus bAspd,1; } },{},{}
 5749,Talento_do_Piloto,Talento do Piloto,5,20,,100,,12,,1,0x00000400,8,1,256,,100,1,626,{ bonus bStr,1; bonus bDex,1; bonus bMdef,5; if(readparam(bStr)>=120){ bonus bAtk,10; bonus bCritical,3; } },{},{}
 5750,Artifício_das_Sombras,Artifício das Sombras,5,20,,100,,12,,1,0x00020000,8,2,256,,100,1,627,{ bonus bAgi,1; bonus bInt,1; bonus bMdef,1; if(readparam(bAgi)>=120){ bonus bAtk,10; bonus bFlee,3; } },{},{}
@@ -4358,7 +4358,7 @@
 13050,Adaga_Valhalla_Iniciante,Adaga Valhalla Iniciante,4,0,,0,124:60,,1,0,0xFE9F7EEF,7,2,2,2,26,0,1,{},{},{}
 13051,Adaga_Valhalla_Intermediária,Adaga Valhalla Intermediária,4,0,,0,158:70,,1,0,0xFE9F7EEF,7,2,2,2,40,0,1,{},{},{}
 13061,Adaga_Negra,Adaga Negra,4,20,,600,142,,1,1,0x00020000,7,2,2,3,102,1,1,{ /* bonus2 bSkillAtk,"SC_FATALMENACE",30+(getrefine()*2); */ bonus bMatkRate,(getrefine()*3); },{},{}
-13062,Adaga_Ritualística,Adaga Ritualística,4,20,,600,107,,0,0,0x028F5EEE,2,2,2,4,120,1,1,{ /* bonus bWeaponMatk,120; */ bonus bMaxSP,100; bonus bSPrecovRate,5; bonus2 bAddEff2,Eff_Curse,50; },{},{}
+13062,Adaga_Ritualística,Adaga Ritualística,4,20,,600,107,,0,0,0x028F5EEE,2,2,2,4,120,1,1,{ /* bonus bEquipmentMatk,120; */ bonus bMaxSP,100; bonus bSPrecovRate,5; bonus2 bAddEff2,Eff_Curse,50; },{},{}
 13067,Afago,Afago,4,20,,700,107:70,,1,1,0xFE9F7EEF,2,2,2,3,30,1,1,{ bonus2 bHpDrainRate,50,10; },{},{}
 13070,Garra_Escarlate,Garra Escarlate,4,56000,,500,160:80,,1,0,0x000654E2,7,2,2,4,110,1,1,{ bonus bAtkEle,Ele_Fire; bonus2 bAddEff,Eff_Stone,100+(getrefine()*50); },{},{}
 // Revolvers
@@ -4778,7 +4778,7 @@
 18003,Bala_de_Canhão_Fantasma,Bala de Canhão Fantasma,10,200,,10,120,,,,0x00040400,8,2,32768,,99,,8,{ bonus bAtkEle,Ele_Ghost; },{},{}
 18004,Bala_de_Canhão_de_Ferro,Bala de Canhão de Ferro,10,500,,10,250,,,,0x00040400,8,2,32768,,99,,8,{},{},{}
 // More Bows
-18103,Arco_Místico,Arco Místico,4,0,,1700,75,,5,0,0x00000400,8,2,34,3,105,1,11,{ /* bonus bWeaponMatk,100; */ bonus bInt,4; },{},{}
+18103,Arco_Místico,Arco Místico,4,0,,1700,75,,5,0,0x00000400,8,2,34,3,105,1,11,{ /* bonus bEquipmentMatk,100; */ bonus bInt,4; },{},{}
 // More Headgears
 18505,Piercing_de_Umbala_[A],Piercing de Umbala [A],5,0,,200,,1,,1,0xFFFFFFFF,7,2,1,,30,0,675,{ bonus bVit,1; },{},{}
 18507,Orelhas_de_Elfo,Orelhas de Elfo,5,20,,100,,0,,1,0xFFFFFFFE,7,2,512,,70,0,73,{},{},{}
