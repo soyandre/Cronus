@@ -2,13 +2,13 @@
 //= Mercador de Manuk
 //===== Por: =================================================
 //= rAthena Dev Team
-//===== VersÃ£o Atual: ========================================
+//===== Versão Atual: ========================================
 //= 1.3
-//===== CompatÃ­vel com: ======================================
+//===== Compatível com: ======================================
 //= Cronus GIT
-//===== DescriÃ§Ã£o: ===========================================
+//===== Descrição: ===========================================
 //= Mercador de Manuk
-//===== ComentÃ¡rios Adicionais: ==============================
+//===== Comentários Adicionais: ==============================
 //= 1.0 First version 
 //= 1.1 Fixed checkweight. [Gepard]
 //= 1.2 Optimized. [Euphy]
@@ -19,18 +19,18 @@ man_in01,286,16,1	script	Mercador de Manuk	454,{
 	if ((isequipped(2782) == 1) && (ep13_2_rhea == 100)) {
 		if (checkweight(1201,1) == 0) {
 			mes "[Mercador de Manuk]";
-			mes "Parece que vocÃª estÃ¡ carregando itens demais.";
-			mes "Por que nÃ£o os pÃµe no ArmazÃ©m e depois retorna?";
+			mes "Parece que você está carregando itens demais.";
+			mes "Por que não os põe no Armazém e depois retorna?";
 			close;
 		}
 		mes "[Mercador de Manuk]";
-		mes "OlÃ¡.";
-		mes "O que vocÃª estÃ¡ procurando?";
+		mes "Olá.";
+		mes "O que você está procurando?";
 		next;
-		switch(select("Ver a descriÃ§Ã£o dos itens:Oportunidade de Manuk:Coragem de Manuk:FÃ© de Manuk:Cancelar")) {
+		switch(select("Ver a descrição dos itens:Oportunidade de Manuk:Coragem de Manuk:Fé de Manuk:Cancelar")) {
 		case 1:
 			mes "[Mercador de Manuk]";
-			mes "Aqui estÃ¡ a descriÃ§Ã£o dos itens.";
+			mes "Aqui está a descrição dos itens.";
 			close2;
 			ReadBook 11019,1;
 			end;
@@ -54,16 +54,16 @@ L_MercManuk:
 	mes "[Mercador de Manuk]";
 	mes "Eu posso lhe vender 3 "+getitemname(getarg(0))+" por apenas^3131FF 1 Moeda^000000";
 	next;
-	if(select("Comprar:NÃ£o comprar.") == 1) {
+	if(select("Comprar:Não comprar.") == 1) {
 		if (countitem(6080) > 0) {
 			mes "[Mercador de Manuk]";
-			mes "Obrigado pelo bom negÃ³cio.";
+			mes "Obrigado pelo bom negócio.";
 			delitem 6080,1; // Moeda Manuk
 			getitem getarg(0),3;
 			close;
 		} else {
 			mes "[Mercador de Manuk]";
-			mes "VocÃª nÃ£o tem moedas o suficente.";
+			mes "Você não tem moedas o suficente.";
 			close;
 		}
 	} else {

@@ -2,13 +2,13 @@
 //= Mercador de Splendide
 //===== Por: =================================================
 //= rAthena Dev Team
-//===== VersÃ£o Atual: ========================================
+//===== Versão Atual: ========================================
 //= 1.2
-//===== CompatÃ­vel com: ======================================
+//===== Compatível com: ======================================
 //= Cronus GIT
-//===== DescriÃ§Ã£o: ===========================================
+//===== Descrição: ===========================================
 //= Mercador de Splendide
-//===== ComentÃ¡rios Adicionais: ==============================
+//===== Comentários Adicionais: ==============================
 //= 1.0 First version 
 //= 1.1 Fixed checkweight. [Gepard]
 //= 1.2 Traduzido [LyDe]
@@ -18,18 +18,18 @@ spl_in01,110,326,5	script	Mercador de Splendide	439,{
 	if ((isequipped(2782) == 1) && (ep13_2_rhea == 100)) {
 		if (checkweight(1201,1) == 0) {
 			mes "[Mercador de Splendide]";
-			mes "EstÃ¡ parecendo que vocÃª estÃ¡ carregando muitos itens.";
-			mes "Por que vocÃª nÃ£o coloca algumas coisas no ArmazÃ©m e volta?";
+			mes "Está parecendo que você está carregando muitos itens.";
+			mes "Por que você não coloca algumas coisas no Armazém e volta?";
 			close;
 		}
 		mes "[Mercador de Splendide]";
-		mes "OlÃ¡.";
-		mes "O que vocÃª estÃ¡ procurando?";
+		mes "Olá.";
+		mes "O que você está procurando?";
 		next;
-		switch(select("Ver descriÃ§Ã£o dos itens:Comprar GelÃ©ia de Frutas de Pinguicula:Comprar GelÃ©ia de Mel de Vagalume:Comprar LÃ¡grimas de Cornus:Nada")) {
+		switch(select("Ver descrição dos itens:Comprar Geléia de Frutas de Pinguicula:Comprar Geléia de Mel de Vagalume:Comprar Lágrimas de Cornus:Nada")) {
 		case 1:
 			mes "[Mercador de Splendide]";
-			mes "VocÃª gostaria de ver as descriÃ§Ãµes dos itens?";
+			mes "Você gostaria de ver as descrições dos itens?";
 			close2;
 			ReadBook 11018,1;
 			end;
@@ -38,7 +38,7 @@ spl_in01,110,326,5	script	Mercador de Splendide	439,{
 		case 4: callsub S_BuySpl,12349; break;
 		case 5:
 			mes "[Mercador de Splendide]";
-			mes "Volte novamente se mudar de idÃ©ia.";
+			mes "Volte novamente se mudar de idéia.";
 			close;
 		}
 	}
@@ -53,22 +53,22 @@ S_BuySpl:
 	mes "[Mercador de Splendide]";
 	mes "Eu posso lhe vender 3 "+getitemname(getarg(0))+" por^3131FF 1 moeda^000000";
 	next;
-	if(select("Comprar.:NÃ£o Comprar.") == 1) {
+	if(select("Comprar.:Não Comprar.") == 1) {
 		if (countitem(6081) > 0) {
 			mes "[Mercador de Splendide]";
-			mes "Obrigado pela negociaÃ§Ã£o.";
+			mes "Obrigado pela negociação.";
 			delitem 6081,1; //Splendide_Coin
 			getitem getarg(0),3;
 			close;
 		}
 		else {
 			mes "[Mercador de Splendide]";
-			mes "VocÃª nÃ£o possui moedas o suficiente.";
+			mes "Você não possui moedas o suficiente.";
 			close;
 		}
 	} else {
 		mes "[Mercador de Splendide]";
-		mes "Volte novamente se mudar de idÃ©ia.";
+		mes "Volte novamente se mudar de idéia.";
 		close;
 	}
 }
