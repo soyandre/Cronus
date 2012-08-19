@@ -2784,6 +2784,9 @@ int status_calc_pc_(struct map_session_data* sd, bool first)
 			status->hp = 1;
 
 		status->sp = status->max_sp * battle_config.restart_sp_rate /100;
+		
+		if( !status->sp ) /* the minimum for the respawn setting is SP:1 */
+			status->sp = 1;
 	}
 
 // ----- MISC CALCULATION -----
