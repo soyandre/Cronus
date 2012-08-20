@@ -1837,11 +1837,11 @@ int mapif_parse_GuildMasterChange(int fd, int guild_id, const char* name, int le
 	return mapif_guild_master_changed(g, g->member[0].account_id, g->member[0].char_id);
 }
 
-// map server からの通信
-// ・１パケットのみ解析すること
-// ・パケット長データはinter.cにセットしておくこと
-// ・パケット長チェックや、RFIFOSKIPは呼び出し元で行われるので行ってはならない
-// ・エラーなら0(false)、そうでないなら1(true)をかえさなければならない
+// communication from the map server
+// Analysis that only one packet
+// Data packet length is set to inter.c that you
+// Do not go checking and packet length, RFIFOSKIP is done by the caller
+// (False), must return 1 (true) if error, 0 if otherwise.
 int inter_guild_parse_frommap(int fd)
 {
 	RFIFOHEAD(fd);
