@@ -447,7 +447,8 @@ int battle_calc_damage(struct block_list *src,struct block_list *bl,struct Damag
 			struct skill_unit_group* group = skill_id2group(sc->data[SC_SAFETYWALL]->val3);
 			if (group) {
 				/**
-				 * in RE, SW possesses a lifetime equal to 3 times the caster's health
+				  * According to data provided in RE, SW life is equal to this formula:
+				  7000 × (1 + 0,1 × Nível de Classe ÷ 50) + 300 × Nível da Habilidade + 65 × INT + SP Máximo
 				 **/
 			#ifdef RENEWAL
 				if ( ( group->val2 - damage) > 0 ) {
