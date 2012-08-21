@@ -10319,9 +10319,10 @@ struct skill_unit_group* skill_unitsetting (struct block_list *src, short skilli
 	case MG_SAFETYWALL:
 	#ifdef RENEWAL
 		/**
-		 * According to data provided in RE, SW life is equal to 3 times caster's health
+		 * According to data provided in RE, SW life is equal to this formula:
+		   7000 × (1 + 0,1 × Nível de Classe ÷ 50) + 300 × Nível da Habilidade + 65 × INT + SP Máximo 
 		 **/
-		val2 = status_get_max_hp(src) * 3;
+		val2 = 7000 * (1 + (status_get_lv(src) / 50) / 10) + 300 * skilllv + 65 * status->int_ +  status_get_sp(src);
 	#else
 		val2 = skilllv+1;
 	#endif
