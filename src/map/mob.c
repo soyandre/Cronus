@@ -2084,6 +2084,11 @@ void mob_damage(struct mob_data *md, struct block_list *src, int damage)
 
 	if (!src)
 		return;
+
+#if PACKETVER >= 20120404
+	if( src->type == BL_PC && !(md->status.mode&MD_BOSS) )
+		clif_monster_hp_bar(md, ((TBL_PC*)src)->fd);
+#endif 
 	
 	if( md->special_state.ai == 2 ) {//LOne WOlf explained that ANYONE can trigger the marine countdown skill. [Skotlex]
 		md->state.alchemist = 1;

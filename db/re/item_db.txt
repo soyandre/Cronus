@@ -1537,9 +1537,9 @@
 2783,Anel_da_Pedra_do_Olho,Anel da Pedra do Olho,5,20,,100,,0,,1,0xFFFFFFFF,7,2,136,,70,0,0,{ bonus bCritical,2; bonus bMaxSP,25; },{},{}
 2784,Caixinha_Noite_Feliz,Caixinha Noite Feliz,5,20,,100,,0,,0,0xFFFFFFFF,7,2,136,,1,0,0,{ skill "ALL_WEWISH",1; },{},{}
 2787,Broche_da_Gota_d'Água,Broche da Gota d'Água,5,20,,200,,0,,1,0xFFFFFFFF,2,2,136,,0,0,0,{ bonus bMdef,2; bonus bMaxHPrate,1; bonus2 bSubEle,Ele_Water,5; },{},{}
-2788,Brinco_de_Bradium,Brinco de Bradium,5,20,,200,,0,,1,0xFFFFFFFF,2,2,136,,0,0,0,{ /* bonus bEquipmentMatk,5; */ bonus bInt,1; bonus bDex,1; },{},{}
-2789,Anel_de_Bradium,Anel de Bradium,5,20,,200,,0,,1,0xFFFFFFFF,2,2,136,,0,0,0,{ bonus2 bAddRace,RC_Boss,2; bonus2 bAddRace,RC_NonBoss,2; bonus bStr,1; bonus bVit,1; },{},{}
-2790,Broche_de_Bradium,Broche de Bradium,5,20,,200,,0,,1,0xFFFFFFFF,2,2,136,,0,0,0,{ bonus bAgi,1; bonus bAspdRate,2; bonus bFlee,4; if(readparam(bAgi)>=120){ bonus bCritical,4; } },{},{}
+2788,Brinco_de_Bradium,Brinco de Bradium,5,20,,200,,0,,1,0xFFFFFFFF,2,2,136,,0,0,0,{ bonus bInt,1; bonus bDex,1; bonus bEquipmentMatk,5; },{},{}
+2789,Anel_de_Bradium,Anel de Bradium,5,20,,200,,0,,1,0xFFFFFFFF,2,2,136,,0,0,0,{ bonus bStr,1; bonus bVit,1; bonus bAtk,5; },{},{}
+2790,Broche_de_Bradium,Broche de Bradium,5,20,,200,,0,,1,0xFFFFFFFF,2,2,136,,0,0,0,{ bonus bAgi,1; bonus bFlee,4; if(readparam(bAgi)==120) bonus bCritical,4; },{},{}
 2794,Anel_de_Runa_Mágica,Anel de Runa Mágica,5,0,,0,,0,,1,0x00000080,7,2,136,,99,0,0,{ bonus bStr,2; },{},{}
 2795,Anel_de_Maçã_Verde,Anel de Maçã Verde,5,0,,0,,0,,0,0xFFFFFFFE,7,2,136,,99,0,0,{ if(JobLevel<30) { bonus bAllStats,6-(JobLevel/5); } },{},{}
 2796,Rocha_Mágica,Rocha Mágica,5,0,,200,,0,,0,0x00810204,7,2,136,,99,0,0,{ bonus2 bAddDamageClass,2047,10; bonus2 bAddDefClass,2048,-10; bonus3 bAddClassDropItem,6152,2047,70; },{},{}
