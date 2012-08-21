@@ -6,7 +6,7 @@ script: ./configure && make clean && make sql
 notifications:
   email:
     recipients:
-		- greenboxal@gmail.com
-		- kayu09@hotmail.com
-		- matheus.freitas97@gmail.com
-		- atendimento@virtuati.com.br
+      - greenboxal@gmail.com
+      - kayu09@hotmail.com
+      - matheus.freitas97@gmail.com
+      - atendimento@virtuati.com.br
