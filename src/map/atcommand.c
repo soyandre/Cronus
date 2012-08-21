@@ -4542,7 +4542,7 @@ ACMD_FUNC(loadnpc)
 ACMD_FUNC(unloadnpc)
 {
 	struct npc_data *nd;
-	char NPCname[NAME_LENGTH+1];
+	char NPCname[NPC_NAME_LENGTH+1];
 	nullpo_retr(-1, sd);
 
 	memset(NPCname, '\0', sizeof(NPCname));
@@ -4564,6 +4564,32 @@ ACMD_FUNC(unloadnpc)
 	return 0;
 }
 
+//Função reloadnpc - Recarrega a toda a lista de NPCs salvas no emulador sem recarregar os NPCs para carregar apenas o NPC solicitado [Raizen]
+ACMD_FUNC(reloadnpc)
+{
+	FILE *fp;
+
+	if (!message || !*message) {
+		clif_displaymessage(fd, "Por favor, informe o nome do arquivo (usando: @reloadnpc <nome do arquivo>).");
+		return -1;
+	}
+
+	// Checa se o arquivo existe
+	map_reloadnpc(true);
+	if ((fp = fopen(message, "r")) == NULL) {
+		clif_displaymessage(fd, msg_txt(261));
+		return -1;
+	}
+	fclose(fp);
+
+	// Roda a função
+	npc_parsesrcfile(message,true);
+	npc_read_event_script();
+
+	clif_displaymessage(fd, msg_txt(262));
+
+	return 0;
+}
 /*==========================================
  * time in txt for time command (by [Yor])
  *------------------------------------------*/
@@ -9120,6 +9146,8 @@ void atcommand_basecommands(void) {
 		 * For Testing Purposes, not going to be here after we're done.
 		 **/
 		ACMD_DEF2("newmount", new_mount),
+		//personalizados Cronus
+		ACMD_DEF(reloadnpc), //[Raizen]
 	};
 	AtCommandInfo* atcommand;
 	int i;
