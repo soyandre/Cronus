@@ -4,12 +4,12 @@ Cronus-Emulator
 * Portal: (http://portal.cronus-emulator.com/)
 * Forum: (http://forum.cronus-emulator.com/)
 
-Caso tenha dúvidas procure ajuda no forum, qualquer bug favor reportar [aqui](https://github.com/Cronus-Emulator/Cronus/issues).
+Caso tenha dúvidas procure ajuda no forum, qualquer bug favor reportar [aqui](http://forum.cronus-emulator.com/index.php?/tracker/).
 
 --------------
 Estado da compilação atual:
 
-[![Build Status](https://secure.travis-ci.org/Cronus-Emulator/Cronus.png?branch=master)](https://secure.travis-ci.org/#!/Cronus-Emulator/Cronus)
+[![Build Status](https://secure.travis-ci.org/Cronus-Emulator/Cronus.png?branch=master)](https://secure.travis-ci.org/Cronus-Emulator/Cronus)
 --------------
 
 Agradecimentos
@@ -23,7 +23,7 @@ Equipe
 ------
 ### Administradores
 - Cainho		- Caio Mateus
-- GreenBox		- Jonathan Lima
+- GreenBox	- Jonathan Lima
 - Matheus		- Matheus Freitas
 
 ### Coordenadores
@@ -33,7 +33,7 @@ Equipe
 ### Desenvolvedores Core
 - Sicks 		- Bruno Sgambato
 - Joao Pedro	- João Pedro
-- Axl			- José Góis
+- Axl			  - José Góis
 - MaminhA		- Marcelo Liberato
 - mkbu95		- Matheus Macabu
 
@@ -43,4 +43,4 @@ Equipe
 
 ### Desenvolvedores em Teste
 - GM Cold		- Marcio Montenegro
-- SBK			- Romulo
+- SBK			  - Romulo
