@@ -6,6 +6,11 @@ Cronus-Emulator
 
 Caso tenha dúvidas procure ajuda no forum, qualquer bug favor reportar [aqui](https://github.com/Cronus-Emulator/Cronus/issues).
 
+--------------
+Estado da compilação atual:
+
+[![Build Status](https://secure.travis-ci.org/Cronus-Emulator/Cronus.png?branch=master)](https://secure.travis-ci.org/#!/Cronus-Emulator/Cronus)
+--------------
 
 Agradecimentos
 --------------
