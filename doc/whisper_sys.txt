@@ -1,41 +1,49 @@
-//===== Athena Doc ========================================
-//= NPC Whisper System
-//===== By ================================================
+//===== Cronus DOC ========================================
+//= NPC: Sistema de PM.
+//===== Por ===============================================
 //= lordalfa, Massdriller
-//===== Version ===========================================
-//= 1.1
+//===== Versão ===========================================
+//= 1.2
 //=========================================================
-//= 1.1 - Cleanup. [Euphy]
-//===== Description =======================================
-//= A description of rAthena's NPC whispering system.
+//= 1.0 - Versão Inicial do rAthena. [lordalfa & Massdriller]
+//= 1.1 - Limpeza. [Euphy]
+//= 1.2 - Traduzido. [Schrwaizer]
+//===== Descrição =========================================
+//= Uma descrição do Sistema de PM para NPCs.
 //=========================================================
-
-This piece of code to allows characters to execute events in NPCs by whispering
-them up to ten parameters. The NPC must have an "OnWhisperGlobal" label, or an
-"event not found" error will result.
-
-	NPC:<NPC Name> 	<String>{#String 2{#...{#String 10}}}
-	
-The whispered strings are separated by the "#" character, and are each stored
-into separate temporary character string variables:
-
-	@whispervar0$, @whispervar1$, ... @whispervar9$
-
+ 
+Este pedaço de código permite que personagem executem eventos em NPCs os enviando
+mensagens com até dez parâmetros. O NPC deve conter a Label "OnWhisperGlobal", ou
+o erro "evento não encontrado"(Event not found) irá aparecer.
+ 
+        NPC:<Nome exato do NPC>  <Texto>{#Texto 2{#...{#Texto 10}}}
+       
+Os textos enviados são separados pelo símbolo "#", e são temporariamente salvos nas
+seguintes variáveis:
+ 
+        @whispervar0$, @whispervar1$, ... @whispervar9$
+ 
 ---------------------------------------------------------------------------------
-
-Below is an example of how this feature might be used.
-You whisper an NPC "NPCCommander" in-game with the following instructions:
-
-	NPC:NPCCommander	Report#Killstealing#Lordalfa
-
-The parameters are passed on to the "OnWhisperGlobal" label of the NPC, and can
-be processed accordingly:
-
-	-	script	NPCCommander	-1,{
-	OnWhisperGlobal:
-		// The following code will inform player "Lordalfa" that he has been
-		// reported for killstealing.
-		if (@whispervar0$ == "Report")
-			message @whispervar2$,"You have been reported for "+@whispervar1$+".";
-		end;
-	}
+ 
+     Exemplificação:
+A baixo há um exemplo de como esta função deve ser utilizada.
+Você envia uma mensagem para o npc "ComandoNPC" in-game com as seguintes instruções:
+ 
+        NPC:ComandoNPC        Reportar#KS#Lordalfa
+ 
+Os parâmetros são repassados para a label "OnWhisperGlobal", e podem ser processados
+da seguinte maneira:
+ 
+        -       script  ComandoNPC    -1,{
+        OnWhisperGlobal:
+                // Este código informará que o jogador "Lordalfa" deu KS em você.
+                if (@whispervar0$ == "Reportar" && @whispervar1$ == "KS")
+                {
+                message strcharinfo(0),"Você acaba de denunciar o jogador "+@whispervar2$+" por te dar KS.";
+                end;
+                }
+                message strcharinfo(0),"Mande uma mensagem com o texto Reportar#KS#Nome do Personagem para denunciar alguém que deu KS em você";
+                end;
+        }
+         
+---------------------------------------------------------------------------------
