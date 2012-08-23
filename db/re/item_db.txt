@@ -1503,7 +1503,7 @@
 2736,Piercing_da_Marinha,Piercing da Marinha,5,20,,100,,0,,0,0xFFFFFFFE,7,2,136,,75,0,0,{ bonus bDex,3; bonus bLuk,3; bonus bMdef,2; },{},{}
 2737,Tornozeleira_da_Marinha,Tornozeleira da Marinha,5,20,,150,,0,,0,0xFFFFFFFE,7,2,136,,75,0,0,{ bonus bVit,3; bonus bMaxHPRate,10; },{},{}
 2741,O_Zero_Anel_[A],O Zero Anel [A],5,20,,0,,0,,0,0xFFFFFFFF,7,2,136,,0,0,0,{ bonus bAllStats,1; bonus bNoCastCancel,0; bonus bCastRate,10; skill "AL_HEAL",1; skill "AL_TELEPORT",1; },{},{}
-2743,Anel_Angelical,Anel Angelical,5,20,,100,,0,,0,0x00CFFF80,2,2,136,,70,0,0,{ bonus bInt,2; bonus bDex,1; bonus bMdef,2; autobonus3 "{ bonus bHealPower,20; }",50,2000,"AL_HEAL"; autobonus3 "{ bonus bHealPower,20; }",50,2000,"AM_POTIONPITCHER"; autobonus3 "{ bonus bHealPower,20; }",50,2000,"PR_SANCTUARY"; },{},{}
+2743,Anel_Angelical,Anel Angelical,5,20,,100,,0,,0,0x00CFFF80,2,2,136,,70,0,0,{ bonus bInt,2; bonus bDex,1; bonus bMdef,2; autobonus3 "{ bonus bHealPower,20; }",50,3000,"AL_HEAL"; autobonus3 "{ bonus bHealPower,20; }",50,3000,"AM_POTIONPITCHER"; autobonus3 "{ bonus bHealPower,20; }",50,3000,"PR_SANCTUARY"; },{},{}
 2744,Anel_de_Corrida,Anel de Corrida,5,20,,100,,0,,0,0x00CFFF80,2,2,136,,70,0,0,{ bonus bCastrate,-10; bonus bDelayRate,5; },{},{}
 2745,Broche_de_Pinguicula,Broche de Pinguicula,5,20,,200,,0,,1,0x00CFFF80,2,2,136,,70,0,0,{ bonus bMdef,2; bonus bMaxSP,25; },{},{}
 2746,Coração_Frio,Coração Frio,5,20,,100,,1,,0,0x00001000,2,2,136,,80,0,0,{ bonus bAgi,3; },{},{}
