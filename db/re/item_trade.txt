@@ -1,19 +1,19 @@
-//Arquivo de restri√ß√£o de troca de item.
-//Especifique aqui as instru√ß√µes de troca ou drop de itens
-//Estrutura: Item ID, Defini√ß√£o, GM-Level para burlar
-//Valores de defini√ß√£o (somat√≥rios):
-//1: O item n√£o pode ser derrubado.
-//2: Item n√£o pode ser trocado/vendido.
-//4: Jogadores casados podem burlar a condi√ß√£o 2 (trocado/vendido).
-//8: Item n√£o pode ser vendido para NPCs.
-//16: Item n√£o pode ser colocado no carrinho.
-//32: Item n√£o pode ser colocado no armaz√©m.
-//64: Item n√£o pode ser colocado no armaz√©m do cl√£.
-//128: Item n√£o pode ser passado atrav√©s de e-mail.
-//256: Item n√£o pode ser colocado para Leil√£o.
+//Arquivo de restriÁ„o de troca de item.
+//Especifique aqui as instruÁıes de troca ou drop de itens
+//Estrutura: Item ID, DefiniÁ„o, GM-Level para burlar
+//Valores de definiÁ„o (somatÛrios):
+//1: O item n„o pode ser derrubado.
+//2: Item n„o pode ser trocado/vendido.
+//4: Jogadores casados podem burlar a condiÁ„o 2 (trocado/vendido).
+//8: Item n„o pode ser vendido para NPCs.
+//16: Item n„o pode ser colocado no carrinho.
+//32: Item n„o pode ser colocado no armazÈm.
+//64: Item n„o pode ser colocado no armazÈm do cl„.
+//128: Item n„o pode ser passado atravÈs de e-mail.
+//256: Item n„o pode ser colocado para Leil„o.
 // Exemplo de uso da Estrutura:
-//1161,67,50 //Balmung: N√£o dropa, N√£o troca, N√£o vai ao armaz√©m de cl√£. (1+2+64 =67),
-//Apenas GMs de n√≠vel acima de 50 podem burlar esta configura√ß√£o.
+//1161,67,50 //Balmung: N„o dropa, N„o troca, N„o vai ao armazÈm de cl„. (1+2+64 =67),
+//Apenas GMs de nÌvel acima de 50 podem burlar esta configuraÁ„o.
 
 // Wedding Related items
 2634,507,100	// Wedding Ring
