@@ -2139,25 +2139,7 @@ int mob_dead(struct mob_data *md, struct block_list *src, int type)
 
 	if(src && src->type == BL_MOB)
 		mob_unlocktarget((struct mob_data *)src,tick);
-	
-	if( sd ) {
-		if( sd->mission_mobid == md->class_) { //TK_MISSION [Skotlex]
-			if( ++sd->mission_count >= 100 && (temp = mob_get_random_id(0, 0xE, sd->status.base_level)) )
-			{
-				pc_addfame(sd, 1);
-				sd->mission_mobid = temp;
-				pc_setglobalreg(sd,"TK_MISSION_ID", temp);
-				sd->mission_count = 0;
-				clif_mission_info(sd, temp, 0);
-			}
-			pc_setglobalreg(sd,"TK_MISSION_COUNT", sd->mission_count);
-		}
-		if( sd->status.party_id )
-			map_foreachinrange(quest_update_objective_sub,&md->bl,AREA_SIZE,BL_PC,sd->status.party_id,md->class_);
-		else if( sd->avail_quests )
-			quest_update_objective(sd, md->class_);
-	}
-
+		
 	// filter out entries not eligible for exp distribution
 	memset(tmpsd,0,sizeof(tmpsd));
 	for(i = 0, count = 0, mvp_damage = 0; i < DAMAGELOG_SIZE && md->dmglog[i].id; i++)
@@ -2390,8 +2372,11 @@ int mob_dead(struct mob_data *md, struct block_list *src, int type)
 			if (sd && sd->sc.data[SC_ITEMBOOST]) // now rig the drop rate to never be over 90% unless it is originally >90%.
 				drop_rate = max(drop_rate,cap_value((int)(0.5+drop_rate*(sd->sc.data[SC_ITEMBOOST]->val1)/100.),0,9000));
 #ifdef RENEWAL_DROP
-			if(drop_modifier != 100 && !md->db->mexp)
+			if(drop_modifier != 100 && !md->db->mexp) {
 				drop_rate = drop_rate * drop_modifier / 100;
+				if( drop_rate < 1 )
+					drop_rate = 1;
+			}
 #endif
 			// attempt to drop the item
 			if (rnd() % 10000 >= drop_rate)
@@ -2555,37 +2540,48 @@ int mob_dead(struct mob_data *md, struct block_list *src, int type)
 		mvp_sd = NULL;
 
 	rebirth =  ( md->sc.data[SC_KAIZEL] || (md->sc.data[SC_REBIRTH] && !md->state.rebirth) );
-	if( !rebirth )
-	{ // Only trigger event on final kill
+	if( !rebirth ) { // Only trigger event on final kill
 		md->status.hp = 0; //So that npc_event invoked functions KNOW that mob is dead
-		if( src )
-			switch( src->type )
-			{
+		if( src ) {
+			switch( src->type ) {
 				case BL_PET: sd = ((TBL_PET*)src)->msd; break;
 				case BL_HOM: sd = ((TBL_HOM*)src)->master; break;
 				case BL_MER: sd = ((TBL_MER*)src)->master; break;
+				case BL_ELEM: sd = ((TBL_ELEM*)src)->master; break;
 			}
+		}
 
-		if( sd && sd->md && src && src->type != BL_HOM && mob_db(md->class_)->lv > sd->status.base_level/2 )
-			mercenary_kills(sd->md);
+		if( sd ) {
+			if( sd->mission_mobid == md->class_) { //TK_MISSION [Skotlex]
+				if( ++sd->mission_count >= 100 && (temp = mob_get_random_id(0, 0xE, sd->status.base_level)) ) {
+					pc_addfame(sd, 1);
+					sd->mission_mobid = temp;
+					pc_setglobalreg(sd,"TK_MISSION_ID", temp);
+					sd->mission_count = 0;
+					clif_mission_info(sd, temp, 0);
+				}
+				pc_setglobalreg(sd,"TK_MISSION_COUNT", sd->mission_count);
+			}
+			
+			if( sd->status.party_id )
+				map_foreachinrange(quest_update_objective_sub,&md->bl,AREA_SIZE,BL_PC,sd->status.party_id,md->class_);
+			else if( sd->avail_quests )
+				quest_update_objective(sd, md->class_);
+			
+			if( sd->md && src && src->type != BL_HOM && mob_db(md->class_)->lv > sd->status.base_level/2 )
+				mercenary_kills(sd->md);
+		}
 
-		if( md->npc_event[0] && !md->state.npc_killmonster )
-		{
-			if( sd && battle_config.mob_npc_event_type )
-			{
+		if( md->npc_event[0] && !md->state.npc_killmonster ) {
+			if( sd && battle_config.mob_npc_event_type ) {
 				pc_setparam(sd, SP_KILLERRID, sd->bl.id);
 				npc_event(sd,md->npc_event,0);
-			}
-			else if( mvp_sd )
-			{
+			} else if( mvp_sd ) {
 				pc_setparam(mvp_sd, SP_KILLERRID, sd?sd->bl.id:0);
 				npc_event(mvp_sd,md->npc_event,0);
-			}
-			else
+			} else
 				npc_event_do(md->npc_event);
-		}
-		else if( mvp_sd && !md->state.npc_killmonster )
-		{
+		} else if( mvp_sd && !md->state.npc_killmonster ) {
 			pc_setparam(mvp_sd, SP_KILLEDRID, md->class_);
 			npc_script_event(mvp_sd, NPCE_KILLNPC); // PCKillNPC [Lance]
 		}
