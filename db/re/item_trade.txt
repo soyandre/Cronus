@@ -1,19 +1,19 @@
-//Item Trading Restrictions File
-//Specify here special rules for item trading.
-//Item ID, TradeMask, GM-Level Override
-//Trading mask values:
-//1:Item can't be droped
-//2:Item can't be traded (nor vended)
-//4:Wedded partner can override restriction 2.
-//8:Item can't be sold to npcs
-//16:Item can't be placed in the cart
-//32:Item can't be placed in the storage
-//64:Item can't be placed in the guild storage
-//128:Item can't be attached to mail
-//256:Item can't be auctioned
-//Example:
-//1161,67,50 //Balmung: No drop, No trade, No Guild Store (1+2+64 =67),
-//only GMs of GM-level 50 and up can override the setting.
+//Arquivo de restrição de troca de item.
+//Especifique aqui as instruções de troca ou drop de itens
+//Estrutura: Item ID, Definição, GM-Level para burlar
+//Valores de definição (somatórios):
+//1: O item não pode ser derrubado.
+//2: Item não pode ser trocado/vendido.
+//4: Jogadores casados podem burlar a condição 2 (trocado/vendido).
+//8: Item não pode ser vendido para NPCs.
+//16: Item não pode ser colocado no carrinho.
+//32: Item não pode ser colocado no armazém.
+//64: Item não pode ser colocado no armazém do clã.
+//128: Item não pode ser passado através de e-mail.
+//256: Item não pode ser colocado para Leilão.
+// Exemplo de uso da Estrutura:
+//1161,67,50 //Balmung: Não dropa, Não troca, Não vai ao armazém de clã. (1+2+64 =67),
+//Apenas GMs de nível acima de 50 podem burlar esta configuração.
 
 // Wedding Related items
 2634,507,100	// Wedding Ring
