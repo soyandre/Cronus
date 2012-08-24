@@ -1,12 +1,22 @@
-// Th// Arquivo de restriÃ§Ã£o dos Equipamentos/Itens/Cartas 
-// aqui vocÃª define quais itens nÃ£o poderÃ£o ser usados em PvP / GvG 
-// formato: <id do item>,<modo>
-// modos:
+//--------------------------------------------------------------
+// _________                                    
+// \_   ___ \_______  ____   ____  __ __  ______
+// /    \  \/\_  __ \/    \ /    \|  |  \/  ___/
+// \     \____|  | \(  ( ) )   |  \  |  /\___ \ 
+//  \______  /|__|   \____/|___|  /____//____  >
+//         \/                   \/           \/  
+//--------------------------------------------------------------
+// Arquivo de restrição dos Equipamentos/Itens/Cartas
+// Pode definir, também, quais itens não poderão ser usados em PvP / GvG
+//--------------------------------------------------------------
+// Formato:
+// <id do item>,<modo>
+// Modo:
 // 1    - Restrito em Mapas Comuns
 // 2    - Restrito em PvP
 // 4    - Restrito em GvG
 // 8    - Restrito em Mapas Campais
-// Zonas de RestriÃ§Ã£o - Elas sÃ£o configuradas pela mapflag 'restricted <nÃºmero>'
+// Zonas de Restrição - Elas são configuradas pela mapflag 'restricted <número>'
 // 32   - Restrito na zona 1
 // 64   - Restrito na zona 2
 // 128  - Restrito na zona 3
@@ -14,16 +24,18 @@
 // 512  - Restrito na zona 5
 // 1024 - Restrito na zona 6
 // 2048 - Restrito na zona 7
+// Exemplos:
+// 1201,1 - Você não pode usar FACA (ID 1201) em mapas normais.
+// 608,4 - Você não pode usar Semente de Yggdrasil (ID 608) em mapas GvG e Castelos GdE.
+// 4174,6 - Proíbe Carta Deviling nos mapas PVP ou GvG, e em Castelos GdE.
+// 501,32 - Você não pode usar poção vermelha em mapas com a mapflag 'restricted 1'
+// 502,64 - Você não pode usar poção laranja em mapas com a mapflag 'restricted 2'
+// 503,128 - Você não pode usar poção amarela em mapas com a mapflag 'restricted 3'
+// Você pode, até mesmo, misturar as zonas!
+// 519,322 (256+64+2) você não pode usar Leite(ID 519) em mapas PVP, e em mapas com a mapflag 'restricted 2' e 'restricted 4'
+//--------------------------------------------------------------
 
-//Exemploss:
-//1201,1 - VocÃª nÃ£o pode usar FACA(ID 1201) em mapas normais.
-//608,4 - VocÃª nÃ£o pode usar Semente de Yggdrasil(ID 608) em mapas GvG e Castelos GdE.
-//4174,6 - ProÃ­be Carta Deviling nos mapas PVP ou GvG, e em Castelos GdE.
-//501,32 - VocÃª nÃ£o pode usar poÃ§Ã£o vermelha em mapas com a mapflag 'restricted 1'
-//502,64 - VocÃª nÃ£o pode usar poÃ§Ã£o laranja em mapas com a mapflag 'restricted 2'
-//503,128 - VocÃª nÃ£o pode usar poÃ§Ã£o amarela em mapas com a mapflag 'restricted 3'
-// VocÃª pode atÃ© mesmo misturar as zonas!
-//519,322 (256+64+2) vocÃª nÃ£o pode usar Leite(ID 519) em mapas PVP, e em mapas com a mapflag 'restricted 2' e 'restricted 4'
+
 
 //PVP
 14529,2 //Greed Scroll
