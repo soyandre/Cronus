@@ -165,15 +165,18 @@ const char* get_git_revision(void)
 		return rA_git_version;
 
 	if ((fp = fopen(".git/refs/heads/master", "r")) != NULL) {
-		char line[64], rev[50];
-		if (fgets(line, sizeof(line), fp) && sscanf(line, "%s", &rev))
+		char line[64];
+		char* rev = malloc(sizeof(char)*50);
+		if (fgets(line, sizeof(line), fp) && sscanf(line, "%s", rev))
 			snprintf(rA_git_version, sizeof(rA_git_version), "%s", rev);
+		free(rev);
 		fclose(fp);
+	} else {
+		snprintf(rA_git_version, sizeof(rA_git_version), "no");
 	}
 	
 	if (!(*rA_git_version)) {
-		snprintf(rA_git_version, sizeof(rA_git_version), get_svn_revision());
-		return "-1";
+		snprintf(rA_git_version, sizeof(rA_git_version), "Desconhecido");
 	}
 
 	return rA_git_version;
@@ -213,6 +216,8 @@ const char* get_svn_revision(void)
 			}
 		}
 		fclose(fp);
+	} else {
+		snprintf(rA_svn_version, sizeof(rA_svn_version), "no");
 	}
 	/**
 	 * subversion 1.7 introduces the use of a .db file to store it, and we go through it
@@ -264,7 +269,13 @@ static void display_title(void)
 	ShowMessage(""CL_XXBL"          ("CL_BOLD"                                                         "CL_XXBL")"CL_CLL""CL_NORMAL"\n");
 	ShowMessage(""CL_WTBL"          (=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=)"CL_CLL""CL_NORMAL"\n\n");
 
-	ShowInfo("Revisão %s: '"CL_WHITE"%s"CL_RESET"'.\n", ((atoi(get_git_revision()) != -1) ? "GIT" : "SVN"), get_git_revision());
+	if( strcmpi(get_git_revision(), "no") != 0 ) {
+		ShowInfo("Revisão GIT: '"CL_WHITE"%s"CL_RESET"'.\n", get_git_revision());
+	} else if( strcmpi(get_svn_revision(), "no") != 0 ) {
+		ShowInfo("Revisão SVN: '"CL_WHITE"%s"CL_RESET"'.\n", get_svn_revision());
+	} else {
+		ShowInfo("Revisão: Desconhecida");
+	}
 }
 
 // Warning if executed as superuser (root)
