@@ -1,5 +1,20 @@
-TODO: With such short descriptions, it's duplicated 'conf/help.txt' 
-Consider explaining commands in detail, similar to 'doc/script_commands.txt'
+//-------------------------------------------------------------
+// _________                                    
+// \_   ___ \_______  ____   ____  __ __  ______
+// /    \  \/\_  __ \/    \ /    \|  |  \/  ___/
+// \     \____|  | \(  ( ) )   |  \  |  /\___ \ 
+//  \______  /|__|   \____/|___|  /____//____  >
+//         \/                   \/           \/  
+//--------------------------------------------------------------
+// Lista de atcommands/charcommands
+//--------------------------------------------------------------
+// Formato:
+// <comando>: <descrição do comando>
+//--------------------------------------------------------------
+// TODO:
+// 1 - Traduzir
+// 2 - Melhorar as descrições
+//--------------------------------------------------------------
 
 commands: Displays a list of @ commands available to the player.
 charcommands: Displays a list of # commands available to the player.

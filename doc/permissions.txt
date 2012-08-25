@@ -1,4 +1,19 @@
-These are possible permissions of player groups, configured in conf/groups.conf.
+//-------------------------------------------------------------
+// _________                                    
+// \_   ___ \_______  ____   ____  __ __  ______
+// /    \  \/\_  __ \/    \ /    \|  |  \/  ___/
+// \     \____|  | \(  ( ) )   |  \  |  /\___ \ 
+//  \______  /|__|   \____/|___|  /____//____  >
+//         \/                   \/           \/  
+//--------------------------------------------------------------
+// Lista das permissões aplicáveis no groups.conf
+//--------------------------------------------------------------
+// Formato:
+// <permissão> : <descrição da permissão>
+//--------------------------------------------------------------
+// TODO:
+// 1 - Traduzir
+//--------------------------------------------------------------
 
 can_trade : Ability to trade or otherwise distribute items (drop, storage, vending etc)
 can_party : Ability to join parties.
