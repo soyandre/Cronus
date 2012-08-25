@@ -2579,16 +2579,14 @@ ACMD_FUNC(param)
 	memset(atcmd_output, '\0', sizeof(atcmd_output));
 
 	if (!message || !*message || sscanf(message, "%d", &value) < 1 || value == 0) {
-		sprintf(atcmd_output, msg_txt(1013)); // Please, enter a valid value (usage: @str,@agi,@vit,@int,@dex,@luk <+/-adjustment>).
-		clif_displaymessage(fd, atcmd_output);
+		clif_displaymessage(fd, msg_txt(1013)); // Please, enter a valid value (usage: @str,@agi,@vit,@int,@dex,@luk <+/-adjustment>).
 		return -1;
 	}
 
 	ARR_FIND( 0, ARRAYLENGTH(param), i, strcmpi(command+1, param[i]) == 0 );
 
 	if( i == ARRAYLENGTH(param) || i > MAX_STATUS_TYPE) { // normally impossible...
-		sprintf(atcmd_output, msg_txt(1013)); // Please, enter a valid value (usage: @str,@agi,@vit,@int,@dex,@luk <+/-adjustment>).
-		clif_displaymessage(fd, atcmd_output);
+		clif_displaymessage(fd, msg_txt(1013)); // Please, enter a valid value (usage: @str,@agi,@vit,@int,@dex,@luk <+/-adjustment>).
 		return -1;
 	}
 
@@ -4043,13 +4041,16 @@ ACMD_FUNC(mapinfo)
 
 	if (map[m_id].flag.nosave) {
 		if (!map[m_id].save.map)
-			sprintf(atcmd_output, msg_txt(1068)); // No Save (Return to last Save Point)
-		else if (map[m_id].save.x == -1 || map[m_id].save.y == -1 )
-			sprintf(atcmd_output, msg_txt(1069),mapindex_id2name(map[m_id].save.map)); // No Save, Save Point: %s,Random
-		else
+			clif_displaymessage(fd, msg_txt(1068)); // No Save (Return to last Save Point)
+		else if (map[m_id].save.x == -1 || map[m_id].save.y == -1 ) {
+			sprintf(atcmd_output, msg_txt(1069), mapindex_id2name(map[m_id].save.map)); // No Save, Save Point: %s,Random
+			clif_displaymessage(fd, atcmd_output);
+		}
+		else {
 			sprintf(atcmd_output, msg_txt(1070), // No Save, Save Point: %s,%d,%d
 				mapindex_id2name(map[m_id].save.map),map[m_id].save.x,map[m_id].save.y);
-		clif_displaymessage(fd, atcmd_output);
+			clif_displaymessage(fd, atcmd_output);
+		}
 	}
 
 	strcpy(atcmd_output,msg_txt(1071)); // Weather Flags: 
@@ -5581,8 +5582,7 @@ ACMD_FUNC(skilltree)
 	ARR_FIND( 0, MAX_SKILL_TREE, j, skill_tree[c][j].id == 0 || skill_tree[c][j].id == skillnum );
 	if( j == MAX_SKILL_TREE || skill_tree[c][j].id == 0 )
 	{
-		sprintf(atcmd_output, msg_txt(1169)); // I do not believe the player can use that skill
-		clif_displaymessage(fd, atcmd_output);
+		clif_displaymessage(fd, msg_txt(1169)); // I do not believe the player can use that skill
 		return 0;
 	}
 
@@ -5599,8 +5599,7 @@ ACMD_FUNC(skilltree)
 		}
 	}
 	if (meets == 1) {
-		sprintf(atcmd_output, msg_txt(1171)); // I believe the player meets all the requirements for that skill
-		clif_displaymessage(fd, atcmd_output);
+		clif_displaymessage(fd, msg_txt(1171)); // I believe the player meets all the requirements for that skill
 	}
 
 	return 0;
@@ -6889,8 +6888,7 @@ ACMD_FUNC(showmobs)
 	}
 
 	if(mob_db(mob_id)->status.mode&MD_BOSS && !pc_has_permission(sd, PC_PERM_SHOW_BOSS)){	// If player group does not have access to boss mobs.
-		snprintf(atcmd_output, sizeof atcmd_output, msg_txt(1251)); // Can't show Boss mobs!
-		clif_displaymessage(fd, atcmd_output);
+		clif_displaymessage(fd, msg_txt(1251)); // Can't show Boss mobs!
 		return 0;
 	}
 
@@ -8147,30 +8145,28 @@ ACMD_FUNC(ksprotection)
 
 	if( sd->state.noks ) {
 		sd->state.noks = 0;
-		sprintf(atcmd_output, msg_txt(1325)); // [ K.S Protection Inactive ]
+		clif_displaymessage(fd, msg_txt(1325)); // [ K.S Protection Inactive ]
 	}
 	else
 	{
 		if( !message || !*message || !strcmpi(message, "party") )
 		{ // Default is Party
 			sd->state.noks = 2;
-			sprintf(atcmd_output, msg_txt(1326)); // [ K.S Protection Active - Option: Party ]
+			clif_displaymessage(fd, msg_txt(1326)); // [ K.S Protection Active - Option: Party ]
 		}
 		else if( !strcmpi(message, "self") )
 		{
 			sd->state.noks = 1;
-			sprintf(atcmd_output, msg_txt(1327)); // [ K.S Protection Active - Option: Self ]
+			clif_displaymessage(fd, msg_txt(1327)); // [ K.S Protection Active - Option: Self ]
 		}
 		else if( !strcmpi(message, "guild") )
 		{
 			sd->state.noks = 3;
-			sprintf(atcmd_output, msg_txt(1328)); // [ K.S Protection Active - Option: Guild ]
+			clif_displaymessage(fd, msg_txt(1328)); // [ K.S Protection Active - Option: Guild ]
 		}
 		else
-			sprintf(atcmd_output, msg_txt(1329)); // Usage: @noks <self|party|guild>
+			clif_displaymessage(fd, msg_txt(1329)); // Usage: @noks <self|party|guild>
 	}
-
-	clif_displaymessage(fd, atcmd_output);
 	return 0;
 }
 /*==========================================
@@ -8182,13 +8178,11 @@ ACMD_FUNC(allowks)
 
 	if( map[sd->bl.m].flag.allowks ) {
 		map[sd->bl.m].flag.allowks = 0;
-		sprintf(atcmd_output, msg_txt(1330)); // [ Map K.S Protection Active ]
+		clif_displaymessage(fd, msg_txt(1330)); // [ Map K.S Protection Active ]
 	} else {
 		map[sd->bl.m].flag.allowks = 1;
-		sprintf(atcmd_output, msg_txt(1331)); // [ Map K.S Protection Inactive ]
+		clif_displaymessage(fd, msg_txt(1331)); // [ Map K.S Protection Inactive ]
 	}
-
-	clif_displaymessage(fd, atcmd_output);
 	return 0;
 }
 
