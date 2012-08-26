@@ -2076,7 +2076,7 @@ int parse_fromlogin(int fd)
 				set_eof(fd);
 				return 0;
 			} else {
-				ShowStatus("Não foi possível conectar-se ao login-server (conexão #%d).\n", fd);
+				ShowStatus("Conexão ao login-server feita com sucesso (conexão #%d).\n", fd);
 				loginif_on_ready();
 			}
 			RFIFOSKIP(fd,3);

@@ -3607,7 +3607,7 @@ void do_final(void)
 	struct map_session_data* sd;
 	struct s_mapiterator* iter;
 
-	ShowStatus("Terminating...\n");
+	ShowStatus("Finalizando...\n");
 
 	//Ladies and babies first.
 	iter = mapit_getallusers();
@@ -3680,7 +3680,7 @@ void do_final(void)
 
     map_sql_close();
 
-	ShowStatus("Finished.\n");
+	ShowStatus("Finalizado.\n");
 }
 
 static int map_abort_sub(struct map_session_data* sd, va_list ap)
@@ -3719,7 +3719,7 @@ void do_abort(void)
  *------------------------------------------------------*/
 static void map_helpscreen(bool do_exit)
 {
-	ShowInfo("Usage: %s [options]\n", SERVER_NAME);
+	ShowInfo("Uso: %s [opções]\n", SERVER_NAME);
 	ShowInfo("\n");
 	ShowInfo("Options:\n");
 	ShowInfo("  -?, -h [--help]\t\tDisplays this help screen.\n");
@@ -3742,7 +3742,7 @@ static void map_helpscreen(bool do_exit)
  *------------------------------------------------------*/
 static void map_versionscreen(bool do_exit)
 {
-	ShowInfo(CL_WHITE"rAthena SVN version: %s" CL_RESET"\n", get_svn_revision());
+	ShowInfo(CL_WHITE"Revisão do Cronus: %s" CL_RESET"\n", get_svn_revision());
 	ShowInfo(CL_GREEN"Website/Forum:"CL_RESET"\thttp://rathena.org/\n");
 	ShowInfo(CL_GREEN"IRC Channel:"CL_RESET"\tirc://irc.rathena.net/#rathena\n");
 	ShowInfo("Open "CL_WHITE"readme.html"CL_RESET" for more information.\n");
@@ -3765,7 +3765,7 @@ void do_shutdown(void)
 	if( runflag != MAPSERVER_ST_SHUTDOWN )
 	{
 		runflag = MAPSERVER_ST_SHUTDOWN;
-		ShowStatus("Shutting down...\n");
+		ShowStatus("Finalizando...\n");
 		{
 			struct map_session_data* sd;
 			struct s_mapiterator* iter = mapit_getallusers();
@@ -3782,7 +3782,7 @@ static bool map_arg_next_value(const char* option, int i, int argc)
 {
 	if( i >= argc-1 )
 	{
-		ShowWarning("Missing value for option '%s'.\n", option);
+		ShowWarning("Valor perdido para opção '%s'.\n", option);
 		return false;
 	}
 
@@ -3814,7 +3814,7 @@ int do_init(int argc, char *argv[])
 
 		if( arg[0] != '-' && ( arg[0] != '/' || arg[1] == '-' ) )
 		{// -, -- and /
-			ShowError("Unknown option '%s'.\n", argv[i]);
+			ShowError("Opção '%s' desconhecida.\n", argv[i]);
 			exit(EXIT_FAILURE);
 		}
 		else if( (++arg)[0] == '-' )
@@ -3875,7 +3875,7 @@ int do_init(int argc, char *argv[])
 			}
 			else
 			{
-				ShowError("Unknown option '%s'.\n", argv[i]);
+				ShowError("Opção '%s' desconhecida.\n", argv[i]);
 				exit(EXIT_FAILURE);
 			}
 		}
@@ -3889,7 +3889,7 @@ int do_init(int argc, char *argv[])
 				map_versionscreen(true);
 				break;
 			default:
-				ShowError("Unknown option '%s'.\n", argv[i]);
+				ShowError("Opção '%s' desconhecida.\n", argv[i]);
 				exit(EXIT_FAILURE);
 		}
 	}
@@ -3906,14 +3906,14 @@ int do_init(int argc, char *argv[])
 		char ip_str[16];
 		ip2str(addr_[0], ip_str);
 
-		ShowWarning("CONFIGURATION WARNING - Not all IP addresses in map_athena.conf are configured, autodetecting... (can pick the wrong ip address)\n");
+		ShowWarning("ALERTA DE CONFIGURAÇÃO - Nem todos os IPs em map_athena.conf estão configurados, autodetectando... (pode resultar em IP errado)\n");
 
 		if (naddr_ == 0)
-			ShowError("Unable to determine your IP address...\n");
+			ShowError("Impossibilitado de determinar o endereço IP...\n");
 		else if (naddr_ > 1)
-			ShowNotice("Multiple interfaces detected...\n");
+			ShowNotice("Múltiplas interfaces detetadas...\n");
 
-		ShowInfo("Defaulting to %s as our IP address\n", ip_str);
+		ShowInfo("Definindo %s como nosso endereço IP.\n", ip_str);
 
 		if (!map_ip_set)
 			clif_setip(ip_str);
@@ -3985,9 +3985,9 @@ int do_init(int argc, char *argv[])
 	}
 
 	if (battle_config.pk_mode)
-		ShowNotice("Server is running on '"CL_WHITE"PK Mode"CL_RESET"'.\n");
+		ShowNotice("Servidor iniciado em '"CL_WHITE"Modo PK"CL_RESET"'.\n");
 
-	ShowStatus("Server is '"CL_GREEN"ready"CL_RESET"' and listening on port '"CL_WHITE"%d"CL_RESET"'.\n\n", map_port);
+	ShowStatus("Servidor está '"CL_GREEN"pronto"CL_RESET"' e funcionando pela porta '"CL_WHITE"%d"CL_RESET"'.\n\n", map_port);
 	
 	if( runflag != CORE_ST_STOP )
 	{
