@@ -7680,7 +7680,7 @@ ACMD_FUNC(mapflag) {
 	memset(flag_name, '\0', sizeof(flag_name));
 	
 	if (!message || !*message || (sscanf(message, "%99s %d", flag_name, &flag) < 1)) {
-		clif_displaymessage(sd->fd,msg_txt(1311)); // Enabled Mapflags in this map:
+		clif_displaymessage(sd->fd,"Enabled Mapflags in this map:");
 		clif_displaymessage(sd->fd,"----------------------------------");
 		checkflag(autotrade);			checkflag(allowks);				checkflag(nomemo);		checkflag(noteleport);
 		checkflag(noreturn);			checkflag(monster_noteleport);	checkflag(nosave);		checkflag(nobranch);
@@ -7695,8 +7695,8 @@ ACMD_FUNC(mapflag) {
 		checkflag(restricted);			checkflag(nodrop);				checkflag(novending);	checkflag(loadevent);
 		checkflag(nochat);				checkflag(partylock);			checkflag(guildlock);	checkflag(src4instance);
 		clif_displaymessage(sd->fd," ");
-		clif_displaymessage(sd->fd,msg_txt(1312)); // Usage: \"@mapflag monster_teleport 1\" (0=Off | 1=On)
-		clif_displaymessage(sd->fd,msg_txt(1313)); // Use: \"@mapflag available\" to list the available mapflags
+		clif_displaymessage(sd->fd,"Usage: \"@mapflag monster_teleport 1\" (0=Off 1=On)");
+		clif_displaymessage(sd->fd,"Use: \"@mapflag available\" to list the available mapflags");
 		return 1;
 	}
 	for (i = 0; flag_name[i]; i++) flag_name[i] = tolower(flag_name[i]); //lowercase
@@ -7714,9 +7714,9 @@ ACMD_FUNC(mapflag) {
 	setflag(restricted);		setflag(nodrop);			setflag(novending);			setflag(loadevent);
 	setflag(nochat);			setflag(partylock);			setflag(guildlock);			setflag(src4instance);
 
-	clif_displaymessage(sd->fd,msg_txt(1314)); // Invalid flag name or flag
-	clif_displaymessage(sd->fd,msg_txt(1312)); // Usage: \"@mapflag monster_teleport 1\" (0=Off | 1=On)
-	clif_displaymessage(sd->fd,msg_txt(1315)); // Available Flags:
+	clif_displaymessage(sd->fd,"Invalid flag name or flag");
+	clif_displaymessage(sd->fd,"Usage: \"@mapflag monster_teleport 1\" (0=Off | 1=On)");
+	clif_displaymessage(sd->fd,"Available Flags:");
 	clif_displaymessage(sd->fd,"----------------------------------");
 	clif_displaymessage(sd->fd,"town, autotrade, allowks, nomemo, noteleport, noreturn, monster_noteleport, nosave,");
 	clif_displaymessage(sd->fd,"nobranch, noexppenalty, pvp, pvp_noparty, pvp_noguild, pvp_nightmaredrop,");

@@ -1,18 +1,9 @@
-//-------------------------------------------------------------
-// _________                                    
-// \_   ___ \_______  ____   ____  __ __  ______
-// /    \  \/\_  __ \/    \ /    \|  |  \/  ___/
-// \     \____|  | \(  ( ) )   |  \  |  /\___ \ 
-//  \______  /|__|   \____/|___|  /____//____  >
-//         \/                   \/           \/  
-//--------------------------------------------------------------
-// Arquivo-ajuda que contém mensagens de suporte para atcommands/charcommands.
-//--------------------------------------------------------------
+// This is help file that contains help messages for atcommands/charcommands.
 
-// Formato:
-// <comando>: "<mensagem de ajuda>"
+// Format:
+// <command>: "<help message>"
 
-// Este arquivo usa sintaxe libconfig.
+// This file uses libconfig syntax.
 
 help: "Params: <command>\n" "Shows help for specified command."
 main: "Params: [on|off|<message>]\n" "Turns on or off main (server-wide) chat. Sends message to main chat."
@@ -290,3 +281,4 @@ reloadscript: "Reload all scripts."
 gat: "For debugging (you inspect around gat)"
 send: "For debugging (packet variety)"
 nuke: "Params: <char name>\n" "Blow somebody up, including those surrounding them."
+

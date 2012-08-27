@@ -671,6 +671,9 @@ int read_elementaldb(void) {
 		if( line[0] == '/' && line[1] == '/' )
 			continue;
 		
+		if( line[0] == '\0' || line[0] == '\n' || line[0] == '\r')
+			continue;
+		
 		i = 0;
 		p = strtok(line, ",");
 		while( p != NULL && i < 26 ) {
@@ -736,6 +739,7 @@ int read_elementaldb(void) {
 	return 0;
 }
 
+
 int read_elemental_skilldb(void) {
 	FILE *fp;
 	char line[1024], *p;
@@ -755,6 +759,9 @@ int read_elemental_skilldb(void) {
 		k++;
 		if( line[0] == '/' && line[1] == '/' )
 			continue;
+
+		if( line[0] == '\0' || line[0] == '\n' || line[0] == '\r')
+			continue; 
 		
 		i = 0;
 		p = strtok(line, ",");
