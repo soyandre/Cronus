@@ -5151,7 +5151,6 @@ void clif_skill_warppoint(struct map_session_data* sd, short skill_num, short sk
 		sd->menuskill_val = skill_lv;
 }
 
-
 /// Memo message (ZC_ACK_REMEMBER_WARPPOINT).
 /// 011e <type>.B
 /// type:
@@ -5174,7 +5173,6 @@ void clif_skill_memomessage(struct map_session_data* sd, int type)
 	WFIFOSET(fd,packet_len(0x11e));
 }
 
-
 /// Teleport message (ZC_NOTIFY_MAPINFO).
 /// 0189 <type>.W
 /// type:
@@ -5195,7 +5193,6 @@ void clif_skill_teleportmessage(struct map_session_data *sd, int type)
 	WFIFOW(fd,2)=type;
 	WFIFOSET(fd,packet_len(0x189));
 }
-
 
 /// Displays Sense (WZ_ESTIMATION) information window (ZC_MONSTER_INFO).
 /// 018c <class>.W <level>.W <size>.W <hp>.L <def>.W <race>.W <mdef>.W <element>.W
@@ -5233,7 +5230,6 @@ void clif_skill_estimation(struct map_session_data *sd,struct block_list *dst)
 	clif_send(buf,packet_len(0x18c),&sd->bl,sd->status.party_id>0?PARTY_SAMEMAP:SELF);
 }
 
-
 /// Presents a textual list of producable items (ZC_MAKABLEITEMLIST).
 /// 018d <packet len>.W { <name id>.W { <material id>.W }*3 }*
 /// material id:
@@ -5245,12 +5241,17 @@ void clif_skill_produce_mix_list(struct map_session_data *sd, int skillid , int 
 
 	if(sd->menuskill_id == skillid)
 		return; //Avoid resending the menu twice or more times...
+	if( skillid == GC_CREATENEWPOISON )
+		skillid = GC_RESEARCHNEWPOISON;
+
 	fd=sd->fd;
 	WFIFOHEAD(fd, MAX_SKILL_PRODUCE_DB * 8 + 8);
 	WFIFOW(fd, 0)=0x18d;
 
 	for(i=0,c=0;i<MAX_SKILL_PRODUCE_DB;i++){
-		if( skill_can_produce_mix(sd,skill_produce_db[i].nameid,trigger, 1) ){
+		if( skill_can_produce_mix(sd,skill_produce_db[i].nameid, trigger, 1) &&
+			( ( skillid > 0 && skill_produce_db[i].req_skill == skillid ) || skillid < 0 )
+			){
 			if((view = itemdb_viewid(skill_produce_db[i].nameid)) > 0)
 				WFIFOW(fd,c*8+ 4)= view;
 			else
@@ -5269,7 +5270,6 @@ void clif_skill_produce_mix_list(struct map_session_data *sd, int skillid , int 
 		return;
 	}
 }
-
 
 /// Present a list of producable items (ZC_MAKINGITEM_LIST).
 /// 025a <packet len>.W <mk type>.W { <name id>.W }*
@@ -5332,7 +5332,6 @@ void clif_cooking_list(struct map_session_data *sd, int trigger, int skill_id, i
 		}
 	}
 }
-
 
 /// Notifies clients of a status change.
 /// 0196 <index>.W <id>.L <state>.B (ZC_MSG_STATE_CHANGE) [used for ending status changes and starting them on non-pc units (when needed)]
@@ -11009,7 +11008,7 @@ void clif_parse_ProduceMix(int fd,struct map_session_data *sd)
 		case -1:
 		case AM_PHARMACY:
 		case RK_RUNEMASTERY:
-		case GC_CREATENEWPOISON:
+		case GC_RESEARCHNEWPOISON:
 			break;
 		default:
 			return;
