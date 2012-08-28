@@ -8,7 +8,7 @@ if [ -f .stopserver ] ; then
 echo servidor desligado >> servlog.txt
 else
 echo reiniciando servidor em `date +"%m-%d-%H:%M-%S"`>> startlog.txt
-./map-server
+./map-server_sql
 fi
 
 sleep 5
