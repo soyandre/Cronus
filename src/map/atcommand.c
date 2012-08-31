@@ -1886,11 +1886,7 @@ ACMD_FUNC(go)
 		{ MAP_GEFFEN,      119,  59 }, //  2=Geffen
 		{ MAP_PAYON,       162, 233 }, //  3=Payon
 		{ MAP_ALBERTA,     192, 147 }, //  4=Alberta
-#ifdef RENEWAL
-		{ MAP_IZLUDE,      128, 146 }, //  5=Izlude (Renewal)
-#else
 		{ MAP_IZLUDE,      128, 114 }, //  5=Izlude
-#endif
 		{ MAP_ALDEBARAN,   140, 131 }, //  6=Al de Baran
 		{ MAP_LUTIE,       147, 134 }, //  7=Lutie
 		{ MAP_COMODO,      209, 143 }, //  8=Comodo
@@ -1918,9 +1914,9 @@ ACMD_FUNC(go)
 		{ MAP_DICASTES,    198, 187 }, // 30=El Dicastes
 		{ MAP_MORA,         44, 151 }, // 31=Mora
 		{ MAP_DEWATA,      200, 180 }, // 32=Dewata
-		{ MAP_MALANGDO,    140, 114 }, // 33=Malangdo Island
-		{ MAP_MALAYA,      242, 211 }, // 34=Malaya Port
-		{ MAP_ECLAGE,      110,  39 }, // 35=Eclage
+		//{ MAP_MALANGDO,    140, 114 }, // 33=Malangdo Island
+		//{ MAP_MALAYA,      242, 211 }, // 34=Malaya Port
+		//{ MAP_ECLAGE,      110,  39 }, // 35=Eclage
 	};
  
 	nullpo_retr(-1, sd);
@@ -2036,12 +2032,12 @@ ACMD_FUNC(go)
 		town = 31;
 	} else if (strncmp(map_name, "dewata", 3) == 0) {
 		town = 32;
-	} else if (strncmp(map_name, "malangdo", 5) == 0) {
-		town = 33;
-	} else if (strncmp(map_name, "malaya", 5) == 0) {
-		town = 34;
-	} else if (strncmp(map_name, "eclage", 3) == 0) {
-		town = 35;
+	//} else if (strncmp(map_name, "malangdo", 5) == 0) {
+	//	town = 33;
+	//} else if (strncmp(map_name, "malaya", 5) == 0) {
+	//	town = 34;
+	//} else if (strncmp(map_name, "eclage", 3) == 0) {
+	//	town = 35;
 	}
 
 	if (town >= 0 && town < ARRAYLENGTH(data))
@@ -3281,6 +3277,27 @@ ACMD_FUNC(kickall)
 	mapit_free(iter);
 
 	clif_displaymessage(fd, msg_txt(195)); // All players have been kicked!
+
+	return 0;
+}
+/*==========================================
+* Expulsa todos os jogadores usando @autotrade.
+*------------------------------------------*/
+ACMD_FUNC(kickat)
+{
+	struct map_session_data* pl_sd;
+	struct s_mapiterator* iter;
+	nullpo_retr(-1, sd);
+
+	iter = mapit_getallusers();
+	for( pl_sd = (TBL_PC*)mapit_first(iter); mapit_exists(iter); pl_sd = (TBL_PC*)mapit_next(iter) ) {
+	 if( ( pc_get_group_level(sd) >= pc_get_group_level(pl_sd) ) && pl_sd->state.autotrade ) {
+		clif_GM_kick(NULL, pl_sd);
+		}
+	}
+	mapit_free(iter);
+
+	clif_displaymessage(fd, msg_txt(1393)); // Todos os jogadores usando autotrade foram expulsos.
 
 	return 0;
 }
@@ -5709,15 +5726,37 @@ ACMD_FUNC(autotrade)
 		clif_displaymessage(fd, msg_txt(549)); // "You should have a shop open to use @autotrade."
 		return -1;
 	}
-	
-	sd->state.autotrade = 1;
-	if( battle_config.at_timeout )
-	{
-		int timeout = atoi(message);
-		status_change_start(&sd->bl, SC_AUTOTRADE, 10000, 0, 0, 0, 0, ((timeout > 0) ? min(timeout,battle_config.at_timeout) : battle_config.at_timeout) * 60000, 0);
-	}
-	clif_authfail_fd(fd, 15);
+
+        if( battle_config.at_timeout ) {
+                int timeout;
+
+                if( !message || !*message ) {
+                        if( battle_config.at_only_timeout ) {
+                                clif_displaymessage(fd, msg_txt(1390)); // Digite @autotrade seguido do tempo em minutos.
+                                return -1;
+                        } else {
+                                sd->state.autotrade = 1;
+                                clif_authfail_fd(fd, 15);
+                                return 0;
+                        }
+                }
 		
+				timeout = atoi(message);
+
+				if( timeout < 1 ) {
+						clif_displaymessage(fd, msg_txt(1391)); // Digite um tempo inteiro, positivo e diferente de zero.
+						return -1;
+				} else if( ( timeout > battle_config.at_max_timeout ) && battle_config.at_max_timeout ) {
+                        clif_displaymessage(fd, msg_txt(1392)); // Você digitou um valor muito alto.
+                        return -1;
+                }
+                
+                if( timeout ) {
+                        status_change_start(&sd->bl, SC_AUTOTRADE, 10000, 0, 0, 0, 0, timeout * 60000, 0);
+                }
+        }
+        sd->state.autotrade = 1;
+        clif_authfail_fd(fd, 15);
 	return 0;
 }
 
@@ -9089,6 +9128,7 @@ void atcommand_basecommands(void) {
 		 * Cronus-Emulator
 		 */
 		ACMD_DEF(reloadnpc), //[Raizen]
+		ACMD_DEF(kickat), //[Mkbu95]
 	};
 	AtCommandInfo* atcommand;
 	int i;
@@ -9453,7 +9493,7 @@ static void atcommand_config_read(const char* config_filename)
 		}
 	}
 
-	ShowStatus("Done reading '"CL_WHITE"%d"CL_RESET"' command aliases in '"CL_WHITE"%s"CL_RESET"'.\n", num_aliases, config_filename);
+	ShowStatus("Finalizando leitura '"CL_WHITE"%d"CL_RESET"' aliases de comando em '"CL_WHITE"%s"CL_RESET"'.\n", num_aliases, config_filename);
 	return;
 }
 void atcommand_db_load_groups(int* group_ids) {
