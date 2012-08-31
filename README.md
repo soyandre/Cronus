@@ -39,8 +39,9 @@ Equipe
 
 ### Desenvolvedores Script/DB
 - Spike			- Igor
+- SBK			- Romulo
 - Schrwaizer 	- Thiago Schrwaizer
 
 ### Desenvolvedores em Teste
 - GM Cold		- Marcio Montenegro
-- SBK			  - Romulo
+- socramjunio	
