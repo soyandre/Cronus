@@ -1304,7 +1304,7 @@ ACMD_FUNC(heal)
 ACMD_FUNC(item)
 {
 	char item_name[100];
-	int number = 0, item_id, flag;
+	int number = 0, item_id, flag = 0;
 	struct item item_tmp;
 	struct item_data *item_data;
 	int get_count, i;
@@ -1348,7 +1348,8 @@ ACMD_FUNC(item)
 		}
 	}
 
-	clif_displaymessage(fd, msg_txt(18)); // Item created.
+	if (flag == 0)
+		clif_displaymessage(fd, msg_txt(18)); // Item created.
 	return 0;
 }
 
@@ -1363,7 +1364,7 @@ ACMD_FUNC(item2)
 	int item_id, number = 0;
 	int identify = 0, refine = 0, attr = 0;
 	int c1 = 0, c2 = 0, c3 = 0, c4 = 0;
-	int flag;
+	int flag = 0;
 	int loop, get_count, i;
 	nullpo_retr(-1, sd);
 
@@ -1419,7 +1420,8 @@ ACMD_FUNC(item2)
 				clif_additem(sd, 0, 0, flag);
 		}
 
-		clif_displaymessage(fd, msg_txt(18)); // Item created.
+		if (flag == 0)
+			clif_displaymessage(fd, msg_txt(18)); // Item created.
 	} else {
 		clif_displaymessage(fd, msg_txt(19)); // Invalid item ID or name.
 		return -1;
@@ -1884,7 +1886,11 @@ ACMD_FUNC(go)
 		{ MAP_GEFFEN,      119,  59 }, //  2=Geffen
 		{ MAP_PAYON,       162, 233 }, //  3=Payon
 		{ MAP_ALBERTA,     192, 147 }, //  4=Alberta
+#ifdef RENEWAL
+		{ MAP_IZLUDE,      128, 146 }, //  5=Izlude (Renewal)
+#else
 		{ MAP_IZLUDE,      128, 114 }, //  5=Izlude
+#endif
 		{ MAP_ALDEBARAN,   140, 131 }, //  6=Al de Baran
 		{ MAP_LUTIE,       147, 134 }, //  7=Lutie
 		{ MAP_COMODO,      209, 143 }, //  8=Comodo
@@ -1912,9 +1918,9 @@ ACMD_FUNC(go)
 		{ MAP_DICASTES,    198, 187 }, // 30=El Dicastes
 		{ MAP_MORA,         44, 151 }, // 31=Mora
 		{ MAP_DEWATA,      200, 180 }, // 32=Dewata
-//		{ MAP_MALANGDO,    140, 114 }, // 33=Malangdo Island
-//		{ MAP_MALAYA,      242, 211 }, // 34=Malaya Port
-//		{ MAP_ECLAGE,      110,  39 }, // 35=Eclage
+		{ MAP_MALANGDO,    140, 114 }, // 33=Malangdo Island
+		{ MAP_MALAYA,      242, 211 }, // 34=Malaya Port
+		{ MAP_ECLAGE,      110,  39 }, // 35=Eclage
 	};
  
 	nullpo_retr(-1, sd);
@@ -2030,12 +2036,12 @@ ACMD_FUNC(go)
 		town = 31;
 	} else if (strncmp(map_name, "dewata", 3) == 0) {
 		town = 32;
-//	} else if (strncmp(map_name, "malangdo", 5) == 0) {
-//		town = 33;
-//	} else if (strncmp(map_name, "malaya", 5) == 0) {
-//		town = 34;
-//	} else if (strncmp(map_name, "eclage", 3) == 0) {
-//		town = 35;
+	} else if (strncmp(map_name, "malangdo", 5) == 0) {
+		town = 33;
+	} else if (strncmp(map_name, "malaya", 5) == 0) {
+		town = 34;
+	} else if (strncmp(map_name, "eclage", 3) == 0) {
+		town = 35;
 	}
 
 	if (town >= 0 && town < ARRAYLENGTH(data))
@@ -3173,11 +3179,11 @@ ACMD_FUNC(doommap)
  *------------------------------------------*/
 static void atcommand_raise_sub(struct map_session_data* sd)
 {
-	if (!status_isdead(&sd->bl))
-		return;
-
-	if(!status_revive(&sd->bl, 100, 100))
-		return;
+	if(pc_isdead(sd))
+		status_revive(&sd->bl, 100, 100);
+	else
+		status_percent_heal(&sd->bl, 100, 100);
+	
 	clif_skill_nodamage(&sd->bl,&sd->bl,ALL_RESURRECTION,4,1);
 	clif_displaymessage(sd->fd, msg_txt(63)); // Mercy has been shown.
 }
@@ -3275,28 +3281,6 @@ ACMD_FUNC(kickall)
 	mapit_free(iter);
 
 	clif_displaymessage(fd, msg_txt(195)); // All players have been kicked!
-
-	return 0;
-}
-
-/*==========================================
- * Expulsa todos os jogadores usando @autotrade.
- *------------------------------------------*/
-ACMD_FUNC(kickat)
-{
-	struct map_session_data* pl_sd;
-	struct s_mapiterator* iter;
-	nullpo_retr(-1, sd);
-
-	iter = mapit_getallusers();
-	for( pl_sd = (TBL_PC*)mapit_first(iter); mapit_exists(iter); pl_sd = (TBL_PC*)mapit_next(iter) ) {
-		if( ( pc_get_group_level(sd) >= pc_get_group_level(pl_sd) ) && pl_sd->state.autotrade ) {
-			clif_GM_kick(NULL, pl_sd);
-		}
-	}
-	mapit_free(iter);
-
-	clif_displaymessage(fd, msg_txt(1393)); // Todos os jogadores usando autotrade foram expulsos.
 
 	return 0;
 }
@@ -4564,21 +4548,21 @@ char* txt_time(unsigned int duration)
 	minutes = duration / 60;
 	seconds = duration - (60 * minutes);
 
-	if (days < 2)
+	if (days == 1)
 		sprintf(temp, msg_txt(219), days); // %d day
-	else
+	else if (days > 1)
 		sprintf(temp, msg_txt(220), days); // %d days
-	if (hours < 2)
+	if (hours == 1)
 		sprintf(temp1, msg_txt(221), temp, hours); // %s %d hour
-	else
+	else if (hours > 1)
 		sprintf(temp1, msg_txt(222), temp, hours); // %s %d hours
 	if (minutes < 2)
 		sprintf(temp, msg_txt(223), temp1, minutes); // %s %d minute
 	else
 		sprintf(temp, msg_txt(224), temp1, minutes); // %s %d minutes
-	if (seconds < 2)
+	if (seconds == 1)
 		sprintf(temp1, msg_txt(225), temp, seconds); // %s and %d second
-	else
+	else if (seconds > 1)
 		sprintf(temp1, msg_txt(226), temp, seconds); // %s and %d seconds
 
 	return temp1;
@@ -5725,37 +5709,15 @@ ACMD_FUNC(autotrade)
 		clif_displaymessage(fd, msg_txt(549)); // "You should have a shop open to use @autotrade."
 		return -1;
 	}
-
-	if( battle_config.at_timeout ) {
-		int timeout;
-
-		if( !message || !*message ) {
-			if( battle_config.at_only_timeout ) {
-				clif_displaymessage(fd, msg_txt(1390)); // Digite @autotrade seguido do tempo em minutos.
-				return -1;
-			} else {
-				sd->state.autotrade = 1;
-				clif_authfail_fd(fd, 15);
-				return 0;
-			}
-		}
-		
-		timeout = atoi(message);
-
-		if( timeout < 1 ) {
-			clif_displaymessage(fd, msg_txt(1391)); // Digite um tempo inteiro, positivo e diferente de zero.
-			return -1;
-		} else if( ( timeout > battle_config.at_max_timeout ) && battle_config.at_max_timeout ) {
-			clif_displaymessage(fd, msg_txt(1392)); // Você digitou um valor muito alto.
-			return -1;
-		}
-		
-		if( timeout ) {
-			status_change_start(&sd->bl, SC_AUTOTRADE, 10000, 0, 0, 0, 0, timeout * 60000, 0);
-		}
-	}
+	
 	sd->state.autotrade = 1;
-	clif_authfail_fd(fd, 15);		
+	if( battle_config.at_timeout )
+	{
+		int timeout = atoi(message);
+		status_change_start(&sd->bl, SC_AUTOTRADE, 10000, 0, 0, 0, 0, ((timeout > 0) ? min(timeout,battle_config.at_timeout) : battle_config.at_timeout) * 60000, 0);
+	}
+	clif_authfail_fd(fd, 15);
+		
 	return 0;
 }
 
@@ -6306,6 +6268,12 @@ ACMD_FUNC(pettalk)
 	struct pet_data *pd;
 
 	nullpo_retr(-1, sd);
+
+	if ( battle_config.min_chat_delay ) {
+		if( DIFF_TICK(sd->cantalk_tick, gettick()) > 0 )
+			return 0;
+		sd->cantalk_tick = gettick() + battle_config.min_chat_delay;
+	}
 
 	if(!sd->status.pet_id || !(pd=sd->pd))
 	{
@@ -7068,6 +7036,12 @@ ACMD_FUNC(homtalk)
 
 	nullpo_retr(-1, sd);
 
+	if ( battle_config.min_chat_delay ) {
+		if( DIFF_TICK(sd->cantalk_tick, gettick()) > 0 )
+			return 0;
+		sd->cantalk_tick = gettick() + battle_config.min_chat_delay;
+	}
+
 	if (sd->sc.count && //no "chatting" while muted.
 		(sd->sc.data[SC_BERSERK] ||
 		(sd->sc.data[SC_NOCHAT] && sd->sc.data[SC_NOCHAT]->val1&MANNER_NOCHAT)))
@@ -7680,7 +7654,7 @@ ACMD_FUNC(mapflag) {
 	memset(flag_name, '\0', sizeof(flag_name));
 	
 	if (!message || !*message || (sscanf(message, "%99s %d", flag_name, &flag) < 1)) {
-		clif_displaymessage(sd->fd,"Enabled Mapflags in this map:");
+		clif_displaymessage(sd->fd,msg_txt(1311)); // Enabled Mapflags in this map:
 		clif_displaymessage(sd->fd,"----------------------------------");
 		checkflag(autotrade);			checkflag(allowks);				checkflag(nomemo);		checkflag(noteleport);
 		checkflag(noreturn);			checkflag(monster_noteleport);	checkflag(nosave);		checkflag(nobranch);
@@ -7695,8 +7669,8 @@ ACMD_FUNC(mapflag) {
 		checkflag(restricted);			checkflag(nodrop);				checkflag(novending);	checkflag(loadevent);
 		checkflag(nochat);				checkflag(partylock);			checkflag(guildlock);	checkflag(src4instance);
 		clif_displaymessage(sd->fd," ");
-		clif_displaymessage(sd->fd,"Usage: \"@mapflag monster_teleport 1\" (0=Off 1=On)");
-		clif_displaymessage(sd->fd,"Use: \"@mapflag available\" to list the available mapflags");
+		clif_displaymessage(sd->fd,msg_txt(1312)); // Usage: \"@mapflag monster_teleport 1\" (0=Off | 1=On)
+		clif_displaymessage(sd->fd,msg_txt(1313)); // Use: \"@mapflag available\" to list the available mapflags
 		return 1;
 	}
 	for (i = 0; flag_name[i]; i++) flag_name[i] = tolower(flag_name[i]); //lowercase
@@ -7714,9 +7688,9 @@ ACMD_FUNC(mapflag) {
 	setflag(restricted);		setflag(nodrop);			setflag(novending);			setflag(loadevent);
 	setflag(nochat);			setflag(partylock);			setflag(guildlock);			setflag(src4instance);
 
-	clif_displaymessage(sd->fd,"Invalid flag name or flag");
-	clif_displaymessage(sd->fd,"Usage: \"@mapflag monster_teleport 1\" (0=Off | 1=On)");
-	clif_displaymessage(sd->fd,"Available Flags:");
+	clif_displaymessage(sd->fd,msg_txt(1314)); // Invalid flag name or flag
+	clif_displaymessage(sd->fd,msg_txt(1312)); // Usage: \"@mapflag monster_teleport 1\" (0=Off | 1=On)
+	clif_displaymessage(sd->fd,msg_txt(1315)); // Available Flags:
 	clif_displaymessage(sd->fd,"----------------------------------");
 	clif_displaymessage(sd->fd,"town, autotrade, allowks, nomemo, noteleport, noreturn, monster_noteleport, nosave,");
 	clif_displaymessage(sd->fd,"nobranch, noexppenalty, pvp, pvp_noparty, pvp_noguild, pvp_nightmaredrop,");
@@ -8062,6 +8036,12 @@ ACMD_FUNC(main)
 			if (sd->sc.data[SC_NOCHAT] && sd->sc.data[SC_NOCHAT]->val1&MANNER_NOCHAT) {
 				clif_displaymessage(fd, msg_txt(387));
 				return -1;
+			}
+
+			if ( battle_config.min_chat_delay ) {
+				if( DIFF_TICK(sd->cantalk_tick, gettick()) > 0 )
+					return 0;
+				sd->cantalk_tick = gettick() + battle_config.min_chat_delay;
 			}
 
 			// send the message using inter-server system
@@ -8912,7 +8892,6 @@ void atcommand_basecommands(void) {
 		ACMD_DEF(raisemap),
 		ACMD_DEF(kick), // + right click menu for GM "(name) force to quit"
 		ACMD_DEF(kickall),
-		ACMD_DEF(kickat),
 		ACMD_DEF(allskill),
 		ACMD_DEF(questskill),
 		ACMD_DEF(lostskill),
@@ -9088,6 +9067,9 @@ void atcommand_basecommands(void) {
 		 * For Testing Purposes, not going to be here after we're done.
 		 **/
 		ACMD_DEF2("newmount", new_mount),
+		/*
+		 * Cronus-Emulator
+		 */
 		ACMD_DEF(reloadnpc), //[Raizen]
 	};
 	AtCommandInfo* atcommand;
@@ -9453,7 +9435,7 @@ static void atcommand_config_read(const char* config_filename)
 		}
 	}
 
-	ShowStatus("Finalizada leitura de '"CL_WHITE"%d"CL_RESET"' aliases de comandos em '"CL_WHITE"%s"CL_RESET"'.\n", num_aliases, config_filename);
+	ShowStatus("Done reading '"CL_WHITE"%d"CL_RESET"' command aliases in '"CL_WHITE"%s"CL_RESET"'.\n", num_aliases, config_filename);
 	return;
 }
 void atcommand_db_load_groups(int* group_ids) {
