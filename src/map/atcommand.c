@@ -6307,12 +6307,6 @@ ACMD_FUNC(pettalk)
 	struct pet_data *pd;
 
 	nullpo_retr(-1, sd);
-	
-	if ( battle_config.min_chat_delay ) {
-		if( DIFF_TICK(sd->cantalk_tick, gettick()) > 0 )
-			return 0;
-		sd-cantalk_tick = gettick() + battle_config.min_chat_delay;
-	}
 
 	if ( battle_config.min_chat_delay ) {
 		if( DIFF_TICK(sd->cantalk_tick, gettick()) > 0 )
@@ -7080,12 +7074,6 @@ ACMD_FUNC(homtalk)
 	char mes[100],temp[100];
 
 	nullpo_retr(-1, sd);
-	
-	if ( battle_config.min_chat_delay ) {
-		if( DIFF_TICK(sd->cantalk_tick, gettick()) > 0 )
-			return 0;
-		sd->cantalk_tick = gettick() + battle_config.min_chat_delay;
-	}
 
 	if ( battle_config.min_chat_delay ) {
 		if( DIFF_TICK(sd->cantalk_tick, gettick()) > 0 )
@@ -8087,12 +8075,6 @@ ACMD_FUNC(main)
 			if (sd->sc.data[SC_NOCHAT] && sd->sc.data[SC_NOCHAT]->val1&MANNER_NOCHAT) {
 				clif_displaymessage(fd, msg_txt(387));
 				return -1;
-			}
-			
-			if ( battle_config.min_chat_delay ) {
-				if( DIFF_TICK(sd->cantalk_tick, gettick()) > 0 )
-					return 0;
-				sd->cantalk_tick = gettick() + battle_config.min_chat_delay;
 			}
 
 			if ( battle_config.min_chat_delay ) {
