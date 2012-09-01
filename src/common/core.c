@@ -274,7 +274,7 @@ static void display_title(void)
 	} else if( strcmpi(get_svn_revision(), "no") != 0 ) {
 		ShowInfo("Revisão SVN: '"CL_WHITE"%s"CL_RESET"'.\n", get_svn_revision());
 	} else {
-		ShowInfo("Revisão: Desconhecida");
+		ShowInfo("Revisão: Desconhecida.\n");
 	}
 }
 

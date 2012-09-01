@@ -2076,7 +2076,7 @@ int parse_fromlogin(int fd)
 				set_eof(fd);
 				return 0;
 			} else {
-				ShowStatus("Êxito na conexão ao char-server (Conexão: '"CL_WHITE"%d"CL_RESET"').\n", fd);
+				ShowStatus("Êxito na conexão ao login-server (Conexão: '"CL_WHITE"%d"CL_RESET"').\n", fd);
 				loginif_on_ready();
 			}
 			RFIFOSKIP(fd,3);
