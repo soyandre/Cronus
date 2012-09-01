@@ -4776,7 +4776,7 @@ int do_init(int argc, char **argv)
 	ShowInfo("Final da função de inicialização do char-server.\n");
 
 	set_defaultparse(parse_char);
-	ShowInfo("porta aberta %d.....\n",char_port);
+	ShowInfo("Porta aberta %d.\n",char_port);
 	char_fd = make_listen_bind(bind_ip, char_port);
 	ShowStatus("O char-server está "CL_GREEN"pronto"CL_RESET" (Servidor está sendo executado na porta %d).\n\n", char_port);
 	

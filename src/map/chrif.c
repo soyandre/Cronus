@@ -1384,7 +1384,7 @@ int chrif_parse(int fd)
 	// only process data from the char-server
 	if (fd != char_fd)
 	{
-		ShowDebug("chrif_parse: Disconnecting invalid session #%d (is not the char-server)\n", fd);
+		ShowDebug("chrif_parse: Desconectando sessão inválida #%d (não é o char-server)\n", fd);
 		do_close(fd);
 		return 0;
 	}
@@ -1407,7 +1407,7 @@ int chrif_parse(int fd)
 			if (r == 1) continue;	// intif‚Åˆ—‚µ‚½
 			if (r == 2) return 0;	// intif‚Åˆ—‚µ‚½‚ªAƒf[ƒ^‚ª‘«‚è‚È‚¢
 
-			ShowWarning("chrif_parse: session #%d, intif_parse failed (unrecognized command 0x%.4x).\n", fd, cmd);
+			ShowWarning("chrif_parse: session #%d, intif_parse falhou (comando 0x%.4x não reconhecido).\n", fd, cmd);
 			set_eof(fd);
 			return 0;
 		}
@@ -1450,7 +1450,7 @@ int chrif_parse(int fd)
 		case 0x2b25: chrif_deadopt(RFIFOL(fd,2), RFIFOL(fd,6), RFIFOL(fd,10)); break;
 		case 0x2b27: chrif_authfail(fd); break;
 		default:
-			ShowError("chrif_parse : unknown packet (session #%d): 0x%x. Disconnecting.\n", fd, cmd);
+			ShowError("chrif_parse : pacote desconhecido (sessão #%d): 0x%x. Desconectando.\n", fd, cmd);
 			set_eof(fd);
 			return 0;
 		}
@@ -1521,7 +1521,7 @@ static int check_connect_char_server(int tid, unsigned int tick, int id, intptr_
 	{
 		if (!displayed)
 		{
-			ShowStatus("Tentando conectar ao char-server. Aguarde.\n");
+			ShowStatus("Conectando ao char-server. Aguarde.\n");
 			displayed = 1;
 		}
 

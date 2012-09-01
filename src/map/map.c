@@ -3399,7 +3399,7 @@ int inter_config_read(char *cfgName)
 
 	fp=fopen(cfgName,"r");
 	if(fp==NULL){
-		ShowError("File not found: %s\n",cfgName);
+		ShowError("Arquivo não encontrado: %s\n",cfgName);
 		return 1;
 	}
 	while(fgets(line, sizeof(line), fp))
@@ -3620,11 +3620,11 @@ void do_final(void)
 	
 	// remove all objects on maps
 	for (i = 0; i < map_num; i++) {
-		ShowStatus("Cleaning up maps [%d/%d]: %s..."CL_CLL"\r", i+1, map_num, map[i].name);
+		ShowStatus("Limpando mapas [%d/%d]: %s..."CL_CLL"\r", i+1, map_num, map[i].name);
 		if (map[i].m >= 0)
 			map_foreachinmap(cleanup_sub, i, BL_ALL);
 	}
-	ShowStatus("Cleaned up %d maps."CL_CLL"\n", map_num);
+	ShowStatus("%d mapas limpos."CL_CLL"\n", map_num);
 
 	id_db->foreach(id_db,cleanup_db_sub);
 	chrif_char_reset_offline();
@@ -3699,17 +3699,17 @@ void do_abort(void)
 	static int run = 0;
 	//Save all characters and then flush the inter-connection.
 	if (run) {
-		ShowFatalError("Server has crashed while trying to save characters. Character data can't be saved!\n");
+		ShowFatalError("Servidor parou enquanto salvava os personagens. Informações de personagens não foram salvas!\n");
 		return;
 	}
 	run = 1;
 	if (!chrif_isconnected())
 	{
 		if (pc_db->size(pc_db))
-			ShowFatalError("Server has crashed without a connection to the char-server, %u characters can't be saved!\n", pc_db->size(pc_db));
+			ShowFatalError("Servidor fechou sem conexão ao char-server, %u personagens não foram salvos!\n", pc_db->size(pc_db));
 		return;
 	}
-	ShowError("Server received crash signal! Attempting to save all online characters!\n");
+	ShowError("Servidor recebeu sinal de erro! Tentando salvar todos os personagens online!\n");
 	map_foreachpc(map_abort_sub);
 	chrif_flush_fifo();
 }
@@ -3721,18 +3721,18 @@ static void map_helpscreen(bool do_exit)
 {
 	ShowInfo("Uso: %s [opções]\n", SERVER_NAME);
 	ShowInfo("\n");
-	ShowInfo("Options:\n");
-	ShowInfo("  -?, -h [--help]\t\tDisplays this help screen.\n");
-	ShowInfo("  -v [--version]\t\tDisplays the server's version.\n");
-	ShowInfo("  --run-once\t\t\tCloses server after loading (testing).\n");
-	ShowInfo("  --map-config <file>\t\tAlternative map-server configuration.\n");
-	ShowInfo("  --battle-config <file>\tAlternative battle configuration.\n");
-	ShowInfo("  --atcommand-config <file>\tAlternative atcommand configuration.\n");
-	ShowInfo("  --script-config <file>\tAlternative script configuration.\n");
-	ShowInfo("  --msg-config <file>\t\tAlternative message configuration.\n");
-	ShowInfo("  --grf-path <file>\t\tAlternative GRF path configuration.\n");
-	ShowInfo("  --inter-config <file>\t\tAlternative inter-server configuration.\n");
-	ShowInfo("  --log-config <file>\t\tAlternative logging configuration.\n");
+	ShowInfo("Opções:\n");
+	ShowInfo("  -?, -h [--help]\t\tMostra essa tela de ajuda.\n");
+	ShowInfo("  -v [--version]\t\tMostra a versão do emulador.\n");
+	ShowInfo("  --run-once\t\t\tFecha o emulador após iniciar (teste).\n");
+	ShowInfo("  --map-config <file>\t\tConfiguração alternativa do map-server.\n");
+	ShowInfo("  --battle-config <file>\tConfiguração alternativa de batalha.\n");
+	ShowInfo("  --atcommand-config <file>\tConfiguração alternativa de atcommands.\n");
+	ShowInfo("  --script-config <file>\tConfiguração alternativa de scripts.\n");
+	ShowInfo("  --msg-config <file>\t\tConfiguração alternativa de menssagens.\n");
+	ShowInfo("  --grf-path <file>\t\tConfiguração alternativa do caminho da GRF.\n");
+	ShowInfo("  --inter-config <file>\t\tConfiguração alternativa do inter-server.\n");
+	ShowInfo("  --log-config <file>\t\tConfiguração alternativa de log.\n");
 	if( do_exit )
 		exit(EXIT_SUCCESS);
 }
@@ -3987,7 +3987,7 @@ int do_init(int argc, char *argv[])
 	if (battle_config.pk_mode)
 		ShowNotice("Servidor iniciado em '"CL_WHITE"Modo PK"CL_RESET"'.\n");
 
-	ShowStatus("Servidor está '"CL_GREEN"pronto"CL_RESET"' e funcionando pela porta '"CL_WHITE"%d"CL_RESET"'.\n\n", map_port);
+	ShowStatus("Servidor está '"CL_GREEN"pronto"CL_RESET"'. (Funcionando pela porta '"CL_WHITE"%d"CL_RESET"'.\n\n", map_port);
 	
 	if( runflag != CORE_ST_STOP )
 	{
