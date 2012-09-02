@@ -19,34 +19,31 @@ prt_in,244,135,0	script	Estalajadeira::EstPrt1	53,{
 	mes "[Estalajadeira Sammy]";
 	mes "Olá, você chegou à ao Hotel Naklas. Em que posso ajudar?";
 	next;
-	switch (select("Salvar:Descansar - 5.000 zenys:Cancelar")) {
-		case 1:
-			mes "[Estalajadeira Sammy]";
-			mes "Tudo certo agora, o ponto de retorno já está salvo! Venha me ver novamente!";
-			savepoint "prt_in",238,130;
+	switch(select("Salvar:Descansar - 5.000 zenys:Cancelar")) {
+	case 1:
+		mes "[Estalajadeira Sammy]";
+		mes "Tudo certo agora, o ponto de retorno já está salvo! Venha me ver novamente!";
+		savepoint "prt_in",238,130;
+		close;
+	case 2:
+		mes "[Estalajadeira Sammy]";
+		if (Zeny > 4999) {
+			mes "Por favor, tenha um bom descanso.";
+			close2;
+			set Zeny,Zeny-5000;
+			percentheal 100,100;
+			warp "prt_in",247,104;
+			end;
+			} 
+			mes "A taxa de serviço é 5.000 zenys";
+			mes "Por favor, tenha certeza de que tem dinheiro suficiente para o serviço.";
 			close;
-		case 2:
-			if (Zeny > 4999) {
-				mes "[Estalajadeira Sammy]";
-				mes "Por favor, tenha um bom descanso.";
-				close2;
-			   	set Zeny,Zeny-5000;
-				percentheal 100,100;
-				warp "prt_in",247,104;
-				end;
-				} else {
-				mes "[Estalajadeira Sammy]";
-				mes "A taxa de serviço é 5.000 zenys";
-				mes "Por favor, tenha certeza de que tem dinheiro suficiente para o serviço.";
-				close;
-			}
-		case 3:
+	case 3: 
 			close;
 	}
 }
 
-prt_in,61,141,4	script	Estalajadeira::EstPrt2	53,{
-	
+prt_in,61,141,4	script	Estalajadeira::EstPrt2	53,{	
 	mes "[Estalajadeira Arma]";
 	mes "Olá, você chegou ao Hotel Naklas. Em que posso ajudar?";
 	next;
@@ -65,15 +62,13 @@ prt_in,61,141,4	script	Estalajadeira::EstPrt2	53,{
 				percentheal 100,100;
 				warp "prt_in",60,166;
 				end;
-				} else {
+				}
 				mes "[Estalajadeira Arma]";
 				mes "A taxa de serviço é 5.000 zenys";
 				mes "Por favor, tenha certeza de que tem dinheiro suficiente para o serviço.";
 				close;
-			}
-			
-		case 3:
-			close;
+		case 3: 
+				close;
 	}
 }
 
@@ -169,16 +164,15 @@ prontera,216,70,2	script	George#pront	48,{
 				mes "Anime-se! A próxima vez que eu te encontrar seremos mais fortes!";
 				close;
 			}
-			mes "[George]";
-			mes "Ei, vamos lá! Você tem que ter um sonho para o seu futuro!";
-			mes "Sem sonhos do que vale viver?";
-			close;
-		} else {
+				mes "[George]";
+				mes "Ei, vamos lá! Você tem que ter um sonho para o seu futuro!";
+				mes "Sem sonhos do que vale viver?";
+				close;
+			}
 			mes "[George]";
 			mes "Iei! Iei! Iei!";
 			close;
 		}
-	}
 	else if (Class != Job_Novice) {
 		if (event_prt_nov_dreamtalk == 1) {
 			mes "[George]";
