@@ -3630,13 +3630,17 @@ int npc_reload(void) {
 	//Re-read the NPC Script Events cache.
 	npc_read_event_script();
 	
+	/* refresh guild castle flags on both woe setups */
+	npc_event_doall("OnAgitInit");
+	npc_event_doall("OnAgitInit2");
+	
 	//Execute the OnInit event for freshly loaded npcs. [Skotlex]
-	ShowStatus("Evento '"CL_WHITE"OnInit"CL_RESET"' executado com '"CL_WHITE"%d"CL_RESET"' NPCs.\n",npc_event_doall("OnInit"));
+	ShowStatus("Event '"CL_WHITE"OnInit"CL_RESET"' executed with '"CL_WHITE"%d"CL_RESET"' NPCs.\n",npc_event_doall("OnInit"));
 	
 	// Execute rest of the startup events if connected to char-server. [Lance]
 	if(!CheckForCharServer()){
-		ShowStatus("Evento '"CL_WHITE"OnInterIfInit"CL_RESET"' executado com '"CL_WHITE"%d"CL_RESET"' NPCs.\n", npc_event_doall("OnInterIfInit"));
-		ShowStatus("Evento '"CL_WHITE"OnInterIfInitOnce"CL_RESET"' executado com '"CL_WHITE"%d"CL_RESET"' NPCs.\n", npc_event_doall("OnInterIfInitOnce"));
+		ShowStatus("Event '"CL_WHITE"OnInterIfInit"CL_RESET"' executed with '"CL_WHITE"%d"CL_RESET"' NPCs.\n", npc_event_doall("OnInterIfInit"));
+		ShowStatus("Event '"CL_WHITE"OnInterIfInitOnce"CL_RESET"' executed with '"CL_WHITE"%d"CL_RESET"' NPCs.\n", npc_event_doall("OnInterIfInitOnce"));
 	}
 	return 0;
 }

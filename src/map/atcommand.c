@@ -173,15 +173,18 @@ void do_final_msg(void)
  * @param name the name of the command to retrieve help information for
  * @return the string associated with the command, or NULL
  */
-static const char* atcommand_help_string(const char* name)
+static const char* atcommand_help_string(const char* command)
 {
 	const char* str = NULL;
 	config_setting_t* info;
 
-	if( *name == atcommand_symbol || *name == charcommand_symbol )
+	if( *command == atcommand_symbol || *command == charcommand_symbol )
 	{// remove the prefix symbol for the raw name of the command
-		name ++;
+		command ++;
 	}
+
+	// convert alias to the real command name
+	command = atcommand_checkalias(command);
 
 	// attept to find the first default help command
 	info = config_lookup(&atcommand_config, "help");
@@ -191,7 +194,7 @@ static const char* atcommand_help_string(const char* name)
 		return NULL;
 	}
 	
-	if( !config_setting_lookup_string( info, name, &str ) )
+	if( !config_setting_lookup_string( info, command, &str ) )
 	{// failed to find the matching help string
 		return NULL;
 	}
@@ -215,8 +218,8 @@ ACMD_FUNC(send)
 			|| sscanf(message, "%x", &type)==1) )
 	{
 		int i;
-		for (i = 0; i < 4; ++i)
-			clif_displaymessage(fd, msg_txt(900 + i));
+		for (i = 900; i <= 903; ++i)
+			clif_displaymessage(fd, msg_txt(i));
 		return -1;
 	}
 
@@ -255,7 +258,7 @@ ACMD_FUNC(send)
 
 		if(len)
 		{// show packet length
-			sprintf(atcmd_output, msg_txt(904), type, packet_db[sd->packet_ver][type].len);
+			sprintf(atcmd_output, msg_txt(904), type, packet_db[sd->packet_ver][type].len); // Packet 0x%x length: %d
 			clif_displaymessage(fd, atcmd_output);
 			return 0;
 		}
@@ -264,7 +267,7 @@ ACMD_FUNC(send)
 		off=2;
 		if(len == 0)
 		{// unknown packet - ERROR
-			sprintf(atcmd_output, msg_txt(905), type);
+			sprintf(atcmd_output, msg_txt(905), type); // Unknown packet: 0x%x
 			clif_displaymessage(fd, atcmd_output);
 			return -1;
 		} else if(len == -1)
@@ -312,7 +315,7 @@ ACMD_FUNC(send)
 					while(*message != '"')
 					{// find start of string
 						if(*message == 0 || ISSPACE(*message)){
-							PARSE_ERROR(msg_txt(906),message);
+							PARSE_ERROR(msg_txt(906),message); // Not a string:
 							return -1;
 						}
 						++message;
@@ -342,7 +345,7 @@ ACMD_FUNC(send)
 								++message;
 								CHECK_EOS(message);
 								if(!ISXDIGIT(*message)){
-									PARSE_ERROR(msg_txt(907),message);
+									PARSE_ERROR(msg_txt(907),message); // Not a hexadecimal digit:
 									return -1;
 								}
 								num=(ISDIGIT(*message)?*message-'0':TOLOWER(*message)-'a'+10);
@@ -405,7 +408,7 @@ ACMD_FUNC(send)
 				}
 			} else
 			{// unknown
-				PARSE_ERROR(msg_txt(908),message);
+				PARSE_ERROR(msg_txt(908),message); // Unknown type of value in:
 				return -1;
 			}
 			SKIP_VALUE(message);
@@ -991,141 +994,142 @@ ACMD_FUNC(jobchange)
 {
 	//FIXME: redundancy, potentially wrong code, should use job_name() or similar instead of hardcoding the table [ultramage]
 	int job = 0, upper = 0;
+	const char* text;
 	nullpo_retr(-1, sd);
 
 	if (!message || !*message || sscanf(message, "%d %d", &job, &upper) < 1)
 	{
 		int i, found = 0;
 		const struct { char name[24]; int id; } jobs[] = {
-			{ "novice",		0 },
-			{ "swordman",	1 },
-			{ "swordsman",	1 },
-			{ "magician",	2 },
-			{ "mage",		2 },
-			{ "archer",		3 },
-			{ "acolyte",	4 },
-			{ "merchant",	5 },
-			{ "thief",		6 },
-			{ "knight",		7 },
-			{ "priest",		8 },
-			{ "priestess",	8 },
-			{ "wizard",		9 },
-			{ "blacksmith",	10 },
-			{ "hunter",		11 },
-			{ "assassin",	12 },
-			{ "crusader",	14 },
-			{ "monk",		15 },
-			{ "sage",		16 },
-			{ "rogue",		17 },
-			{ "alchemist",	18 },
-			{ "bard",		19 },
-			{ "dancer",		20 },
-			{ "super novice",	23 },
-			{ "supernovice",	23 },
-			{ "gunslinger",	24 },
-			{ "gunner",	24 },
-			{ "ninja",	25 },
-			{ "novice high",	4001 },
-			{ "high novice",	4001 },
-			{ "swordman high",	4002 },
-			{ "swordsman high",	4002 },
-			{ "magician high",	4003 },
-			{ "mage high",		4003 },
-			{ "archer high",	4004 },
-			{ "acolyte high",	4005 },
-			{ "merchant high",	4006 },
-			{ "thief high",		4007 },
-			{ "lord knight",	4008 },
-			{ "high priest",	4009 },
-			{ "high priestess",	4009 },
-			{ "high wizard",	4010 },
-			{ "whitesmith",		4011 },
-			{ "sniper",		4012 },
-			{ "assassin cross",	4013 },
-			{ "paladin",	4015 },
-			{ "champion",	4016 },
-			{ "professor",	4017 },
-			{ "stalker",	4018 },
-			{ "creator",	4019 },
-			{ "clown",		4020 },
-			{ "gypsy",		4021 },
-			{ "baby novice",	4023 },
-			{ "baby swordman",	4024 },
-			{ "baby swordsman",	4024 },
-			{ "baby magician",	4025 },
-			{ "baby mage",		4025 },
-			{ "baby archer",	4026 },
-			{ "baby acolyte",	4027 },
-			{ "baby merchant",	4028 },
-			{ "baby thief",		4029 },
-			{ "baby knight",	4030 },
-			{ "baby priest",	4031 },
-			{ "baby priestess",	4031 },
-			{ "baby wizard",	4032 },
+			{ "novice",            0 },
+			{ "swordman",          1 },
+			{ "swordsman",         1 },
+			{ "magician",          2 },
+			{ "mage",              2 },
+			{ "archer",            3 },
+			{ "acolyte",           4 },
+			{ "merchant",          5 },
+			{ "thief",             6 },
+			{ "knight",            7 },
+			{ "priest",            8 },
+			{ "priestess",         8 },
+			{ "wizard",            9 },
+			{ "blacksmith",       10 },
+			{ "hunter",           11 },
+			{ "assassin",         12 },
+			{ "crusader",         14 },
+			{ "monk",             15 },
+			{ "sage",             16 },
+			{ "rogue",            17 },
+			{ "alchemist",        18 },
+			{ "bard",             19 },
+			{ "dancer",           20 },
+			{ "super novice",     23 },
+			{ "supernovice",      23 },
+			{ "gunslinger",       24 },
+			{ "gunner",           24 },
+			{ "ninja",            25 },
+			{ "novice high",    4001 },
+			{ "high novice",    4001 },
+			{ "swordman high",  4002 },
+			{ "swordsman high", 4002 },
+			{ "magician high",  4003 },
+			{ "mage high",      4003 },
+			{ "archer high",    4004 },
+			{ "acolyte high",   4005 },
+			{ "merchant high",  4006 },
+			{ "thief high",     4007 },
+			{ "lord knight",    4008 },
+			{ "high priest",    4009 },
+			{ "high priestess", 4009 },
+			{ "high wizard",    4010 },
+			{ "whitesmith",     4011 },
+			{ "sniper",         4012 },
+			{ "assassin cross", 4013 },
+			{ "paladin",        4015 },
+			{ "champion",       4016 },
+			{ "professor",      4017 },
+			{ "stalker",        4018 },
+			{ "creator",        4019 },
+			{ "clown",          4020 },
+			{ "gypsy",          4021 },
+			{ "baby novice",    4023 },
+			{ "baby swordman",  4024 },
+			{ "baby swordsman", 4024 },
+			{ "baby magician",  4025 },
+			{ "baby mage",      4025 },
+			{ "baby archer",    4026 },
+			{ "baby acolyte",   4027 },
+			{ "baby merchant",  4028 },
+			{ "baby thief",     4029 },
+			{ "baby knight",    4030 },
+			{ "baby priest",    4031 },
+			{ "baby priestess", 4031 },
+			{ "baby wizard",    4032 },
 			{ "baby blacksmith",4033 },
-			{ "baby hunter",	4034 },
-			{ "baby assassin",	4035 },
-			{ "baby crusader",	4037 },
-			{ "baby monk",		4038 },
-			{ "baby sage",		4039 },
-			{ "baby rogue",		4040 },
-			{ "baby alchemist",	4041 },
-			{ "baby bard",		4042 },
-			{ "baby dancer",	4043 },
-			{ "super baby",		4045 },
-			{ "taekwon",		4046 },
-			{ "taekwon boy",	4046 },
-			{ "taekwon girl",	4046 },
-			{ "star gladiator",	4047 },
-			{ "soul linker",	4049 },
-			{ "gangsi",		4050 },
-			{ "bongun",		4050 },
-			{ "munak",		4050 },
-			{ "death knight",	4051 },
-			{ "dark collector",	4052 },
-			{ "rune knight",	4054 },
-			{ "warlock",		4055 },
-			{ "ranger",		4056 },
-			{ "arch bishop",	4057 },
-			{ "mechanic",		4058 },
-			{ "guillotine",		4059 },
-			{ "rune knight2",	4060 },
-			{ "warlock2",		4061 },
-			{ "ranger2",		4062 },
-			{ "arch bishop2",	4063 },
-			{ "mechanic2",		4064 },
-			{ "guillotine2",	4065 },
-			{ "royal guard",	4066 },
-			{ "sorcerer",		4067 },
-			{ "minstrel",		4068 },
-			{ "wanderer",		4069 },
-			{ "sura",		4070 },
-			{ "genetic",		4071 },
-			{ "shadow chaser",	4072 },
-			{ "royal guard2",	4073 },
-			{ "sorcerer2",		4074 },
-			{ "minstrel2",		4075 },
-			{ "wanderer2",		4076 },
-			{ "sura2",		4077 },
-			{ "genetic2",		4078 },
-			{ "shadow chaser2",	4079 },
-			{ "baby rune",		4096 },
-			{ "baby warlock",	4097 },
-			{ "baby ranger",	4098 },
-			{ "baby bishop",	4099 },
-			{ "baby mechanic",	4100 },
-			{ "baby cross",		4101 },
-			{ "baby guard",		4102 },
-			{ "baby sorcerer",	4103 },
-			{ "baby minstrel",	4104 },
-			{ "baby wanderer",	4105 },
-			{ "baby sura",		4106 },
-			{ "baby genetic",	4107 },
-			{ "baby chaser",	4108 },
-			{ "super novice e",	4190 },
-			{ "super baby e",	4191 },
-			{ "kagerou",		4211 },
-			{ "oboro",		4212 },
+			{ "baby hunter",    4034 },
+			{ "baby assassin",  4035 },
+			{ "baby crusader",  4037 },
+			{ "baby monk",      4038 },
+			{ "baby sage",      4039 },
+			{ "baby rogue",     4040 },
+			{ "baby alchemist", 4041 },
+			{ "baby bard",      4042 },
+			{ "baby dancer",    4043 },
+			{ "super baby",     4045 },
+			{ "taekwon",        4046 },
+			{ "taekwon boy",    4046 },
+			{ "taekwon girl",   4046 },
+			{ "star gladiator", 4047 },
+			{ "soul linker",    4049 },
+			{ "gangsi",         4050 },
+			{ "bongun",         4050 },
+			{ "munak",          4050 },
+			{ "death knight",   4051 },
+			{ "dark collector", 4052 },
+			{ "rune knight",    4054 },
+			{ "warlock",        4055 },
+			{ "ranger",         4056 },
+			{ "arch bishop",    4057 },
+			{ "mechanic",       4058 },
+			{ "guillotine",     4059 },
+			{ "rune knight2",   4060 },
+			{ "warlock2",       4061 },
+			{ "ranger2",        4062 },
+			{ "arch bishop2",   4063 },
+			{ "mechanic2",      4064 },
+			{ "guillotine2",    4065 },
+			{ "royal guard",    4066 },
+			{ "sorcerer",       4067 },
+			{ "minstrel",       4068 },
+			{ "wanderer",       4069 },
+			{ "sura",           4070 },
+			{ "genetic",        4071 },
+			{ "shadow chaser",  4072 },
+			{ "royal guard2",   4073 },
+			{ "sorcerer2",      4074 },
+			{ "minstrel2",      4075 },
+			{ "wanderer2",      4076 },
+			{ "sura2",          4077 },
+			{ "genetic2",       4078 },
+			{ "shadow chaser2", 4079 },
+			{ "baby rune",      4096 },
+			{ "baby warlock",   4097 },
+			{ "baby ranger",    4098 },
+			{ "baby bishop",    4099 },
+			{ "baby mechanic",  4100 },
+			{ "baby cross",     4101 },
+			{ "baby guard",     4102 },
+			{ "baby sorcerer",  4103 },
+			{ "baby minstrel",  4104 },
+			{ "baby wanderer",  4105 },
+			{ "baby sura",      4106 },
+			{ "baby genetic",   4107 },
+			{ "baby chaser",    4108 },
+			{ "super novice e", 4190 },
+			{ "super baby e",   4191 },
+			{ "kagerou",        4211 },
+			{ "oboro",          4212 },
 		};
 
 		for (i=0; i < ARRAYLENGTH(jobs); i++) {
@@ -1137,13 +1141,9 @@ ACMD_FUNC(jobchange)
 			}
 		}
 
-		// TODO: convert this to use atcommand_help_string()
 		if (!found) {
-			int i;
-			for (i = 0; i < 45; ++i)
-				clif_displaymessage(fd, msg_txt(922 + i));
-			clif_displaymessage(fd, msg_txt(967)); // ---- Modes And Others ----
-			clif_displaymessage(fd, msg_txt(968)); // 22 Wedding   26 Christmas   27 Summer   4048 Star Gladiator (Union)
+			text = atcommand_help_string(command);
+			if (text) clif_displaymessage(fd, text);
 			return -1;
 		}
 	}
@@ -1163,12 +1163,8 @@ ACMD_FUNC(jobchange)
 			return -1;
 		}
 	} else {
-		// TODO: convert this to use atcommand_help_string()
-		int i;
-		for (i = 0; i < 45; ++i)
-			clif_displaymessage(fd, msg_txt(922 + i));
-		clif_displaymessage(fd, msg_txt(967)); // ---- Modes And Others ----
-		clif_displaymessage(fd, msg_txt(968)); // 22 Wedding   26 Christmas   27 Summer   4048 Star Gladiator (Union)
+		text = atcommand_help_string(command);
+		if (text) clif_displaymessage(fd, text);
 		return -1;
 	}
 
@@ -1594,7 +1590,8 @@ ACMD_FUNC(help)
 	}
 	
 	if (!config_setting_lookup_string(help, command_name, &text)) {
-		clif_displaymessage(fd, msg_txt(988)); // There is no help for this command_name.
+		sprintf(atcmd_output, msg_txt(988), atcommand_symbol, command_name); // There is no help for %c%s.
+		clif_displaymessage(fd, atcmd_output);
 		atcommand_get_suggestions(sd, command_name, true);
 		return -1;
 	}
@@ -1939,8 +1936,7 @@ ACMD_FUNC(go)
 		// attempt to find the text help string
 		text = atcommand_help_string( command );
 
-		// Invalid location number, or name.
-		clif_displaymessage(fd, msg_txt(38));
+		clif_displaymessage(fd, msg_txt(38)); // Invalid location number, or name.
 
 		if( text )
 		{// send the text to the client
