@@ -11,6 +11,7 @@
 #include "../common/showmsg.h"
 #include "../common/strlib.h"
 #include "../common/utils.h"
+#include "../common/ers.h"
 
 #include "map.h"
 #include "chrif.h"
@@ -47,6 +48,9 @@
 #include <string.h>
 #include <stdarg.h>
 #include <time.h>
+
+/* for clif_clearunit_delayed */
+static struct eri *delay_clearunit_ers;
 
 //#define DUMP_UNKNOWN_PACKET
 //#define DUMP_INVALID_PACKET
@@ -848,13 +852,12 @@ static int clif_clearunit_delayed_sub(int tid, unsigned int tick, int id, intptr
 {
 	struct block_list *bl = (struct block_list *)data;
 	clif_clearunit_area(bl, (clr_type) id);
-	aFree(bl);
+	ers_free(delay_clearunit_ers,bl);
 	return 0;
 }
 void clif_clearunit_delayed(struct block_list* bl, clr_type type, unsigned int tick)
 {
-	struct block_list *tbl;
-	tbl = (struct block_list*)aMalloc(sizeof (struct block_list));
+	struct block_list *tbl = ers_alloc(delay_clearunit_ers, struct block_list);
 	memcpy (tbl, bl, sizeof (struct block_list));
 	add_timer(tick, clif_clearunit_delayed_sub, (int)type, (intptr_t)tbl);
 }
@@ -17053,5 +17056,11 @@ int do_init_clif(void) {
 	add_timer_func_list(clif_clearunit_delayed_sub, "clif_clearunit_delayed_sub");
 	add_timer_func_list(clif_delayquit, "clif_delayquit");
 
+	delay_clearunit_ers = ers_new(sizeof(struct block_list),"clif.c::delay_clearunit_ers",ERS_OPT_CLEAR);
+
 	return 0;
+}
+
+void do_final_clif(void)	{
+	ers_destroy(delay_clearunit_ers);
 }
