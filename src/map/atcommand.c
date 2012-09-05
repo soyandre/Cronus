@@ -4515,7 +4515,7 @@ ACMD_FUNC(unloadnpc)
 	return 0;
 }
 
-//Função reloadnpc - Recarrega a toda a lista de NPCs salvas no emulador sem recarregar os NPCs para carregar apenas o NPC solicitado [Raizen]
+//Funï¿½ï¿½o reloadnpc - Recarrega a toda a lista de NPCs salvas no emulador sem recarregar os NPCs para carregar apenas o NPC solicitado [Raizen]
 ACMD_FUNC(reloadnpc)
 {
 	FILE *fp;
@@ -4533,7 +4533,7 @@ ACMD_FUNC(reloadnpc)
 	}
 	fclose(fp);
 
-	// Roda a função
+	// Roda a funï¿½ï¿½o
 	npc_parsesrcfile(message,true);
 	npc_read_event_script();
 
@@ -5743,7 +5743,7 @@ ACMD_FUNC(autotrade)
 						clif_displaymessage(fd, msg_txt(1391)); // Digite um tempo inteiro, positivo e diferente de zero.
 						return -1;
 				} else if( ( timeout > battle_config.at_max_timeout ) && battle_config.at_max_timeout ) {
-                        clif_displaymessage(fd, msg_txt(1392)); // Você digitou um valor muito alto.
+                        clif_displaymessage(fd, msg_txt(1392)); // Vocï¿½ digitou um valor muito alto.
                         return -1;
                 }
                 
@@ -6826,9 +6826,9 @@ ACMD_FUNC(mobinfo)
 				droprate = droprate * party_renewal_drop_mod(sd->status.base_level - mob->lv) / 100;
 #endif
 			if (item_data->slot)
-				sprintf(atcmd_output2, " - %s[%d]  %02.02f%%", item_data->jname, item_data->slot, (float)droprate / 100);
+				sprintf(atcmd_output2, " - %s[%d]  %02.02f%", item_data->jname, item_data->slot, (float)droprate / 100);
 			else
-				sprintf(atcmd_output2, " - %s  %02.02f%%", item_data->jname, (float)droprate / 100);
+				sprintf(atcmd_output2, " - %s  %02.02f%", item_data->jname, (float)droprate / 100);
 			strcat(atcmd_output, atcmd_output2);
 			if (++j % 3 == 0) {
 				clif_displaymessage(fd, atcmd_output);
@@ -6851,9 +6851,9 @@ ACMD_FUNC(mobinfo)
 				if (mob->mvpitem[i].p > 0) {
 					j++;
 					if (j == 1)
-						sprintf(atcmd_output2, " %s  %02.02f%%", item_data->jname, (float)mob->mvpitem[i].p / 100);
+						sprintf(atcmd_output2, " %s  %02.02f%", item_data->jname, (float)mob->mvpitem[i].p / 100);
 					else
-						sprintf(atcmd_output2, " - %s  %02.02f%%", item_data->jname, (float)mob->mvpitem[i].p / 100);
+						sprintf(atcmd_output2, " - %s  %02.02f%", item_data->jname, (float)mob->mvpitem[i].p / 100);
 					strcat(atcmd_output, atcmd_output2);
 				}
 			}
